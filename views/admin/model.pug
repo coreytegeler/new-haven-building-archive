@@ -1,0 +1,10 @@
+extends ../layout.pug
+block body
+	h1 #{type.p}
+	if objects
+		ul.list
+		for object in objects
+			li.item
+				a(href='/admin/'+type.s+'/edit/'+object.slug) #{object.name}
+				a(href='/admin/'+type.s+'/remove/'+object.slug) X
+	a(href='/admin/'+type.s+'/new') Add new #{type.s}

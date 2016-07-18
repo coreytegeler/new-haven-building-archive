@@ -1,0 +1,180 @@
+html {
+  margin: 0;
+  background: white; }
+  html body {
+    margin: 0;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 20px;
+    font-line-height: 1.2em;
+    text-rendering: geometricPrecision; }
+
+main {
+  width: calc(100% - 100px);
+  max-width: 900px;
+  padding: 100px 50px;
+  margin: auto;
+  display: table; }
+
+nav {
+  width: 100%;
+  display: table;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  clear: both;
+  background: white;
+  box-shadow: 0px -10px 45px black; }
+  nav ul {
+    padding: 0;
+    margin: 0;
+    float: left;
+    list-style: none; }
+    nav ul li {
+      padding: 10px;
+      display: inline-block;
+      list-style: none; }
+      nav ul li a {
+        color: black;
+        text-decoration: none; }
+
+section {
+  padding: 50px; }
+
+form {
+  padding: 20px; }
+  form label {
+    font-size: 1em;
+    line-height: 1.5em;
+    display: table; }
+  form input, form textarea, form select {
+    font-size: 1em;
+    line-height: 1.1em; }
+    form input:-webkit-autofill, form textarea:-webkit-autofill, form select:-webkit-autofill {
+      background: none; }
+  form input {
+    -webkit-appearance: none;
+    border: 1px solid black;
+    outline: none;
+    font-family: Arial;
+    background: transparent; }
+    form input[type="text"], form input[type="email"], form input[type="password"] {
+      width: calc(100% - 1em - 2px);
+      padding: 0.5em; }
+  form .group {
+    padding: 0 0 20px 0; }
+  form .sample {
+    display: none; }
+  form .row {
+    width: 100%;
+    display: table;
+    padding: 0 0 10px 0;
+    clear: both; }
+    form .row .cell {
+      float: left; }
+      form .row .cell:first-child {
+        margin-right: 1em; }
+  form [data-template] {
+    display: none; }
+    form [data-template].show {
+      display: block; }
+  form .button {
+    display: inline-table;
+    margin-right: 10px;
+    padding: 2px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;
+    text-decoration: none;
+    border: 0; }
+    form .button:hover {
+      cursor: pointer; }
+    form .button:last-child {
+      margin-right: 0; }
+
+.checkboxes, .options {
+  overflow: auto;
+  font-size: 1em;
+  line-height: 1.1em;
+  border: 1px solid black;
+  background: white; }
+  .checkboxes.populate .item, .options.populate .item {
+    opacity: 0; }
+  .checkboxes.populate.loaded .item, .options.populate.loaded .item {
+    opacity: 1; }
+  .checkboxes .checkbox label, .options .checkbox label {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: 1.1em;
+    display: table;
+    padding: 5px 0; }
+    .checkboxes .checkbox label:active, .checkboxes .checkbox label:hover, .options .checkbox label:active, .options .checkbox label:hover {
+      cursor: pointer; }
+  .checkboxes .checkbox input[type="checkbox"], .checkboxes .checkbox input[type="radio"], .options .checkbox input[type="checkbox"], .options .checkbox input[type="radio"] {
+    display: none; }
+    .checkboxes .checkbox input[type="checkbox"]:checked ~ label::before, .checkboxes .checkbox input[type="radio"]:checked ~ label::before, .options .checkbox input[type="checkbox"]:checked ~ label::before, .options .checkbox input[type="radio"]:checked ~ label::before {
+      background: black; }
+
+.checkboxes {
+  height: 135px;
+  padding: 0 0.5em; }
+  .checkboxes .checkbox label::before {
+    width: 0.55em;
+    height: 0.55em;
+    margin-right: 0.5em;
+    border-radius: 50%;
+    border: solid black 0.1em;
+    font-size: inherit;
+    display: inline-block;
+    content: ''; }
+
+.selects {
+  display: flex;
+  border-bottom: solid black 0.1em;
+  padding: 0.15em 0; }
+  .selects .select {
+    background: transparent;
+    position: relative; }
+    .selects .select .display {
+      display: inline-block;
+      padding: 0 1.1em 0 0.6em;
+      cursor: pointer; }
+    .selects .select .options {
+      max-height: calc(1.8em * 10);
+      position: absolute;
+      left: 0;
+      top: calc(100% + 0.15em);
+      padding: 0 0.5em;
+      display: none; }
+      .selects .select .options.open {
+        display: block; }
+
+.selects.date .select {
+  position: relative; }
+  .selects.date .select.month .display {
+    width: 6em; }
+  .selects.date .select.day .display {
+    width: 1.5em; }
+  .selects.date .select.year .display {
+    width: 2.5em; }
+  .selects.date .select:not(:last-child) .display:after {
+    content: '/';
+    position: absolute;
+    right: 0;
+    top: 0; }
+
+.quickCreate {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  display: none;
+  background: white; }
+  .quickCreate.open {
+    display: block; }
+
+/*# sourceMappingURL=style.css.map */

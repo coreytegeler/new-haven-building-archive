@@ -1,0 +1,12 @@
+extends ../layout.pug
+block body
+	h1 Login
+	if (message)
+		h1 #{message}
+	form(action='/admin/login' method='post')
+		+input('email', 'Email', 'email')
+		+input('password', 'Password', 'password')
+		button(type='submit') Login
+	| Need an account?
+	a(href='/admin/signup') Signup
+	a(href='/') Home

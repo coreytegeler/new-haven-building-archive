@@ -1,0 +1,20 @@
+extends ../layout.pug
+block body
+	if(errors)
+		pre #{errors}
+	form(method='post' action='/admin/'+type.s+'/'+action+'/'+(id ? id : ''))
+		case type.s
+			when 'user'
+				include ../admin/forms/user.pug
+			when 'building'
+				include ../admin/forms/building.pug
+			when 'tour'
+				include ../admin/forms/tour.pug
+			default
+				- var noForm = true
+				| No form for "#{type.s}"
+		.buttons
+			a.button(href='/admin/'+type.p) View all #{type.p}
+			-if(!noForm)
+				input(type='submit' value=action).button
+	.quickCreates
