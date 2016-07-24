@@ -2,9 +2,15 @@
 @import 'vars';
 
 html {
+	width: 100%;
+	height: 100%;
 	margin: 0;
 	background: white;
+	overflow: hidden;
 	body {
+		width: 100%;
+		height: 100%;
+    overflow: auto;
 		margin: 0;
 		font: {
 			family: Arial;
@@ -15,15 +21,33 @@ html {
 		text-rendering: geometricPrecision;
 	}
 }
+h1 {
+	font-size: 3em;
+	padding: 0 0 20px 0;
+	margin: 0;
+}
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	li {
+		list-style: none;
+	}
+}
+a {
+	color: black;
+	text-decoration: none;
+}
 main {
-	width: calc(100% - 100px);
+	width: calc(100% - 16em);
 	max-width: 900px;
-	padding: 100px 50px;
+	padding: 100px 3em 100px 13em;
 	margin: auto;
 	display: table;
 }
 nav {
-	width: 100%;
+	width: 10em;
+	height: 100%;
 	display: table;
 	position: fixed;
 	top: 0;
@@ -31,16 +55,16 @@ nav {
 	z-index: 10;
 	clear: both;
 	background: white;
-	box-shadow: 0px -10px 45px black;
+	box-shadow: -10px 0px 45px black;
 	ul {
-		padding: 0;
+		width: 100%;
+		padding: 20px 0 0 0;
 		margin: 0;
 		float: left;
-		list-style: none;
 		li {
+			width: calc(100% - 20px);
 			padding: 10px;
-			display: inline-block;
-			list-style: none;
+			display: block;
 			a {
 				color: black;
 				text-decoration: none;
@@ -59,6 +83,7 @@ form {
 		display: table;
 	}
 	input, textarea, select {
+		width: 100%;
 		font-size: 1em;
 		line-height: 1.1em;
 		&:-webkit-autofill {
@@ -77,6 +102,13 @@ form {
 			width: calc(100% - 1em - 2px);
 			padding: 0.5em;
 		}
+	}
+	textarea {
+		width: calc(100% - 1em - 2px);
+		padding: 0.5em;
+		resize: none;
+		outline: none;
+
 	}
 	.group {
 		padding: 0 0 20px 0;
@@ -244,4 +276,16 @@ form {
 	&.open {
 		display: block;
 	}
+}
+
+.square {
+	width: 0.65em;
+	height: 0.65em;
+	display: inline-block;
+}
+
+.sprite {
+	background-image: url(/img/sprites.svg);
+	background-repeat: no-repeat;
+	background-size: 100% auto;
 }
