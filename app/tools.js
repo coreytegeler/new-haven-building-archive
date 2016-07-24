@@ -2,7 +2,7 @@ var User = require('./models/user')
 var Building = require('./models/building')
 var Tour = require('./models/tour')
 var Era = require('./models/era')
-var Hood = require('./models/hood')
+var Neighborhood = require('./models/neighborhood')
 var slug = require('slug')
 var moment = require('moment')
 
@@ -31,8 +31,8 @@ var getModel = function(type) {
       return Tour
     case 'era':
       return Era
-    case 'hood':
-      return Hood
+    case 'neighborhood':
+      return Neighborhood
   }
 }
 

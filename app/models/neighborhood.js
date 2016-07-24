@@ -1,7 +1,7 @@
 var tools = require('../tools')
 var mongoose = require('mongoose')
 
-var hoodSchema = mongoose.Schema({
+var neighborhoodSchema = mongoose.Schema({
 	name: {
 		type: String,
 		required: true
@@ -11,9 +11,9 @@ var hoodSchema = mongoose.Schema({
 	timestamps: true
 });
 
-hoodSchema.pre('save', function(next) {
+neighborhoodSchema.pre('save', function(next) {
 	tools.preSave(this)
 	next()
 })
 
-module.exports = mongoose.model('Hood', hoodSchema)
+module.exports = mongoose.model('Neighborood', neighborhoodSchema)

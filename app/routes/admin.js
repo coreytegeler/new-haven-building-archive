@@ -3,7 +3,7 @@ var User = require('../models/user')
 var Building = require('../models/building')
 var Tour = require('../models/tour')
 var Era = require('../models/era')
-var Hood = require('../models/hood')
+var Neighborhood = require('../models/neighborhood')
 var tools = require('../tools')
 var slugify = require('slug')
 
@@ -84,8 +84,8 @@ module.exports = function(app) {
       case 'tour':
         var object = new Tour(data)
         break
-      case 'hood':
-        var object = new Hood(data)
+      case 'neighborhood':
+        var object = new Neighborhood(data)
         break 
     }
     object.save(function(err) {
@@ -164,7 +164,7 @@ module.exports = function(app) {
       } else {
         console.log('Updated:')
         console.log(object)
-        res.redirect('/admin/'+type+'/edit/'+object.slug)
+        res.redirect('/admin/'+type+'/edit/'+slug)
       }
     })
   })
@@ -198,8 +198,8 @@ module.exports = function(app) {
       case 'era':
         var object = new Era(data)
         break
-      case 'hood':
-        var object = new Hood(data)
+      case 'neighborhood':
+        var object = new Neighborhood(data)
         break
       default:
         return

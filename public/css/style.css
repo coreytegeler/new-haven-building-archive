@@ -37,6 +37,8 @@ main {
   padding: 100px 3em 100px 13em;
   margin: auto;
   display: table; }
+  main.noscroll {
+    overflow: hidden; }
 
 nav {
   width: 10em;
@@ -66,13 +68,13 @@ section {
   padding: 50px; }
 
 form {
+  max-width: 900px;
   padding: 20px; }
   form label {
     font-size: 1em;
     line-height: 1.5em;
     display: table; }
   form input, form textarea, form select {
-    width: 100%;
     font-size: 1em;
     line-height: 1.1em; }
     form input:-webkit-autofill, form textarea:-webkit-autofill, form select:-webkit-autofill {
@@ -84,13 +86,15 @@ form {
     font-family: Arial;
     background: transparent; }
     form input[type="text"], form input[type="email"], form input[type="password"] {
+      background: white;
       width: calc(100% - 1em - 2px);
       padding: 0.5em; }
   form textarea {
     width: calc(100% - 1em - 2px);
     padding: 0.5em;
     resize: none;
-    outline: none; }
+    outline: none;
+    background: white; }
   form .group {
     padding: 0 0 20px 0; }
   form .sample {
@@ -98,8 +102,9 @@ form {
   form .row {
     width: 100%;
     display: table;
-    padding: 0 0 10px 0;
-    clear: both; }
+    margin: 0 0 10px 0;
+    clear: both;
+    position: relative; }
     form .row .cell {
       float: left; }
       form .row .cell:first-child {
@@ -195,16 +200,30 @@ form {
     top: 0; }
 
 .quickCreate {
-  width: 100%;
-  height: 100%;
-  position: fixed;
+  width: calc(100% - 16em);
+  height: calc(100% - 200px);
+  padding: 100px 3em 100px 13em;
+  position: absolute;
   left: 0;
   top: 0;
   overflow: auto;
   display: none;
-  background: white; }
+  background: rgba(255, 255, 255, 0.95); }
+  .quickCreate .inner {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    display: table; }
   .quickCreate.open {
     display: block; }
+  .quickCreate .close {
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    right: 1em;
+    top: 1em; }
+    .quickCreate .close:hover {
+      cursor: pointer; }
 
 .square {
   width: 0.65em;

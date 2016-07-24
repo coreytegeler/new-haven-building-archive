@@ -1,10 +1,10 @@
-mixin input(name, label, type, value)
+mixin input(name, label, type, value, required)
 	label(name=name) #{label}
-	input(name=name, type=type, value=(value ? value : ''))
+	input(name=name, type=type, value=(value ? value : ''), required=(required ? true : false))
 
 mixin textarea(name, label, value)
 	label(name=name) #{label}
-	textarea(name=name, value=(value ? value : '') rows=10)
+	textarea(name=name, rows=10) #{value ? value : ''}
 
 mixin checkboxes(type, name, multiple, addable)
 	label #{name}

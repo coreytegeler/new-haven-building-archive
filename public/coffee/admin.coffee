@@ -1,4 +1,5 @@
-$ ->	
+$main = $('main')
+$ ->
 	getData()
 	$('.add').click(openQuickCreate)		
 	$('.select .display').click(openSelect)
@@ -37,7 +38,7 @@ addCheckbox = (container, object, checked) ->
 	$input = $clone.find('input')
 	$input.val(object.slug).attr('id', object.slug+'Checkbox')
 	$label.text(object.name).attr('for', object.slug+'Checkbox')
-	if checked.length
+	if checked
 		if object.slug == checked || checked.indexOf(object.slug) > -1
 			$input.attr('checked', true)
 	$clone
@@ -73,6 +74,7 @@ createQuickAddForms = (container) ->
 		success: (html, status, jqXHR) ->
 			if(!html)
 				return
+			$main.addClass('noscroll')
 			return $('.quickCreates').append(html)
 	return
 
@@ -80,10 +82,14 @@ openQuickCreate = (event) ->
 	$button = $(event.target)
 	type = $button.data('model')
 	$module = $button.parents('.module')
-	$addForm = $('.quickCreate[data-model="'+type+'"]')
-	$addForm.addClass('open')
-	$submit = $addForm.find('input[type="submit"]')
+	$quickCreate = $('.quickCreate[data-model="'+type+'"]')
+	$quickCreate.addClass('open')
+	$submit = $quickCreate.find('input[type="submit"]')
 	$submit.click(quickCreate)
+	$close = $quickCreate.find('.close')
+	$close.click ->
+		$quickCreate.removeClass('open')
+		$main.removeClass('noscroll')
 	return
 
 quickCreate = (event) ->
@@ -93,7 +99,7 @@ quickCreate = (event) ->
 	postUrl = $form.attr('action')
 	data = $form.serializeArray()
 	type = $quickCreate.data('model')
-	checkboxes = $('.checkboxes.'+type);
+	checkboxes = $('.checkboxes.'+type)
 	$.ajax
 		type: 'POST',
 		data: data,
@@ -103,7 +109,8 @@ quickCreate = (event) ->
 			return console.log(jqXHR, status, error)
 		success: (object, status, jqXHR) ->
 			$quickCreate.removeClass('open')
-			return addCheckbox(checkboxes, JSON.parse(object))
+			$main.removeClass('noscroll')
+			return addCheckbox(checkboxes, JSON.parse(object), [object.slug])
 	return
 
 updateTemplate = (event) ->

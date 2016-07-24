@@ -10,6 +10,8 @@ block body
 				include ../admin/forms/building.pug
 			when 'tour'
 				include ../admin/forms/tour.pug
+			when 'neighborhood'
+				include ../admin/forms/neighborhood.pug
 			default
 				- var noForm = true
 				| No form for "#{type.s}"

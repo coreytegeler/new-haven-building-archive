@@ -6,5 +6,5 @@ block body
 			for object in objects
 				li.item
 					a(href='/admin/'+type.s+'/edit/'+object.slug) #{object.name}
-					a(href='/admin/'+type.s+'/remove/'+object.slug).sprite.square.remove
+					a(href='/admin/'+type.s+'/remove/'+object._id).sprite.square.remove
 	a(href='/admin/'+type.s+'/new') Add new #{type.s}

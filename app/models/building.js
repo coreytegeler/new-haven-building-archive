@@ -40,7 +40,7 @@ var buildingSchema = mongoose.Schema({
 		type: String,
 		require: true
 	},
-	hood : {
+	neighborhood: {
 		type: String,
 		require: true
 	},

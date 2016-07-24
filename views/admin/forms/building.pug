@@ -1,11 +1,12 @@
 .row
-	+input('name', 'Name', 'text', (object ? object.name : ''))
-.row
-	+input('researchBy', 'Researched By', 'text', (object ? object.researchBy : ''))
-.row
-	+input('researchYear', 'Research Year', 'text', (object ? object.researchYear : ''))
+	+input('name', 'Name', 'text', (object ? object.name : ''), true)
 .row
 	+input('streetAddress', 'Street Address', 'text', (object ? object.streetAddress : ''))
+.row
+	.cell
+		+input('researchBy', 'Researched By', 'text', (object ? object.researchBy : ''))
+	.cell
+		+input('researchYear', 'Research Year', 'text', (object ? object.researchYear : ''))
 .row
 	+input('dateConstructed', 'Date Constructed', 'text', (object ? object.dateConstructed : ''))
 .row
@@ -13,7 +14,7 @@
 .row
 	+input('currentTenant', 'Current Tenant', 'text', (object ? object.currentTenant : ''))
 .row
-	+checkboxes('hood', 'Neighborhood', false, true)
+	+checkboxes('neighborhood', 'Neighborhood', false, true)
 .row
 	+input('originalProgram', 'Original Program', 'text', (object ? object.originalProgram : ''))
 .row
