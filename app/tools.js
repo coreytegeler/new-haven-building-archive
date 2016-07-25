@@ -3,7 +3,7 @@ var Building = require('./models/building')
 var Tour = require('./models/tour')
 var Era = require('./models/era')
 var Neighborhood = require('./models/neighborhood')
-var slug = require('slug')
+var slugify = require('slug')
 var moment = require('moment')
 
 var isLoggedIn = function(req, res, next) {
@@ -49,9 +49,9 @@ var getEra = function(year) {
 
 var preSave = function(item) {
   if(!item.slug)
-    item.slug = slug(item.name, {lower: true})
+    item.slugify = slug(item.name, {lower: true})
 }
-
+exports.slugify = slugify;
 exports.isLoggedIn = isLoggedIn;
 exports.singularize = singularize;
 exports.pluralize = pluralize;

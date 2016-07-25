@@ -3,54 +3,43 @@ var mongoose = require('mongoose')
 var Mixed = mongoose.Schema.Types.Mixed
 
 var buildingSchema = mongoose.Schema({
-	name: {
-		type: String,
-		require: true
-	},
-	slug: String,
-	description: {
-		type: String,
-		require: true
-	},
 	streetAddress: {
 		type: String,
 		require: true
 	},
-	researchBy: {
+	name: {
 		type: String,
-		require: true
+	},
+	slug: String,
+	description: {
+		type: String
+	},
+	researchBy: {
+		type: String
 	},
 	researchYear: {
-		type: String,
-		require: true
+		type: String
 	},
 	dateConstructed: {
-		type: String,
-		require: true
+		type: String
 	},
 	architect: {
-		type: String,
-		require: true
+		type: String
 	},
 	currentTenant: {
-		type: String,
-		require: true
+		type: String
 	},
 	era: {
-		type: String,
-		require: true
+		type: String
 	},
 	neighborhood: {
-		type: String,
-		require: true
+		type: String
 	},
-	orginalProgram: {
-		type: String,
-		require: true
+	originalProgram: {
+		type: String
 	},
 	program: {
-		type: String,
-		require: true
+		type: String
 	}
 }, { 
 	timestamps: true
@@ -58,7 +47,10 @@ var buildingSchema = mongoose.Schema({
 
 buildingSchema.pre('save', function(next) {
 	this.era = tools.getEra(this.dateConstructed)
-	tools.preSave(this)
+	if(!this.name)
+		this.name = this. streetAddress
+	this.slug = tools.slugify(this.streetAddress, {lower: true})
+	// tools.preSave(this)
   next()
 })
 

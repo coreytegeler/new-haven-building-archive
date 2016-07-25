@@ -11,7 +11,7 @@ html {
     margin: 0;
     font-family: Arial;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
     font-line-height: 1.2em;
     text-rendering: geometricPrecision; }
 
@@ -32,16 +32,18 @@ a {
   text-decoration: none; }
 
 main {
-  width: calc(100% - 16em);
+  width: calc(100% - 27em);
   max-width: 900px;
-  padding: 100px 3em 100px 13em;
+  height: 100%;
+  padding: 100px 3em 100px 24em;
   margin: auto;
   display: table; }
   main.noscroll {
     overflow: hidden; }
 
 nav {
-  width: 10em;
+  width: 20em;
+  padding: .5em;
   height: 100%;
   display: table;
   position: fixed;
@@ -51,14 +53,22 @@ nav {
   clear: both;
   background: white;
   box-shadow: -10px 0px 45px black; }
+  nav header {
+    padding: 0.5em; }
+  nav h3 {
+    margin: 0;
+    clear: both; }
+  nav .group {
+    display: table;
+    padding: 0 0 1em 0; }
   nav ul {
     width: 100%;
-    padding: 20px 0 0 0;
+    padding: 0 0 1em 0;
     margin: 0;
     float: left; }
     nav ul li {
-      width: calc(100% - 20px);
-      padding: 10px;
+      width: 100%;
+      padding: 0 0 0.3em 0;
       display: block; }
       nav ul li a {
         color: black;
@@ -234,5 +244,24 @@ form {
   background-image: url(/img/sprites.svg);
   background-repeat: no-repeat;
   background-size: 100% auto; }
+
+.mapWrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0; }
+  .mapWrap .map {
+    display: table;
+    position: absolute;
+    z-index: 9;
+    display: block; }
+
+.buildings .building {
+  width: 300px;
+  height: 300px;
+  display: inline-block;
+  float: left;
+  background: black; }
 
 /*# sourceMappingURL=style.css.map */

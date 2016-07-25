@@ -15,7 +15,7 @@ html {
 		font: {
 			family: Arial;
 			weight: bold;
-			size: 20px;
+			size: 18px;
 			line-height: 1.2em;
 		}
 		text-rendering: geometricPrecision;
@@ -39,9 +39,10 @@ a {
 	text-decoration: none;
 }
 main {
-	width: calc(100% - 16em);
+	width: calc(100% - 27em);
 	max-width: 900px;
-	padding: 100px 3em 100px 13em;
+	height: 100%;
+	padding: 100px 3em 100px 24em;
 	margin: auto;
 	display: table;
 	&.noscroll {
@@ -49,7 +50,8 @@ main {
 	}
 }
 nav {
-	width: 10em;
+	width: 20em;
+	padding: .5em;
 	height: 100%;
 	display: table;
 	position: fixed;
@@ -59,14 +61,25 @@ nav {
 	clear: both;
 	background: white;
 	box-shadow: -10px 0px 45px black;
+	header {
+		padding: 0.5em;
+	}
+	h3 {
+		margin: 0;
+		clear: both;
+	}
+	.group {
+		display: table;
+		padding: 0 0 1em 0;
+	}
 	ul {
 		width: 100%;
-		padding: 20px 0 0 0;
+		padding: 0 0 1em 0;
 		margin: 0;
 		float: left;
 		li {
-			width: calc(100% - 20px);
-			padding: 10px;
+			width: 100%;
+			padding: 0 0 0.3em 0;
 			display: block;
 			a {
 				color: black;
@@ -312,3 +325,5 @@ form {
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 }
+
+@import 'public';

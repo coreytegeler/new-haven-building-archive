@@ -3,25 +3,29 @@ doctype html
 html(lang='en')
 	head
 		script(type='text/javascript' src='/js/jquery-3.0.0.min.js')
-		script(type='text/javascript' src='/js/admin.js')
+		script(type='text/javascript' src='/js/jquery-ui.min.js')
+		script(type='text/javascript' src='/js/jquery.pep.js')
+		script(type='text/javascript' src='/js/masonry.pkgd.min.js')
+		script(type='text/javascript' src='/js/main.js')
+		script(type='text/javascript' src='/js/public.js')
 		link(rel='stylesheet' href='/css/style.css')
 	body
 		main
 			nav
-				ul.group.edit
-					li
-						a(href='/admin/buildings/') Buildings
-					li
-						a(href='/admin/tours/') Tours
-					li
-						a(href='/admin/neighborhoods/') Neighborhoods
-				ul.group.account
-					li
-						a(href='/admin/signup/') Signup
-					li
-						a(href='/admin/profile/') Profile
-					li
-						a(href='/admin/login/') Login
-					li
-						a(href='/admin/logout/') Logout
+				header
+				.group.filters
+					if objects
+						each object, name in objects 
+							h3 #{uppercase(name)}
+							ul.list
+								for item in object
+									li #{item.name}
+				.group.admin
+					ul.account
+						if user
+							li
+								a(href='/admin/') Edit
+						else
+							li
+								a(href='/admin/login/') Login
 			block body

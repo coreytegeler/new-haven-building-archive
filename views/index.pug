@@ -1,1 +1,13 @@
 extends layout.pug
+block body
+	if objects
+		.mapWrap.buildings
+			.map.buildings
+				-var buildings = objects.buildings
+				//- for building in buildings
+				-for (var x = 0; x < 100; x++)
+					-var opacity = Math.random() * (1 - .1) + .1
+					-var style = 'opacity:' + opacity;
+					.building(style=style)
+						//- a(href='/building/'+building.slug) #{building.name}
+				
