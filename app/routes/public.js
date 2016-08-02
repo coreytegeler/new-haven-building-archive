@@ -8,7 +8,7 @@ var tools = require('../tools')
 var slugify = require('slug')
 
 module.exports = function(app) {
-  app.get('/', function(req, res) {
+  app.get('/*', function(req, res) {
     Async.parallel([
       function(callback) {
         Building.find({}, function(err, data) {

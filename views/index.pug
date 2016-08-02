@@ -4,10 +4,23 @@ block body
 		.mapWrap.buildings
 			.map.buildings
 				-var buildings = objects.buildings
-				//- for building in buildings
-				-for (var x = 0; x < 100; x++)
+				for building in buildings
+
+					-var width = Math.floor((Math.random() * (500 - 200) + 200))
+					-var height = Math.floor((Math.random() * (500 - 200) + 200))
+					-var sizeStyle = 'width:'+width+'px; height:'+height+'px;'
+
+					-var imgWidth = Math.floor((Math.random() * (width - 100) + 100))
+					-var imgHeight = Math.floor((Math.random() * (height - 100) + 100))
+					-var imgStyle = 'width:'+imgWidth+'px; height:'+imgHeight+'px;'
+
 					-var opacity = Math.random() * (1 - .1) + .1
-					-var style = 'opacity:' + opacity;
-					.building(style=style)
-						//- a(href='/building/'+building.slug) #{building.name}
+					-var opacityStyle = 'background:rgba(0,0,0,' + opacity + ');'
+
+					-var style = sizeStyle+opacityStyle
+
+					.building(style=style, data-slug=building.slug)
+						.vert
+							.horz
+								a.image(href='/building/'+building.slug, style=imgStyle) #{building.name}
 				

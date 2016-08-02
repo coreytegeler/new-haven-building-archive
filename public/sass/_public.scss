@@ -1,25 +1,29 @@
 .mapWrap {
-	width: 100%;
+	width: calc(100% - #{$navWidth});
 	height: 100%;
-	position: absolute;
-	left: 0;
+	position: absolute !important;
+	left: #{$navWidth + $navPad};
 	top: 0;
+	display: inline-block;
+	overflow: hidden;
 	.map {
 		display: table;
 		position: absolute;
 		z-index: 9;
-		// left: calc(-100%);
-		// top: calc(-100%);
 		display: block;
 	}
 }
 .buildings {
-	// transform: scale(0.3);
 	.building {
-		width: 300px;
-		height: 300px;
-		display: inline-block;
+		display: table;
 		float: left;
-		background: black;
+		background: transparent !important;
+		.image {
+			display: block;
+			background: rgba(255,0,0,0.2);
+		}
+		&.hover .image, .image:hover {
+			background: rgba(255,0,0,0.8);	
+		}
 	}
 }

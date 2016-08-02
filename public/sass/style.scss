@@ -39,10 +39,10 @@ a {
 	text-decoration: none;
 }
 main {
-	width: calc(100% - 27em);
+	width: calc(100% - #{$navWidth + $navPad*1.5});
 	max-width: 900px;
 	height: 100%;
-	padding: 100px 3em 100px 24em;
+	padding: 100px $navPad 100px ($navWidth + $navPad);
 	margin: auto;
 	display: table;
 	&.noscroll {
@@ -50,10 +50,9 @@ main {
 	}
 }
 nav {
-	width: 20em;
-	padding: .5em;
-	height: 100%;
-	display: table;
+	width: calc(#{$navWidth - $navPad});
+	padding: $navPad;
+	height: calc(100% - #{$navPad}*2);
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -61,6 +60,7 @@ nav {
 	clear: both;
 	background: white;
 	box-shadow: -10px 0px 45px black;
+	overflow: auto;
 	header {
 		padding: 0.5em;
 	}
@@ -81,6 +81,9 @@ nav {
 			width: 100%;
 			padding: 0 0 0.3em 0;
 			display: block;
+			&.selected a {
+				color: $blue;
+			}
 			a {
 				color: black;
 				text-decoration: none;
@@ -325,5 +328,13 @@ form {
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 }
-
+.vert {
+	display: table-cell;
+	vertical-align: middle;
+}
+.horz {
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+}
 @import 'public';

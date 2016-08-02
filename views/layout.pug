@@ -6,26 +6,11 @@ html(lang='en')
 		script(type='text/javascript' src='/js/jquery-ui.min.js')
 		script(type='text/javascript' src='/js/jquery.pep.js')
 		script(type='text/javascript' src='/js/masonry.pkgd.min.js')
+		script(type='text/javascript' src='/js/jquery.transit.min.js')
 		script(type='text/javascript' src='/js/main.js')
 		script(type='text/javascript' src='/js/public.js')
 		link(rel='stylesheet' href='/css/style.css')
 	body
 		main
-			nav
-				header
-				.group.filters
-					if objects
-						each object, name in objects 
-							h3 #{uppercase(name)}
-							ul.list
-								for item in object
-									li #{item.name}
-				.group.admin
-					ul.account
-						if user
-							li
-								a(href='/admin/') Edit
-						else
-							li
-								a(href='/admin/login/') Login
+			include ./nav
 			block body

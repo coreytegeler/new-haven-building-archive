@@ -1,0 +1,18 @@
+nav
+	header
+	.group.filters
+		if objects
+			each object, name in objects 
+				h3 #{uppercase(name)}
+				ul.list
+					for item in object
+						li(class=item.type, data-slug=item.slug)
+							a(href='/'+item.type+'/'+item.slug) #{item.name}
+	.group.admin
+		ul.account
+			if user
+				li
+					a(href='/admin/') Edit
+			else
+				li
+					a(href='/admin/login/') Login

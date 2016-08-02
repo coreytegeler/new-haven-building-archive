@@ -49,7 +49,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // routes
 require('./app/routes/user.js')(app, passport);
 require('./app/routes/admin.js')(app);
-require('./app/routes/main.js')(app);
+require('./app/routes/public.js')(app);
 require('./app/routes/api.js')(app);
 
 // launch

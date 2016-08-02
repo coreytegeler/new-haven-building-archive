@@ -32,27 +32,27 @@ a {
   text-decoration: none; }
 
 main {
-  width: calc(100% - 27em);
+  width: calc(100% - 23em);
   max-width: 900px;
   height: 100%;
-  padding: 100px 3em 100px 24em;
+  padding: 100px 2em 100px 22em;
   margin: auto;
   display: table; }
   main.noscroll {
     overflow: hidden; }
 
 nav {
-  width: 20em;
-  padding: .5em;
-  height: 100%;
-  display: table;
+  width: calc(18em);
+  padding: 2em;
+  height: calc(100% - 2em*2);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
   clear: both;
   background: white;
-  box-shadow: -10px 0px 45px black; }
+  box-shadow: -10px 0px 45px black;
+  overflow: auto; }
   nav header {
     padding: 0.5em; }
   nav h3 {
@@ -70,6 +70,8 @@ nav {
       width: 100%;
       padding: 0 0 0.3em 0;
       display: block; }
+      nav ul li.selected a {
+        color: #0724fb; }
       nav ul li a {
         color: black;
         text-decoration: none; }
@@ -245,12 +247,23 @@ form {
   background-repeat: no-repeat;
   background-size: 100% auto; }
 
+.vert {
+  display: table-cell;
+  vertical-align: middle; }
+
+.horz {
+  display: table;
+  margin-left: auto;
+  margin-right: auto; }
+
 .mapWrap {
-  width: 100%;
+  width: calc(100% - 20em);
   height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0; }
+  position: absolute !important;
+  left: 22em;
+  top: 0;
+  display: inline-block;
+  overflow: hidden; }
   .mapWrap .map {
     display: table;
     position: absolute;
@@ -258,10 +271,13 @@ form {
     display: block; }
 
 .buildings .building {
-  width: 300px;
-  height: 300px;
-  display: inline-block;
+  display: table;
   float: left;
-  background: black; }
+  background: transparent !important; }
+  .buildings .building .image {
+    display: block;
+    background: rgba(255, 0, 0, 0.2); }
+  .buildings .building.hover .image, .buildings .building .image:hover {
+    background: rgba(255, 0, 0, 0.8); }
 
 /*# sourceMappingURL=style.css.map */

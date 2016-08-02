@@ -40,7 +40,8 @@ var buildingSchema = mongoose.Schema({
 	},
 	program: {
 		type: String
-	}
+	},
+	type: String
 }, { 
 	timestamps: true
 })
@@ -50,6 +51,7 @@ buildingSchema.pre('save', function(next) {
 	if(!this.name)
 		this.name = this. streetAddress
 	this.slug = tools.slugify(this.streetAddress, {lower: true})
+	this.type = 'building'
 	// tools.preSave(this)
   next()
 })
