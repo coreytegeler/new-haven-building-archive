@@ -22,7 +22,7 @@ html {
 	}
 }
 h1 {
-	font-size: 3em;
+	font-size: $xlargeFont;
 	padding: 0 0 20px 0;
 	margin: 0;
 }
@@ -39,20 +39,24 @@ a {
 	text-decoration: none;
 }
 main {
-	width: calc(100% - #{$navWidth + $navPad*1.5});
+	width: calc(100% - #{$sideWidth + $sidePad*1.5});
 	max-width: 900px;
 	height: 100%;
-	padding: 100px $navPad 100px ($navWidth + $navPad);
+	padding: 100px $sidePad 100px ($sideWidth + $sidePad);
 	margin: auto;
 	display: table;
 	&.noscroll {
 		overflow: hidden;
 	}
+	&.opened {
+		width: calc(100% - #{$openSideWidth + $sidePad*1.5});
+		padding-left: $openSideWidth + $sidePad;
+	}
 }
-nav {
-	width: calc(#{$navWidth - $navPad});
-	padding: $navPad;
-	height: calc(100% - #{$navPad}*2);
+aside {
+	width: calc(#{$sideWidth - $sidePad});
+	padding: $sidePad;
+	height: calc(100% - #{$sidePad}*2);
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -89,6 +93,9 @@ nav {
 				text-decoration: none;
 			}
 		}
+	}
+	.opened & {
+		width: calc(#{$openSideWidth - $sidePad});
 	}
 }
 section {

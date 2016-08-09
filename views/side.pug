@@ -1,4 +1,4 @@
-nav
+aside
 	header
 	.group.filters
 		if objects
@@ -6,7 +6,7 @@ nav
 				h3 #{uppercase(name)}
 				ul.list
 					for item in object
-						li(class=item.type, data-slug=item.slug)
+						li(class=item.type, data-slug=item.slug, data-type='building')
 							a(href='/'+item.type+'/'+item.slug) #{item.name}
 	.group.admin
 		ul.account
@@ -16,3 +16,4 @@ nav
 			else
 				li
 					a(href='/admin/login/') Login
+	.buildingPanel

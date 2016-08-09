@@ -19,7 +19,7 @@ block body
 
 					-var style = sizeStyle+opacityStyle
 
-					.building(style=style, data-slug=building.slug)
+					.building(style=style, data-slug=building.slug, data-type='building')
 						.vert
 							.horz
 								a.image(href='/building/'+building.slug, style=imgStyle) #{building.name}

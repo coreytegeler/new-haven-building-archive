@@ -77,17 +77,52 @@ $ ->
 			return
 		parent = $(self).parents('.building')[0]
 		slug = parent.dataset.slug
+		type = parent.dataset.type
 		url = self.href
 		$building = $('.building[data-slug="'+slug+'"]')
 		if(!$building)
 			return
 		$('.building.selected').removeClass('selected')
 		$building.addClass('selected')
-
+		openBuilding(slug, type)
 		window.history.pushState('', document.title, url);
 
+	openBuilding = (slug, type) ->
+		$panel = $('.buildingPanel')
+		$main.addClass('opened')
+		$panel.addClass('loading')
+		getData(slug, type, $panel)
 
+	getData = (slug, type, container) ->
+		console.log slug, type
+		$(container).addClass('show loading')
+		$.ajax
+			url: '/api/'+type+'/'+slug+'/html'
+			error:  (jqXHR, status, error) ->
+				console.log jqXHR, status, error
+				return
+			success: (response, status, jqXHR) ->
+				$(container).html(response)
+				$(container).removeClass('loading')
+				if($(response).find('#gMapWrap'))
+					initMap(container)
+		return
 
+	initMap = (container) ->
+		address = $(container).find('.address').text() + ', New Haven, CT 06510'
+		gMapWrap = $(container).find('.gMapWrap')[0]
+		geocoder = new google.maps.Geocoder()
 
+		gMap = new google.maps.Map gMapWrap, {
+			center: {lat: -34.397, lng: 150.644},
+			zoom: 16
+		}
+		geocoder.geocode {'address': address}, (results, status) ->
+			if(status == 'OK')
+				gMap.setCenter(results[0].geometry.location)
+				marker = new google.maps.Marker {
+	        map: gMap,
+	        position: results[0].geometry.location
+	      }
 
 	init()

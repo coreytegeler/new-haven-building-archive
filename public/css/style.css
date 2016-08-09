@@ -16,7 +16,7 @@ html {
     text-rendering: geometricPrecision; }
 
 h1 {
-  font-size: 3em;
+  font-size: 2em;
   padding: 0 0 20px 0;
   margin: 0; }
 
@@ -40,8 +40,11 @@ main {
   display: table; }
   main.noscroll {
     overflow: hidden; }
+  main.opened {
+    width: calc(100% - 33em);
+    padding-left: 32em; }
 
-nav {
+aside {
   width: calc(18em);
   padding: 2em;
   height: calc(100% - 2em*2);
@@ -53,28 +56,30 @@ nav {
   background: white;
   box-shadow: -10px 0px 45px black;
   overflow: auto; }
-  nav header {
+  aside header {
     padding: 0.5em; }
-  nav h3 {
+  aside h3 {
     margin: 0;
     clear: both; }
-  nav .group {
+  aside .group {
     display: table;
     padding: 0 0 1em 0; }
-  nav ul {
+  aside ul {
     width: 100%;
     padding: 0 0 1em 0;
     margin: 0;
     float: left; }
-    nav ul li {
+    aside ul li {
       width: 100%;
       padding: 0 0 0.3em 0;
       display: block; }
-      nav ul li.selected a {
+      aside ul li.selected a {
         color: #0724fb; }
-      nav ul li a {
+      aside ul li a {
         color: black;
         text-decoration: none; }
+  .opened aside {
+    width: calc(28em); }
 
 section {
   padding: 50px; }
@@ -256,6 +261,25 @@ form {
   margin-left: auto;
   margin-right: auto; }
 
+aside .buildingPanel {
+  width: calc(100% -  2em*2);
+  height: calc(100% - 2em*2);
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 2em;
+  background: white;
+  display: none;
+  pointer-events: none; }
+  aside .buildingPanel.show {
+    display: block;
+    pointer-events: all; }
+  aside .buildingPanel h3 span::before {
+    content: ' '; }
+  aside .buildingPanel .gMapWrap {
+    width: 100%;
+    height: 20em; }
+
 .mapWrap {
   width: calc(100% - 20em);
   height: 100%;
@@ -269,6 +293,9 @@ form {
     position: absolute;
     z-index: 9;
     display: block; }
+  .opened .mapWrap {
+    width: calc(100% - 30em);
+    left: 32em; }
 
 .buildings .building {
   display: table;

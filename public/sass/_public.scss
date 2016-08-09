@@ -1,8 +1,42 @@
+main {
+
+}
+aside {
+	.buildingPanel {
+		width: calc(100% -  #{$sidePad}*2);
+		height: calc(100% - #{$sidePad}*2);
+		position: absolute;
+		left: 0;
+		top: 0;
+		padding: $sidePad;
+		background: white;
+		display: none;
+		pointer-events: none;
+		&.show {
+			display: block;
+			pointer-events: all;
+		}
+		&.loading {
+
+		}
+		h3 {
+			span {
+				&::before {
+					content: ' ';
+				}
+			}
+		}
+		.gMapWrap {
+			width: 100%;
+			height: 20em;
+		}
+	}
+}
 .mapWrap {
-	width: calc(100% - #{$navWidth});
+	width: calc(100% - #{$sideWidth});
 	height: 100%;
 	position: absolute !important;
-	left: #{$navWidth + $navPad};
+	left: #{$sideWidth + $sidePad};
 	top: 0;
 	display: inline-block;
 	overflow: hidden;
@@ -11,6 +45,10 @@
 		position: absolute;
 		z-index: 9;
 		display: block;
+	}
+	.opened & {
+		width: calc(100% - #{$openSideWidth});
+		left: #{$openSideWidth + $sidePad};
 	}
 }
 .buildings {

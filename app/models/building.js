@@ -3,7 +3,7 @@ var mongoose = require('mongoose')
 var Mixed = mongoose.Schema.Types.Mixed
 
 var buildingSchema = mongoose.Schema({
-	streetAddress: {
+	address: {
 		type: String,
 		require: true
 	},
