@@ -1,0 +1,223 @@
+form {
+	max-width: 900px;
+	padding: 20px;
+	label {
+		font-size: 1em;
+		line-height: 1.5em;
+		display: table;
+	}
+	input, textarea, select {
+		font-size: 1em;
+		line-height: 1.1em;
+		&:-webkit-autofill {
+			background: none;
+		}
+	}
+	input {
+		-webkit-appearance: none;
+		border: 1px solid black;
+		outline: none;
+		font-family: Arial;
+		background: transparent;
+		&[type="text"],
+		&[type="email"], 
+		&[type="password"] {
+			background: white;
+			width: calc(100% - 1em - 2px);
+			padding: 0.5em;
+		}
+	}
+	textarea {
+		width: calc(100% - 1em - 2px);
+		padding: 0.5em;
+		line-height: 1.5em;
+		border: 1px solid black;
+		resize: none;
+		outline: none;
+		background: white;
+	}
+	.group {
+		padding: 0 0 20px 0;
+	}
+	.sample {
+		display: none;
+	}
+	.row {
+		width: 100%;
+		display: table;
+		margin: 0 0 10px 0;
+		clear: both;
+		position: relative;
+		.cell {
+			float: left;
+			&:first-child {
+				margin-right: 1em;
+			}
+		}
+		&.two {
+
+		}
+	}
+	[required] {
+		
+	}
+	[data-template] {
+		display: none;
+	}
+	.button {
+		display: inline-table;
+		margin-right: 10px;
+		padding: 2px;
+		font: {
+			size: 0.8em;
+			weight: bold;
+		}
+		text-transform: uppercase;
+		color: black;
+		text-decoration: none;
+		border: 0;
+		&:hover {
+			cursor: pointer;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.checkboxes, .options {
+	overflow: auto;
+	font-size: 1em;
+	line-height: 1.1em;
+	border: 1px solid black;
+	background: white;
+	&.populate {
+		.item {
+			opacity: 0;
+		}
+		&.loaded .item {
+			opacity: 1;
+		}
+	}
+	.checkbox {
+		label {
+			font-family: inherit;
+			font-size: inherit;
+			line-height: 1.1em;
+			display: table;
+			padding: 5px 0;
+			&:active, &:hover {
+				cursor: pointer;
+			}
+		}
+		input[type="checkbox"], input[type="radio"] {
+			display: none;
+			&:checked~label {
+				&::before {
+					background: black;
+				}
+			}
+		}
+	}
+}	
+
+.checkboxes {
+	height: 9.75em;
+	padding: 0.2em 0.5em;
+	.checkbox {
+		label::before {
+			width: 0.55em;
+			height: 0.55em;
+			margin-right: 0.5em;
+			border-radius: 50%;
+			border: solid black 0.1em;
+			font-size: inherit;
+			display: inline-block;
+			content: '';
+		}
+	}
+}
+
+.selects {
+	display: flex;
+	border-bottom: solid black 0.1em;
+	padding: 0.15em 0;
+	.select {
+		background: transparent;
+		position: relative;
+		.display {
+			display: inline-block;
+			padding: 0 1.1em 0 0.6em;
+			cursor: pointer;
+		}
+		.options {
+			max-height: calc(1.8em * 10);
+			position: absolute;
+			left: 0;
+			top: calc(100% + 0.15em);
+			padding: 0 0.5em;
+			display: none;
+			&.open {
+				display: block;
+			}
+		}
+	}
+}
+
+.selects.date {
+	.select {
+		position: relative;
+		&.month {
+			.display {
+				width: 6em;
+			}
+		}
+		&.day {
+			.display {
+				width: 1.5em;
+			}
+		}
+		&.year {
+			.display {
+				width: 2.5em;
+			}
+		}
+		&:not(:last-child) .display:after {
+			content: '/';
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
+}
+
+.quickCreate {
+	width: calc(100% - 16em);
+	height: calc(100% - 200px);
+	padding: 100px 3em 100px 13em;
+	position: absolute;
+	left: 0;
+	top: 0;
+	overflow: auto;
+	display: none;
+	background: rgba(255,255,255,0.95);
+	.inner {
+		width: 100%;
+		max-width: 900px;
+    margin: auto;
+    display: table;
+	}
+	&.open {
+		display: block;
+	}
+	.close {
+		width: 2em;
+		height: 2em;
+		position: absolute;
+		right: 1em;
+		top: 1em;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

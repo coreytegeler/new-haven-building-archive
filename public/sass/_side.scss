@@ -1,0 +1,159 @@
+aside {
+	width: $sideWidth;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2000;
+	clear: both;
+	background: $yellow;
+	header {
+		z-index: 10;
+		width: calc(#{$sideWidth} - #{$sidePad}*2);
+		position: absolute;
+		left: 0;
+		top: 0;
+		padding: $sidePad;
+		background: $yellow;
+		.tabs {
+			display: flex;
+			align-content: space-between;
+			.tab {
+				display: table;
+				margin: auto;
+				padding-right: 3px;
+				&:hover {
+					cursor: pointer;
+				}
+				&.glossary, &.index {
+					padding: 0.2em auto;
+				}
+				&.button {
+					width: 1.5em;
+					height: 1.5em;
+					padding: 1px;
+					background-size: contain;
+					background-repeat: no-repeat;
+					background-position: center;
+					&.info {
+						background-image: url(/img/i.svg);
+					}
+					&.close {
+						background-image: url(/img/x.svg);
+					}
+				}
+				&:last-child {
+					padding-right: 0;
+				}
+			}
+			form {
+				padding: 0;
+				input {
+					padding: 0.2em;
+					background: $yellow;
+				}
+			}
+		}
+	}
+	.inner {
+		width: calc(100% - #{$sidePad}*2);
+		height: calc(100% - (#{$sidePad}*2 + 2.1em));
+		padding: 0 $sidePad;
+		margin: $sidePad*4 0;
+		overflow: auto;
+		section {
+			width: 100%;
+			height: 100%;
+			background: $yellow;
+			display: none;
+			pointer-events: none;
+			&.show {
+				display: block;
+				pointer-events: all;
+			}
+			h1, h2, h3 {
+				padding: 0;
+				margin: 0;
+			}
+			h3 {
+				span {
+					&::before {
+						content: ' ';
+					}
+				}
+			}
+		}
+	}
+	h3 {
+		margin: 0;
+		clear: both;
+	}
+	.group {
+		display: table;
+		padding: 0 0 1em 0;
+	}
+	ul {
+		width: 100%;
+		padding: 0 0 1em 0;
+		margin: 0;
+		float: left;
+		@include noSelect;
+		li {
+			width: 100%;
+			padding: 0.1em 0;
+			display: block;
+			&.add {
+				opacity: 0.25;
+			}
+			&.selected a {
+				color: $blue;
+			}
+			a {
+				font-size: $xlargeFont;
+				color: black;
+				text-decoration: none;
+			}
+			$arrowSize: 1.2em;
+			.title {
+				font-size: $xlargeFont;
+				padding-left: $arrowSize + 0.2em;
+				display: table;
+				background-image: url(/img/arrows.svg);
+				background-size: $arrowSize auto;
+				background-repeat: no-repeat;
+				background-position: 0 -#{$arrowSize};
+				&.toggled {
+					background-position: 0 -#{$arrowSize*2};
+				}
+				&:hover {
+					cursor: pointer;
+				}
+			}
+			ul {
+				display: none;
+				padding: 0 0 0 ($arrowSize*2);
+				&.open {
+					display: block;
+				}
+			}
+		}
+	}
+	.full & {
+		background: transparent;
+		pointer-events: none;
+		section, header {
+			display: none !important;
+		}
+		#closedHeader {
+			display: table;
+			pointer-events: all;
+		}
+	}
+	#closedHeader {
+		font-size: $xlargeFont;
+		display: none;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

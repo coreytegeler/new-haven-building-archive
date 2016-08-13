@@ -1,54 +1,65 @@
 main {
-
+	position: relative;
 }
 aside {
-	.buildingPanel {
-		width: calc(100% -  #{$sidePad}*2);
-		height: calc(100% - #{$sidePad}*2);
-		position: absolute;
-		left: 0;
-		top: 0;
-		padding: $sidePad;
-		background: white;
-		display: none;
-		pointer-events: none;
-		&.show {
-			display: block;
-			pointer-events: all;
-		}
-		&.loading {
+	section {
+		&#info {
 
 		}
-		h3 {
-			span {
-				&::before {
-					content: ' ';
+		&#popup {
+			
+		}
+		.gMapWrap, .streetViewWrap {
+			width: 100%;
+			height: 20em;
+			margin: 1em 0;
+			position: relative;
+			.gMap, .streetView {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+				pointer-events: none;
+			}
+			.loader {
+				background: rgb(240,240,240);
+			}
+			&.show {
+				.gMap, .streetView {
+					pointer-events: all;
+				}
+				.loader {
+					opacity: 0;
 				}
 			}
 		}
-		.gMapWrap {
-			width: 100%;
-			height: 20em;
-		}
 	}
 }
+.loader {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 1;
+	transition: all 500ms ease;
+	pointer-events: none;
+	z-index: 100;
+}
 .mapWrap {
-	width: calc(100% - #{$sideWidth});
+	width: 100%;
 	height: 100%;
 	position: absolute !important;
-	left: #{$sideWidth + $sidePad};
 	top: 0;
 	display: inline-block;
 	overflow: hidden;
 	.map {
+		min-width: calc(100% - #{$sideWidth});
 		display: table;
 		position: absolute;
 		z-index: 9;
 		display: block;
-	}
-	.opened & {
-		width: calc(100% - #{$openSideWidth});
-		left: #{$openSideWidth + $sidePad};
 	}
 }
 .buildings {
@@ -57,6 +68,7 @@ aside {
 		float: left;
 		background: transparent !important;
 		.image {
+			margin: 1em;
 			display: block;
 			background: rgba(255,0,0,0.2);
 		}

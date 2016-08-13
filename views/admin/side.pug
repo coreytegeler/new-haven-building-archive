@@ -1,0 +1,51 @@
+aside
+	header
+		.tabs
+	.inner
+		section#index.show
+			ul.group.edit
+				li.buildings
+					.title(data-slug='buildings') Buildings
+					ul.buildings
+						li.add
+							a(href='/admin/building/new')= 'Add new building'
+						-var buildings = models['buildings']
+						for building in buildings
+							li(class=building.slug)
+								a(href='/admin/building/edit/'+building.slug)= building.name
+				li.eras
+					.title(data-slug='eras') Eras
+					ul.eras
+						li.add
+							a(href='/admin/era/new')= 'Add new era'
+						-var eras = models['eras']
+						for era in eras
+							li(class=era.slug)
+								a(href='/admin/era/edit/'+era.slug)= era.name
+				li.neighborhoods
+					.title(data-slug='neighborhoods') Neighborhoods
+					ul.neighborhoods
+						li.add
+							a(href='/admin/neighborhood/new')= 'Add new neighborhood'
+						-var neighborhoods = models['neighborhoods']
+						for neighborhood in neighborhoods
+							li(class=neighborhood.slug)
+								a(href='/admin/neighborhood/edit/'+neighborhood.slug)= neighborhood.name
+				li.tours
+					.title(data-slug='tours') Tours
+					ul.tours
+						li.add
+							a(href='/admin/tour/new')= 'Add new tour'
+						-var tours = models['tours']
+						for tour in tours
+							li(class=tour.slug)
+								a(href='/admin/tour/edit/'+tour.slug)= tour.name
+			ul.group.account
+				li
+					a(href='/admin/signup/') Signup
+				li
+					a(href='/admin/profile/') Profile
+				li
+					a(href='/admin/login/') Login
+				li
+					a(href='/admin/logout/') Logout

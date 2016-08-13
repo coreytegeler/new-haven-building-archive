@@ -1,10 +1,17 @@
 $blue: #0724fb;
+$yellow: #fffed3;
 
 $smallFont: 0.8em;
 $mediumFont: 1em;
-$largeFont: 1.5em;
-$xlargeFont: 2em;
+$largeFont: 1.3em;
+$xlargeFont: 1.5em;
 
-$sideWidth: 20em;
-$sidePad: 2em;
-$openSideWidth: 30em;
+$sideWidth: calc(15em + 20vw);
+$sidePad: 1em;
+
+@mixin noSelect {
+	-webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

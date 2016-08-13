@@ -1,13 +1,13 @@
 extends layout.pug
 block body
-	if objects
+	if models
 		.mapWrap.buildings
 			.map.buildings
-				-var buildings = objects.buildings
+				-var buildings = models.buildings
 				for building in buildings
 
-					-var width = Math.floor((Math.random() * (500 - 200) + 200))
-					-var height = Math.floor((Math.random() * (500 - 200) + 200))
+					-var width = 300
+					-var height = 300
 					-var sizeStyle = 'width:'+width+'px; height:'+height+'px;'
 
 					-var imgWidth = Math.floor((Math.random() * (width - 100) + 100))

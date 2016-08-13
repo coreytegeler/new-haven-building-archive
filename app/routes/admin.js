@@ -10,64 +10,49 @@ var slugify = require('slug')
 module.exports = function(app) {
 
   app.get('/admin', function(req, res) {
-    Async.parallel([
-      function(callback) {
-        Building.find({}, function(err, data) {
-          if(err)
-            callback(err)
-          callback(null, data)
-        })
-      },
-      function(callback) {
-        Tour.find({}, function(err, data) {
-          if(err)
-            callback(err)
-          callback(null, data)
-        })
-      }
-    ],
-    function(err, results) { 
+    var func = function(results, err, models) {
       var data = {}
-      console.log(results)
       res.render('admin/index.pug', {
         errors: err,
-        models: {
-          buildings: results[0],
-          tours: results[1]
-        }
+        models: models
       })
-    })
+    }
+    tools.async(func, req, res)
   })
 
   app.get('/admin/:type', function(req, res) {
-    var type = req.params.type
-    if(type == 'user' || type == 'users')
-      var model = User
-    else
-      var model = tools.getModel(type)
-    model.find({}, function(err, objects) {
-      if(err)
-        callback(err)
-      console.log(objects)
+    tools.async(function(results, err, models) {
+      var type = req.params.type
+      if(type == 'user' || type == 'users')
+        var model = User
+      else
+        var model = tools.getModel(type)
       res.render('admin/model.pug', {
-        type: {
+        loadedType: {
           s: tools.singularize(type),
           p: tools.pluralize(type)
         },
-        objects: objects
+        models: models
       })
-    })
+    }, req, res)
   })
 
   app.get('/admin/:type/new', function(req, res) {
-    var type = req.params.type
-    res.render('admin/edit.pug', {
-      type: {
-        s: tools.singularize(type),
-        p: tools.pluralize(type)
-      },
-      action: 'create'
-    })
+    tools.async(function(results, err, models) {
+      var type = req.params.type
+      if(type == 'user' || type == 'users')
+        var model = User
+      else
+        var model = tools.getModel(type)
+      res.render('admin/edit.pug', {
+        loadedType: {
+          s: tools.singularize(type),
+          p: tools.pluralize(type)
+        },
+        models: models,
+        action: 'create'
+      })
+    }, req, res)
   })
 
   app.post('/admin/:type/create', function(req, res) {
@@ -109,30 +94,33 @@ module.exports = function(app) {
   })
 
   app.get('/admin/:type/edit/:slug', function(req, res) {
-    var type = req.params.type
-    var slug = req.params.slug
-    var model = tools.getModel(type)
-    if(!slug) {
-      res.redirect('/admin/'+type+'/new')
-    } else {
-      model.findOne({slug: slug}, function(err, object) {
-        if (err)
-          throw err
-        var data = {
-          object: object,
-          id: object._id,
-          action: 'update',
-          type: {
-            s: tools.singularize(type),
-            p: tools.pluralize(type)
+    tools.async(function(results, err, models) {
+      var type = req.params.type
+      var slug = req.params.slug
+      var model = tools.getModel(type)
+      if(!slug) {
+        res.redirect('/admin/'+type+'/new')
+      } else {
+        model.findOne({slug: slug}, function(err, object) {
+          if (err)
+            throw err
+          var data = {
+            object: object,
+            id: object._id,
+            action: 'update',
+            loadedType: {
+              s: tools.singularize(type),
+              p: tools.pluralize(type)
+            },
+            models: models
           }
-        }
-        if(tools.singularize(type) == 'building')
-          data['eras'] = tools.eras
-        console.log(data)
-        res.render('admin/edit.pug', data)
-      })
-    }
+          if(tools.singularize(type) == 'building')
+            data['eras'] = tools.eras
+          console.log(data)
+          res.render('admin/edit.pug', data)
+        })
+      }
+    })
   })
 
   app.post('/admin/:type/update/:id', function(req, res) {

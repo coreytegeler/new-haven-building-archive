@@ -8,43 +8,39 @@ var tools = require('../tools')
 var slugify = require('slug')
 
 module.exports = function(app) {
-  app.get('/*', function(req, res) {
-    Async.parallel([
-      function(callback) {
-        Building.find({}, function(err, data) {
-          if(err)
-            callback(err)
-          callback(null, data)
-        })
-      },
-      function(callback) {
-        Tour.find({}, function(err, data) {
-          if(err)
-            callback(err)
-          callback(null, data)
-        })
-      },
-      function(callback) {
-        Neighborhood.find({}, function(err, data) {
-          if(err)
-            callback(err)
-          callback(null, data)
-        })
-      },
-      function(callback) {
-        Era.find({}, function(err, data) {
-          if(err)
-            callback(err)
-          callback(null, data)
-        })
-      }
-    ],
-    function(err, results) { 
+
+  app.get('/:type/:slug', function(req, res) {
+    var func = function(results, err, models) {
+      var slug = req.params.slug
+      var type = req.params.type
       var data = {}
       console.log(results)
       res.render('index.pug', {
         errors: err,
-        objects: {
+        models: {
+          buildings: results[0],
+          tours: results[1],
+          neighborhoods: results[2],
+          eras: results[3]
+        },
+        user: req.user,
+        loadedSlug: slug,
+        loadedType: {
+          s: tools.singularize(type),
+          p: tools.pluralize(type)
+        }
+      })
+    }
+    tools.async(func, req, res)
+  })
+
+  app.get('/*', function(req, res) {
+    var func = function(results, err, models) {
+      var data = {}
+      console.log(results)
+      res.render('index.pug', {
+        errors: err,
+        models: {
           buildings: results[0],
           tours: results[1],
           neighborhoods: results[2],
@@ -52,6 +48,7 @@ module.exports = function(app) {
         },
         user: req.user
       })
-    })
+    }
+    tools.async(func, req, res)
   })
 }

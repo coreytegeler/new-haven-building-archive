@@ -1,5 +1,6 @@
 mixin input(name, label, type, value, required)
-	label(name=name) #{label}
+	if(label)
+		label(name=name) #{label}
 	input(name=name, type=type, value=(value ? value : ''), required=(required ? true : false))
 
 mixin textarea(name, label, value)

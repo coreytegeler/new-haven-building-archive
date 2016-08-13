@@ -1,20 +1,24 @@
-.inner
-	header
-		h1.name= building.name
-		h2.address= building.address
-	.meta
-		h3.style
-			| Style:
-			span= building.style
-		h3.dateConstructed
-			| Constructed:
-			span= building.dateConstructed
-		h3.architect
-			| Architect:
-			span= building.architect
-		if(building.researchBy)
-			h3.research
-				| Researched by:
-				span= building.researchBy+(building.researchYear ? ', '+building.researchYear : '')
-	.gMapWrap
-	.description= building.description
+.group.header
+	h1.name= building.name
+	h2.address= building.address
+group.streetViewWrap
+	.streetView
+	.loader
+group.meta
+	h3.style
+		| Style:
+		span= building.style
+	h3.dateConstructed
+		| Constructed:
+		span= building.dateConstructed
+	h3.architect
+		| Architect:
+		span= building.architect
+	if(building.researchBy)
+		h3.research
+			| Researched by:
+			span= building.researchBy+(building.researchYear ? ', '+building.researchYear : '')
+group.gMapWrap
+	.gMap
+	.loader
+.description= building.description

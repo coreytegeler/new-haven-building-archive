@@ -1,10 +1,53 @@
+var Async = require('async')
 var User = require('./models/user')
 var Building = require('./models/building')
+var Neighborhood = require('./models/neighborhood')
 var Tour = require('./models/tour')
 var Era = require('./models/era')
-var Neighborhood = require('./models/neighborhood')
 var slugify = require('slug')
 var moment = require('moment')
+  
+var async = function(func, req, res) {
+  Async.parallel([
+    function(callback) {
+      Building.find({}, function(err, data) {
+        if(err)
+          callback(err)
+        callback(null, data)
+      })
+    },
+    function(callback) {
+      Neighborhood.find({}, function(err, data) {
+        if(err)
+          callback(err)
+        callback(null, data)
+      })
+    },
+    function(callback) {
+      Tour.find({}, function(err, data) {
+        if(err)
+          callback(err)
+        callback(null, data)
+      })
+    },
+    function(callback) {
+      Era.find({}, function(err, data) {
+        if(err)
+          callback(err)
+        callback(null, data)
+      })
+    }
+  ],
+  function(err, results) { 
+    var models = {
+      'buildings': results[0],
+      'neighborhoods': results[1],
+      'tours': results[2],
+      'eras': results[3]
+    }
+    func(results, err, models)
+  });
+}
 
 var isLoggedIn = function(req, res, next) {
   if(req.isAuthenticated())
@@ -59,3 +102,4 @@ exports.getModel = getModel;
 exports.preSave = preSave;
 exports.getEra = getEra;
 exports.eras = eras;
+exports.async = async;

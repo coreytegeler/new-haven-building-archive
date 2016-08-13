@@ -1,19 +1,40 @@
 aside
 	header
-	.group.filters
-		if objects
-			each object, name in objects 
-				h3 #{uppercase(name)}
-				ul.list
-					for item in object
-						li(class=item.type, data-slug=item.slug, data-type='building')
-							a(href='/'+item.type+'/'+item.slug) #{item.name}
-	.group.admin
-		ul.account
-			if user
-				li
-					a(href='/admin/') Edit
-			else
-				li
-					a(href='/admin/login/') Login
-	.buildingPanel
+		.tabs
+			.tab.glossary(data-section='glossary')= 'Glossary'
+			.tab.filter(data-section='filter')= 'Filter'
+			.tab.search
+				form
+					input(name='search', type='text', placeholder='Search')
+			.tab.info.button(data-section='info')
+			.tab.close.button
+	.inner
+		section#info
+			h1= 'New Haven Building Archive'
+			.group.about
+				p= 'Cras blandit porttitor hendrerit. Integer auctor est nisl, quis consectetur dui sagittis vel. Nullam mollis turpis in nisi ornare vehicula. Nullam a enim tortor. Cras non pellentesque lorem. Nullam elementum turpis eget nunc porta, sed volutpat ante rhoncus. Aenean a ex luctus, malesuada mauris a, con- sequat ipsum. Sed fringilla tortor id suscipit porttitor. Mauris vel laoreet dui. Pellentesque aliquet sem ac luctus tincidunt. Phasellus eu enim odio.'
+				p= 'Wuis consectetur dui sagittis vel. Nullam mollis turpis in nisilorem. Nullam elementum turpis eget nunc porta, sed volutpat ante rhoncus. Aenean a ex luctus, malesuada mauris a, con- sequat ipsum. Sed fringilla tortor id suscipit porttitor. Mauris vel laoreet dui. Pellentesque aliquet sem ac luctus tincidunt. Phasellus eu enim odio. Nullam elementum turpis eget nunc porta, sed volutpat ante rhoncus. Aenean a ex luctus, malesua- da mauris a, consequat ipsum. Sed fringilla tortor id suscipit porttitor. Mauris vel laoreet dui. Pellentesque aliquet sem ac luctus tincidunt. Phasellus eu enim odio.'
+		section#filter
+			ul.group.filter
+				if models
+					each model, name in models
+						if(name != 'buildings')
+							li(class=name)
+								.title(data-slug=name)= uppercase(name)
+								ul(class=name)
+									for item in model
+										li(class=item.type, data-slug=item.slug, data-type='building')
+											a(href='/'+item.type+'/'+item.slug) #{item.name}
+			//- ul.group.admin
+			//- 	ul.account
+			//- 		if user
+			//- 			li
+			//- 				a(href='/admin/') Edit
+			//- 		else
+			//- 			li
+			//- 				a(href='/admin/login/') Login
+		section#glossary
+		section#single
+		#closedHeader
+			| New Haven Building Archive
+			.filtered
