@@ -6,6 +6,7 @@ $ ->
 	init = () ->
 		resize()
 		$(window).resize resize
+		$body.on 'click', 'aside li .title', openNestedNav
 		
 	resize = () -> 
 		$window = $(window)
@@ -19,7 +20,7 @@ $ ->
 				width: mainWidth+'px'
 			})
 
-	$('aside li .title').click () ->
+	openNestedNav = () ->
 		$title = $(event.target)
 		slug = $title.attr('data-slug')
 		$parentList = $title.parent()

@@ -64,16 +64,26 @@ aside {
 }
 .buildings {
 	.building {
+		padding: 2em;
 		display: table;
 		float: left;
 		background: transparent !important;
+		a {
+			display: table;
+			font-size: $smallFont;
+		}
 		.image {
-			margin: 1em;
+			margin-bottom: .5em;
 			display: block;
-			background: rgba(255,0,0,0.2);
+			background: rgba(255,0,0,0.3);
+			border: 1px solid transparent;
 		}
 		&.hover .image, .image:hover {
-			background: rgba(255,0,0,0.8);	
+			// background: rgba(255,0,0,0.8);	
+		}
+		&.selected .image {
+			border-color: black;
+			background: transparent;
 		}
 	}
 }

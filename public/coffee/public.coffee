@@ -15,25 +15,21 @@ $ ->
 		$buildingsMap.masonry({
 			transitionDuration: 0
 		})
-
 		resizeMap()
 		makeDraggable()
-
 		$(window).resize resizeMap
-
-		$('body').on 'mouseenter', '.building a', ->
-			hoverBuilding(this)
-		$('body').on 'mouseleave', '.building a', ->
-			unhoverBuilding(this)
-		$('body').on 'click', '.building a', ->
-			 clickBuilding(this)
+		$body.on 'mouseenter', '.building a', hoverBuilding
+		$body.on 'mouseleave', '.building a', unhoverBuilding
+		$body.on 'click', '.building a', clickBuilding
+		$body.on 'click', 'aside .tab', switchSection
+		$body.on 'click', '#closedHeader', openSide
 
 		if(loadedSlug && loadedType)
 			selectBuilding(loadedSlug, loadedType)
 		else
 			$infoSect.addClass('show')
 
-	$('aside .tab').click () ->
+	switchSection = () ->
 		$tab = $(event.target)
 		sectionId = $tab.attr('data-section')
 		if(sectionId)
@@ -41,17 +37,7 @@ $ ->
 			$side.find('section.show').removeClass('show')
 			$section.addClass('show')
 		else if($tab.is('.close'))
-			left = parseInt($buildingsMap.css('left'))
-			sideWidth = parseInt($side.innerWidth())
-			newLeft = left+sideWidth
-			$buildingsMap.css({left: newLeft})
-			$body.addClass('full')
-			$main.attr('style', '')
-			resizeMap()
-			makeDraggable()
-
-	$('#closedHeader').click () ->
-		$body.removeClass('full')
+			closeSide()
 
 	makeDraggable = () ->
 		Draggable.create $buildingsMap, {
@@ -94,20 +80,23 @@ $ ->
 			top: top
 		});
 
-	hoverBuilding = (self) -> 
+	hoverBuilding = () -> 
+		self = event.target
 		parent = $(self).parents('.building')[0]
 		slug = parent.dataset.slug
 		$building = $('.building[data-slug="'+slug+'"]')
 		return $building.addClass('hover');
 
-	unhoverBuilding = (self) -> 
+	unhoverBuilding = () -> 
+		self = event.target
 		parent = $(self).parents('.building')[0]
 		slug = parent.dataset.slug
 		$building = $('.building[data-slug="'+slug+'"]')
 		return $building.removeClass('hover');
 
-	clickBuilding = (self) ->
+	clickBuilding = () ->
 		event.preventDefault()
+		self = event.target
 		if($buildingsMap.is('.dragging'))
 			return
 		parent = $(self).parents('.building')[0]
@@ -134,8 +123,11 @@ $ ->
 				console.log jqXHR, status, error
 				return
 			success: (response, status, jqXHR) ->
-				$singleSect.html(response)
-				$singleSect.removeClass('loading')
+				$('section.show').removeClass('show')
+				$singleSect
+					.html(response)
+					.addClass('show')
+					.removeClass('loading')
 				if($(response).find('#gMapWrap'))
 					panelMapSetUp($singleSect)
 		return
@@ -147,7 +139,7 @@ $ ->
 			if(status == 'OK')
 				coords = results[0].geometry.location
 				insertMap(container, coords)
-				insertStreetView(container, coords)
+				# insertStreetView(container, coords)
 		return
 
 	insertMap = (container, coords) ->
@@ -188,5 +180,31 @@ $ ->
         }
 			return
 		return
+
+	closeSide = () ->
+		matrix = $buildingsMap.css('transform')
+		console.log(matrix)
+		matrixParse = matrix.split('(')[1].split(')')[0].split(',')
+		a = parseInt(matrixParse[0])
+		b = parseInt(matrixParse[1])
+		c = parseInt(matrixParse[2])
+		d = parseInt(matrixParse[3])
+		x = parseInt(matrixParse[4])
+		y = parseInt(matrixParse[5])
+		sideWidth = parseInt($side.innerWidth())
+		newX = x+sideWidth
+		console.log(newX)
+		newMatrix = [a,b,c,d,newX,y].join(',')
+		console.log(newMatrix)
+		$buildingsMap.css({transform: 'matrix('+newMatrix+')'})
+		matrix = $buildingsMap.css('transform')
+		console.log(matrix)
+		$body.addClass('full')
+		$main.attr('style', '')
+		resizeMap()
+		makeDraggable()
+
+	openSide = () ->
+		$body.removeClass('full')
 
 	initPublic()

@@ -386,14 +386,20 @@ aside section .gMapWrap, aside section .streetViewWrap {
     display: block; }
 
 .buildings .building {
+  padding: 2em;
   display: table;
   float: left;
   background: transparent !important; }
+  .buildings .building a {
+    display: table;
+    font-size: 0.8em; }
   .buildings .building .image {
-    margin: 1em;
+    margin-bottom: .5em;
     display: block;
-    background: rgba(255, 0, 0, 0.2); }
-  .buildings .building.hover .image, .buildings .building .image:hover {
-    background: rgba(255, 0, 0, 0.8); }
+    background: rgba(255, 0, 0, 0.3);
+    border: 1px solid transparent; }
+  .buildings .building.selected .image {
+    border-color: black;
+    background: transparent; }
 
 /*# sourceMappingURL=style.css.map */

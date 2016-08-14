@@ -35,10 +35,10 @@ var buildingSchema = mongoose.Schema({
 	neighborhood: {
 		type: String
 	},
-	originalProgram: {
+	originalUse: {
 		type: String
 	},
-	program: {
+	use: {
 		type: String
 	},
 	type: String

@@ -15,7 +15,7 @@ aside
 				p= 'Cras blandit porttitor hendrerit. Integer auctor est nisl, quis consectetur dui sagittis vel. Nullam mollis turpis in nisi ornare vehicula. Nullam a enim tortor. Cras non pellentesque lorem. Nullam elementum turpis eget nunc porta, sed volutpat ante rhoncus. Aenean a ex luctus, malesuada mauris a, con- sequat ipsum. Sed fringilla tortor id suscipit porttitor. Mauris vel laoreet dui. Pellentesque aliquet sem ac luctus tincidunt. Phasellus eu enim odio.'
 				p= 'Wuis consectetur dui sagittis vel. Nullam mollis turpis in nisilorem. Nullam elementum turpis eget nunc porta, sed volutpat ante rhoncus. Aenean a ex luctus, malesuada mauris a, con- sequat ipsum. Sed fringilla tortor id suscipit porttitor. Mauris vel laoreet dui. Pellentesque aliquet sem ac luctus tincidunt. Phasellus eu enim odio. Nullam elementum turpis eget nunc porta, sed volutpat ante rhoncus. Aenean a ex luctus, malesua- da mauris a, consequat ipsum. Sed fringilla tortor id suscipit porttitor. Mauris vel laoreet dui. Pellentesque aliquet sem ac luctus tincidunt. Phasellus eu enim odio.'
 		section#filter
-			ul.group.filter
+			ul.group.filters
 				if models
 					each model, name in models
 						if(name != 'buildings')
@@ -23,8 +23,8 @@ aside
 								.title(data-slug=name)= uppercase(name)
 								ul(class=name)
 									for item in model
-										li(class=item.type, data-slug=item.slug, data-type='building')
-											a(href='/'+item.type+'/'+item.slug) #{item.name}
+										li.filter(class=name, data-slug=item.slug, data-type=name)
+											a(href='/'+name+'/'+item.slug) #{item.name}
 			//- ul.group.admin
 			//- 	ul.account
 			//- 		if user
