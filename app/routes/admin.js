@@ -14,7 +14,8 @@ module.exports = function(app) {
       var data = {}
       res.render('admin/index.pug', {
         errors: err,
-        models: models
+        models: models,
+        user: req.user
       })
     }, req, res)
   })
@@ -31,7 +32,8 @@ module.exports = function(app) {
           s: tools.singularize(type),
           p: tools.pluralize(type)
         },
-        models: models
+        models: models,
+        user: req.user
       })
     }, req, res)
   })
@@ -49,7 +51,8 @@ module.exports = function(app) {
           p: tools.pluralize(type)
         },
         models: models,
-        action: 'create'
+        action: 'create',
+        user: req.user
       })
     }, req, res)
   })
@@ -111,7 +114,8 @@ module.exports = function(app) {
               s: tools.singularize(type),
               p: tools.pluralize(type)
             },
-            models: models
+            models: models,
+            user: req.user
           }
           if(tools.singularize(type) == 'building')
             data['eras'] = tools.eras

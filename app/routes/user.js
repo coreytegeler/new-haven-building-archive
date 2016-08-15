@@ -109,7 +109,8 @@ module.exports = function(app, passport) {
 	        s: tools.singularize(type),
 	        p: tools.pluralize(type)
 	      },
-	      models: models
+	      models: models,
+	      user: req.user
 	    })
 	  }, req, res)
   })

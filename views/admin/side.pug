@@ -41,11 +41,12 @@ aside
 							li(class=tour.slug)
 								a(href='/admin/tour/edit/'+tour.slug)= tour.name
 			ul.group.account
-				li
-					a(href='/admin/signup/') Signup
-				li
-					a(href='/admin/profile/') Profile
-				li
-					a(href='/admin/login/') Login
-				li
-					a(href='/admin/logout/') Logout
+				if(user)
+					li
+						a(href='/admin/profile/') Profile
+					li
+						a(href='/admin/logout/') Logout
+				else
+					li
+						a(href='/admin/login/') Login
+				
