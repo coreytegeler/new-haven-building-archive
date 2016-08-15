@@ -200,7 +200,6 @@ module.exports = function(app) {
       if(err) {
         return res.json(err)
       }
-      console.log(object)
       return res.json(object)
     })
   })
