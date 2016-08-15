@@ -10,11 +10,12 @@ module.exports = function(app, passport) {
 			if(req.user)
 				return res.redirect('/admin/profile')
 			res.render('admin/edit.pug', {
-	      type: {
+	      loadedType: {
 	        s: 'user',
 	        p: 'users'
 	      },
-	      action: 'create'
+	      action: 'create',
+	      models: models
 	    })
 		}, req, res)
 	})
