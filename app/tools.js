@@ -92,7 +92,7 @@ var getEra = function(year) {
 
 var preSave = function(item) {
   if(!item.slug)
-    item.slugify = slug(item.name, {lower: true})
+    item.slugify = slugify(item.name, {lower: true})
 }
 exports.slugify = slugify;
 exports.isLoggedIn = isLoggedIn;

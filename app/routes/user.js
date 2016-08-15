@@ -21,7 +21,7 @@ module.exports = function(app, passport) {
 	})
 	
 
-	app.post('/admin/user/create', tools.isLoggedIn, function(req, res) {
+	app.post('/admin/user/create', function(req, res) {
 		var data = req.body
 		if(data.password != data.confirmPassword) {
 			console.log('Passwords do not match')
