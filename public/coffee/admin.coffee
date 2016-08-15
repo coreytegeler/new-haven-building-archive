@@ -1,7 +1,8 @@
 $main = $('main')
 $ ->
 	getData()
-	$('.add').click(openQuickCreate)		
+	$('.add').click(openQuickCreate)
+	$('a.delete').click(askToDelete)		
 	$('.select .display').click(openSelect)
 	$('.select .options input').change(updateSelectValue)
 	$('.updateTemplate input').change(updateTemplate)
@@ -118,3 +119,12 @@ updateTemplate = (event) ->
 	value = $input.val()
 	$('[data-template]').removeClass('show')
 	$('[data-template="'+value+'"]').addClass('show')
+
+askToDelete = (event) ->
+	if(!confirm('Are you sure you want to delete this?'))
+		event.preventDefault();
+
+
+
+
+

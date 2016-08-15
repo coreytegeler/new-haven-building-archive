@@ -2,7 +2,7 @@ extends layout.pug
 block body
 	if(errors)
 		pre #{errors}
-	form(method='post' action='/admin/'+loadedType.s+'/'+action+'/'+(id ? id : ''))
+	form(method='post' action='/admin/'+loadedType.s+'/'+action+'/'+(object ? object.id : ''))
 		case loadedType.s
 			when 'user'
 				include ../admin/forms/user.pug
@@ -17,6 +17,8 @@ block body
 				| No form for "#{loadedType.s}"
 		.buttons
 			a.button(href='/admin/'+loadedType.p) View all #{loadedType.p}
-			-if(!noForm)
+			if(!noForm)
 				input(type='submit' value=action).button
+			if(object)
+				a.button.delete(href='/admin/'+loadedType.p+'/remove/'+object.id) Delete
 	.quickCreates

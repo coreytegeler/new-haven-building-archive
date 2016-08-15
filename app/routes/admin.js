@@ -108,7 +108,6 @@ module.exports = function(app) {
             throw err
           var data = {
             object: object,
-            id: object._id,
             action: 'update',
             loadedType: {
               s: tools.singularize(type),
