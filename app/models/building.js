@@ -52,10 +52,10 @@ var buildingSchema = mongoose.Schema({
 buildingSchema.pre('save', function(next) {
 	this.era = tools.getEra(this.dateConstructed)
 	if(!this.name)
-		this.name = this. address
+		this.name = this.address
 	this.slug = tools.slugify(this.streetAddress, {lower: true})
 	this.type = 'building'
-	// tools.preSave(this)
+	tools.preSave(this)
   next()
 })
 
