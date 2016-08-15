@@ -6,18 +6,21 @@ var slugify = require('slug')
 
 module.exports = function(app, passport) {
 	app.get('/admin/signup', function(req, res) {
-		if(req.user)
-			return res.redirect('/admin/profile')
-		res.render('admin/edit.pug', {
-      type: {
-        s: 'user',
-        p: 'users'
-      },
-      action: 'create'
-    })
-	});
+		tools.async(function(results, err, models) {
+			if(req.user)
+				return res.redirect('/admin/profile')
+			res.render('admin/edit.pug', {
+	      type: {
+	        s: 'user',
+	        p: 'users'
+	      },
+	      action: 'create'
+	    })
+		}, req, res)
+	})
+	
 
-	app.post('/admin/user/create', function(req, res) {
+	app.post('/admin/user/create', tools.isLoggedIn, function(req, res) {
 		var data = req.body
 		if(data.password != data.confirmPassword) {
 			console.log('Passwords do not match')
@@ -46,18 +49,21 @@ module.exports = function(app, passport) {
 		      	return next(err)
 		      }
 		      return res.redirect('/admin/profile')
-		    });
-			});
+		    })
+			})
 	});
 
 	app.get('/admin/login', function(req, res) {
-		if(req.user)
-			return res.redirect('/admin/profile')
-		res.render('admin/login', {
-			user: req.user,
-			error: req.flash('error')
-		});
-	});
+		tools.async(function(results, err, models) {
+			if(req.user)
+				return res.redirect('/admin/profile')
+			res.render('admin/login', {
+				user: req.user,
+				models: models,
+				error: req.flash('error')
+			})
+		}, req, res)
+	})
 
 	app.post('/admin/login', function(req, res, next) {
 	  passport.authenticate('local', function(err, user, info) {
@@ -78,33 +84,36 @@ module.exports = function(app, passport) {
 	      return res.redirect('/admin/profile')
 	    });
 	  })(req, res, next)
-	});
+	})
 
 	app.get('/admin/logout', function(req, res) {
-		req.logout();
+		req.logout()
     req.session.save(function (err) {
       if (err) {
-        return next(err);
+        return next(err)
       }
-      res.redirect('/');
-    });
-	});
+      res.redirect('/')
+    })
+	})
 
 	app.get('/admin/profile', tools.isLoggedIn, function(req, res) {
-		var type = 'user'
-		var user = req.user
-    res.render('admin/edit.pug', {
-      object: user,
-      id: user._id,
-      action: 'update',
-      type: {
-        s: tools.singularize(type),
-        p: tools.pluralize(type)
-      }
-    })
+		tools.async(function(results, err, models) {
+			var type = 'user'
+			var user = req.user
+	    res.render('admin/edit.pug', {
+	      object: user,
+	      id: user._id,
+	      action: 'update',
+	      loadedType: {
+	        s: tools.singularize(type),
+	        p: tools.pluralize(type)
+	      },
+	      models: models
+	    })
+	  }, req, res)
   })
 
-  app.post('/admin/user/update/:id', function(req, res) {
+  app.post('/admin/user/update/:id', tools.isLoggedIn, function(req, res) {
     var data = req.body
     var type = req.params.type
     var id = req.params.id

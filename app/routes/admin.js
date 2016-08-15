@@ -9,18 +9,17 @@ var slugify = require('slug')
 
 module.exports = function(app) {
 
-  app.get('/admin', function(req, res) {
-    var func = function(results, err, models) {
+  app.get('/admin', tools.isLoggedIn, function(req, res) {
+    tools.async(function(results, err, models) {
       var data = {}
       res.render('admin/index.pug', {
         errors: err,
         models: models
       })
-    }
-    tools.async(func, req, res)
+    }, req, res)
   })
 
-  app.get('/admin/:type', function(req, res) {
+  app.get('/admin/:type', tools.isLoggedIn, function(req, res) {
     tools.async(function(results, err, models) {
       var type = req.params.type
       if(type == 'user' || type == 'users')
@@ -37,7 +36,7 @@ module.exports = function(app) {
     }, req, res)
   })
 
-  app.get('/admin/:type/new', function(req, res) {
+  app.get('/admin/:type/new', tools.isLoggedIn, function(req, res) {
     tools.async(function(results, err, models) {
       var type = req.params.type
       if(type == 'user' || type == 'users')
@@ -55,7 +54,7 @@ module.exports = function(app) {
     }, req, res)
   })
 
-  app.post('/admin/:type/create', function(req, res) {
+  app.post('/admin/:type/create', tools.isLoggedIn, function(req, res) {
     var data = req.body
     var type = tools.singularize(req.params.type)
     var errors
@@ -93,7 +92,7 @@ module.exports = function(app) {
     })
   })
 
-  app.get('/admin/:type/edit/:slug', function(req, res) {
+  app.get('/admin/:type/edit/:slug', tools.isLoggedIn, function(req, res) {
     tools.async(function(results, err, models) {
       var type = req.params.type
       var slug = req.params.slug
@@ -116,14 +115,13 @@ module.exports = function(app) {
           }
           if(tools.singularize(type) == 'building')
             data['eras'] = tools.eras
-          console.log(data)
           res.render('admin/edit.pug', data)
         })
       }
     })
   })
 
-  app.post('/admin/:type/update/:id', function(req, res) {
+  app.post('/admin/:type/update/:id', tools.isLoggedIn, function(req, res) {
     var data = req.body
     var type = req.params.type
     var id = req.params.id
@@ -157,7 +155,7 @@ module.exports = function(app) {
     })
   })
 
-  app.get('/admin/:type/remove/:id', function(req, res) {
+  app.get('/admin/:type/remove/:id', tools.isLoggedIn, function(req, res) {
     var type = req.params.type
     var id = req.params.id
     var model = tools.getModel(type)
@@ -168,7 +166,7 @@ module.exports = function(app) {
     })
   })
 
-  app.get('/admin/:type/quick-create', function(req, res) {
+  app.get('/admin/:type/quick-create', tools.isLoggedIn, function(req, res) {
     var type = req.params.type
     if(!type)
       return
@@ -177,7 +175,7 @@ module.exports = function(app) {
     })
   })
 
-  app.post('/admin/:type/quick-create', function(req, res) {
+  app.post('/admin/:type/quick-create', tools.isLoggedIn, function(req, res) {
     var data = req.body
     var type = req.params.type
     var errors
