@@ -177,15 +177,17 @@ module.exports = function(app) {
 
   app.post('/admin/:type/quick-create', tools.isLoggedIn, function(req, res) {
     var data = req.body
-    var type = req.params.type
+    var type = tools.singularize(req.params.type)
     var errors
-    console.log(type)
     switch(type) {
       case 'era':
         var object = new Era(data)
         break
       case 'neighborhood':
         var object = new Neighborhood(data)
+        break
+      case 'tour':
+        var object = new Tour(data)
         break
       default:
         return

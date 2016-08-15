@@ -35,6 +35,9 @@ var buildingSchema = mongoose.Schema({
 	neighborhood: {
 		type: String
 	},
+	tour: {
+		type: Mixed
+	},
 	originalUse: {
 		type: String
 	},
