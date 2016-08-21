@@ -16,8 +16,12 @@
 .row
 	+checkboxes('tour', 'Tour(s)', true, true)
 .row
-	+checkboxes('neighborhood', 'Neighborhood', false, true)
+	+checkboxes('neighborhood', 'Neighborhood', true, true)
 .row
 	+input('use', 'Use', 'text', (object ? object.use : ''))
 .row
 	+input('originalUse', 'Original Use', 'text', (object ? object.originalUse : ''))
+.row
+	+textarea('research', 'Research', (object ? object.research : ''))
+.row
+	+textarea('citations', 'Citations', (object ? object.citations : ''))

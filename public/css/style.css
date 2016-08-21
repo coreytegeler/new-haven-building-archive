@@ -5,6 +5,7 @@ aside {
   top: 0;
   left: 0;
   z-index: 2000;
+  line-height: 1.5em;
   clear: both;
   background: #fffed3; }
   aside header {
@@ -68,45 +69,47 @@ aside {
     margin: 0;
     clear: both; }
   aside .group {
-    display: table;
-    padding: 0 0 1em 0; }
-  aside ul {
     width: 100%;
-    padding: 0 0 1em 0;
+    display: table;
+    margin: 0 0 1em 0; }
+  aside ul.nested {
+    width: 100%;
     margin: 0;
     float: left;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
-    aside ul li {
-      width: 100%;
+    aside ul.nested li {
+      line-height: 1.1em;
       padding: 0.1em 0;
-      display: block; }
-      aside ul li.add {
+      display: table; }
+      aside ul.nested li.add {
         opacity: 0.25; }
-      aside ul li.selected a {
+      aside ul.nested li.selected a {
         color: #0724fb; }
-      aside ul li a {
+      aside ul.nested li a {
         font-size: 1.5em;
+        line-height: 1.1em;
         color: black;
         text-decoration: none; }
-      aside ul li .title {
+      aside ul.nested li .title {
         font-size: 1.5em;
+        line-height: 1.1em;
         padding-left: 1.4em;
         display: table;
         background-image: url(/img/arrows.svg);
         background-size: 1.2em auto;
         background-repeat: no-repeat;
         background-position: 0 -1.2em; }
-        aside ul li .title.toggled {
+        aside ul.nested li .title.toggled {
           background-position: 0 -2.4em; }
-        aside ul li .title:hover {
+        aside ul.nested li .title:hover {
           cursor: pointer; }
-      aside ul li ul {
+      aside ul.nested li ul {
         display: none;
-        padding: 0 0 0 2.4em; }
-        aside ul li ul.open {
+        padding: 0.1em 0 0.1em 3.6em; }
+        aside ul.nested li ul.open {
           display: block; }
   .full aside {
     background: transparent;
@@ -313,6 +316,9 @@ h1 {
   padding: 0 0 20px 0;
   margin: 0; }
 
+h1, h2, h3, h4 {
+  margin: 0; }
+
 ul {
   list-style: none;
   padding: 0;
@@ -352,8 +358,8 @@ main {
 aside section .gMapWrap, aside section .streetViewWrap {
   width: 100%;
   height: 20em;
-  margin: 1em 0;
-  position: relative; }
+  position: relative;
+  padding: 0; }
   aside section .gMapWrap .gMap, aside section .gMapWrap .streetView, aside section .streetViewWrap .gMap, aside section .streetViewWrap .streetView {
     width: 100%;
     height: 100%;
@@ -367,6 +373,27 @@ aside section .gMapWrap, aside section .streetViewWrap {
     pointer-events: all; }
   aside section .gMapWrap.show .loader, aside section .streetViewWrap.show .loader {
     opacity: 0; }
+aside section .paragraphs {
+  white-space: pre-line; }
+aside section .tour h4 {
+  margin-bottom: 0.5em; }
+  aside section .tour h4 a {
+    border-bottom: black 2px dashed; }
+aside section .tour .buildings .building {
+  width: 100%;
+  display: table;
+  margin-bottom: 1em; }
+  aside section .tour .buildings .building .image {
+    width: 30%;
+    height: 140px;
+    margin-right: 2%;
+    background: rgba(255, 0, 0, 0.3);
+    float: left; }
+  aside section .tour .buildings .building .meta {
+    width: 68%;
+    float: left;
+    font-size: inherit;
+    line-height: 1.2em; }
 
 .loader {
   width: 100%;
@@ -393,20 +420,20 @@ aside section .gMapWrap, aside section .streetViewWrap {
     z-index: 9;
     display: block; }
 
-.buildings .building {
+.buildings.map .building {
   padding: 2em;
   display: table;
   float: left;
   background: transparent !important; }
-  .buildings .building a {
+  .buildings.map .building a {
     display: table;
     font-size: 0.8em; }
-  .buildings .building .image {
+  .buildings.map .building .image {
     margin-bottom: .5em;
     display: block;
     background: rgba(255, 0, 0, 0.3);
     border: 1px solid transparent; }
-  .buildings .building.selected .image {
+  .buildings.map .building.selected .image {
     border-color: black;
     background: transparent; }
 

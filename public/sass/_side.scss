@@ -5,6 +5,7 @@ aside {
 	top: 0;
 	left: 0;
 	z-index: 2000;
+  line-height: 1.5em;
 	clear: both;
 	background: $yellow;
 	header {
@@ -89,19 +90,19 @@ aside {
 		clear: both;
 	}
 	.group {
-		display: table;
-		padding: 0 0 1em 0;
-	}
-	ul {
 		width: 100%;
-		padding: 0 0 1em 0;
+		display: table;
+		margin: 0 0 1em 0;
+	}
+	ul.nested {
+		width: 100%;
 		margin: 0;
 		float: left;
 		@include noSelect;
 		li {
-			width: 100%;
+			line-height: 1.1em;
 			padding: 0.1em 0;
-			display: block;
+			display: table;
 			&.add {
 				opacity: 0.25;
 			}
@@ -110,12 +111,14 @@ aside {
 			}
 			a {
 				font-size: $xlargeFont;
+				line-height: 1.1em;
 				color: black;
 				text-decoration: none;
 			}
 			$arrowSize: 1.2em;
 			.title {
 				font-size: $xlargeFont;
+				line-height: 1.1em;
 				padding-left: $arrowSize + 0.2em;
 				display: table;
 				background-image: url(/img/arrows.svg);
@@ -131,7 +134,7 @@ aside {
 			}
 			ul {
 				display: none;
-				padding: 0 0 0 ($arrowSize*2);
+				padding: 0.1em 0 0.1em ($arrowSize*3);
 				&.open {
 					display: block;
 				}

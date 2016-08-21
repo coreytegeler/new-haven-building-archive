@@ -14,13 +14,12 @@ module.exports = function(app) {
       var slug = req.params.slug
       var type = req.params.type
       var data = {}
-      console.log(results)
       res.render('index.pug', {
         errors: err,
         models: {
           buildings: results[0],
-          tours: results[1],
-          neighborhoods: results[2],
+          neighborhoods: results[1],
+          tours: results[2],
           eras: results[3]
         },
         user: req.user,
@@ -37,13 +36,12 @@ module.exports = function(app) {
   app.get('/*', function(req, res) {
     var func = function(results, err, models) {
       var data = {}
-      console.log(results)
       res.render('index.pug', {
         errors: err,
         models: {
           buildings: results[0],
-          tours: results[1],
-          neighborhoods: results[2],
+          neighborhoods: results[1],
+          tours: results[2],
           eras: results[3]
         },
         user: req.user

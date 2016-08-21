@@ -12,12 +12,11 @@ getData = () ->
 	$('.populate').each (i, container) ->
 		createQuickAddForms(container)
 		model = $(container).data('model')
-		checked = $(container).data('checked')
 		if(model=='parentLocation')
 			model='location'
 		type = $(container).data('type')
 		$.ajax
-			url: '/api/'+model+'/all/json'
+			url: '/api/?type='+model+'&slug=all&format=json'
 			error:  (jqXHR, status, error) ->
 				console.log jqXHR, status, error
 				return
@@ -27,21 +26,27 @@ getData = () ->
 				switch type
 					when 'checkboxes'
 						$(objects).each (i, object) ->
-							addCheckbox(container, object, checked)
+							addCheckbox(container, object)
 				$(container).addClass('loaded')
 				return
 		return
 	return
 
-addCheckbox = (container, object, checked) ->
+addCheckbox = (container, object) ->
 	$clone = $(container).find('.sample').clone().removeClass('sample')
 	$label = $clone.find('label')
 	$input = $clone.find('input')
-	$input.val(object.slug).attr('id', object.slug+'Checkbox')
+	value = object._id
+	
+	$input.attr('value', value).attr('id', object.slug+'Checkbox')
 	$label.text(object.name).attr('for', object.slug+'Checkbox')
+
+	model = $(container).data('model')
+	checked = $(container).data('checked')
 	if checked
-		if object.slug == checked || checked.indexOf(object.slug) > -1
+		if(value == checked || checked.indexOf(value) > -1)
 			$input.attr('checked', true)
+
 	$clone
 		.attr('data-slug', object.slug)
 		.appendTo(container)

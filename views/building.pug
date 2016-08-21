@@ -1,28 +1,39 @@
-.group.header
-	h1.name= building.name
-	// h2.address= building.address
-.group.gMapWrap
-	.gMap
-	.loader
-//- .group.streetViewWrap
-//- 	.streetView
-//- 	.loader
-.group.meta
-	h3.style
-		| Style:
-		span= building.style
-	h3.dateConstructed
-		| Constructed:
-		span= building.dateConstructed
-	h3.architect
-		| Architect:
-		span= building.architect
-	h3.architect
-		| Use:
-		span= building.use
-	if(building.researchBy)
-		h3.research
-			| Researched by:
-			span= building.researchBy+(building.researchYear ? ', '+building.researchYear : '')
-
-.description= building.description
+-var building = object
+.buildingWrap(data-tour=building.tour, data-address=building.address)
+	.group.header
+		h1.name= building.name
+		//- h2.address= building.address
+	.group.gMapWrap
+		.gMap
+		.loader
+	//- .group.streetViewWrap
+	//- 	.streetView
+	//- 	.loader
+	.group.meta
+		ul
+			if(style)
+				li.style
+					span.label= 'Style: '
+					span.value= building.style
+			if(building.dateConstructed)	
+				li.dateConstructed
+					span.label= 'Constructed: '
+					span.value= building.dateConstructed
+			if(building.architect)	
+				li.architect
+					span.label= 'Architect: '
+					span.value= building.architect
+			if(building.use)	
+				li.use
+					span.label= 'Use: '
+					span.value= building.use
+			if(building.researchBy)
+				li.research
+					span.label= 'Researched by: '
+					span.value= building.researchBy+(building.researchYear ? ', '+building.researchYear : '')
+			if(building.neighborhood)	
+				li.neighborhood
+					span.label= 'Neighborhood: '
+					span.value= building.neighborhood
+	.group.paragraphs #{building.research}
+	.group.tour

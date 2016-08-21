@@ -15,16 +15,15 @@
 
   getData = function() {
     $('.populate').each(function(i, container) {
-      var checked, model, type;
+      var model, type;
       createQuickAddForms(container);
       model = $(container).data('model');
-      checked = $(container).data('checked');
       if (model === 'parentLocation') {
         model = 'location';
       }
       type = $(container).data('type');
       $.ajax({
-        url: '/api/' + model + '/all/json',
+        url: '/api/?type=' + model + '&slug=all&format=json',
         error: function(jqXHR, status, error) {
           console.log(jqXHR, status, error);
         },
@@ -35,7 +34,7 @@
           switch (type) {
             case 'checkboxes':
               $(objects).each(function(i, object) {
-                return addCheckbox(container, object, checked);
+                return addCheckbox(container, object);
               });
           }
           $(container).addClass('loaded');
@@ -44,15 +43,18 @@
     });
   };
 
-  addCheckbox = function(container, object, checked) {
-    var $clone, $input, $label;
+  addCheckbox = function(container, object) {
+    var $clone, $input, $label, checked, model, value;
     $clone = $(container).find('.sample').clone().removeClass('sample');
     $label = $clone.find('label');
     $input = $clone.find('input');
-    $input.val(object.slug).attr('id', object.slug + 'Checkbox');
+    value = object._id;
+    $input.attr('value', value).attr('id', object.slug + 'Checkbox');
     $label.text(object.name).attr('for', object.slug + 'Checkbox');
+    model = $(container).data('model');
+    checked = $(container).data('checked');
     if (checked) {
-      if (object.slug === checked || checked.indexOf(object.slug) > -1) {
+      if (value === checked || checked.indexOf(value) > -1) {
         $input.attr('checked', true);
       }
     }

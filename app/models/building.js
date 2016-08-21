@@ -44,7 +44,13 @@ var buildingSchema = mongoose.Schema({
 	use: {
 		type: String
 	},
-	type: String
+	research: {
+		type: String
+	},
+	citations: {
+		type: String
+	},
+	type: String,
 }, { 
 	timestamps: true
 })

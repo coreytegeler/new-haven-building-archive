@@ -96,7 +96,7 @@ $ ->
 
 	clickBuilding = () ->
 		event.preventDefault()
-		self = event.target
+		self = this
 		if($buildingsMap.is('.dragging'))
 			return
 		parent = $(self).parents('.building')[0]
@@ -111,30 +111,55 @@ $ ->
 			return
 		$('.building.selected').removeClass('selected')
 		$building.addClass('selected')
-		getContent(slug, 'building', $singleSect)
+		getContent(slug, 'building', 'html')
 		if(url)
 			window.history.pushState('', document.title, url);
+		openSide()
 
-	getContent = (slug, type) ->
+	getContent = (slug, type, format, filter) ->
 		$singleSect.addClass('show loading')
+		url = '/api/?type='+type+'&slug='+slug+'&format='+format
+		if(filter)
+			url += '&filter='+filter
 		$.ajax
-			url: '/api/'+type+'/'+slug+'/html'
+			url: url,
 			error:  (jqXHR, status, error) ->
 				console.log jqXHR, status, error
 				return
 			success: (response, status, jqXHR) ->
-				$('section.show').removeClass('show')
-				$singleSect
-					.html(response)
-					.addClass('show')
-					.removeClass('loading')
-				if($(response).find('#gMapWrap'))
-					panelMapSetUp($singleSect)
+				if(type=='building'&&format=='html'&&filter=='tour')
+					$singleSect.find('.group.tour').html(response)
+				else if(type=='building'&&format=='html')
+					updatePanelSection(response, slug)
 		return
 
+	updatePanelSection = (content, slug) ->
+		$('section.show').removeClass('show')
+		$singleSect
+			.html(content)
+			.addClass('show')
+			.removeClass('loading')
+			.attr('data-slug', slug)
+		if($(content).find('#gMapWrap'))
+			panelMapSetUp($singleSect)
+		tours = $(content).attr('data-tour')
+		if(tours)
+			addTourList(tours)
+	addTourList = (tours) ->	
+		if(tours.includes('['))
+			tours = JSON.parse(tours)
+			$(tours).each (i, tour) ->
+				console.log(tour)
+				getContent(tour, 'building', 'html', 'tour')
+		else
+			tour = tours
+			console.log(tour)
+			getContent(tour, 'building', 'html', 'tour')
+
 	panelMapSetUp = (container) ->
-		address = $(container).find('.address').text() + ', New Haven, CT 06510'
+		address = $(container).find('.buildingWrap').data('address') + ', New Haven, CT 06510'
 		geocoder = new google.maps.Geocoder()
+		console.log(address)
 		geocoder.geocode {'address': address}, (results, status) ->
 			if(status == 'OK')
 				coords = results[0].geometry.location
@@ -183,7 +208,6 @@ $ ->
 
 	closeSide = () ->
 		matrix = $buildingsMap.css('transform')
-		console.log(matrix)
 		matrixParse = matrix.split('(')[1].split(')')[0].split(',')
 		a = parseInt(matrixParse[0])
 		b = parseInt(matrixParse[1])
@@ -193,12 +217,9 @@ $ ->
 		y = parseInt(matrixParse[5])
 		sideWidth = parseInt($side.innerWidth())
 		newX = x+sideWidth
-		console.log(newX)
 		newMatrix = [a,b,c,d,newX,y].join(',')
-		console.log(newMatrix)
 		$buildingsMap.css({transform: 'matrix('+newMatrix+')'})
 		matrix = $buildingsMap.css('transform')
-		console.log(matrix)
 		$body.addClass('full')
 		$main.attr('style', '')
 		resizeMap()
