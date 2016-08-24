@@ -2,12 +2,18 @@ if(tour)
 	h1= tour.name
 	.group.brief= tour.brief
 	ul.buildings.group
+		-var i = 0
 		for building in buildings
-			li.building(data-slug=building.slug)
-				.image
-				.meta
-					.name= building.name
-					.address= building.address
-					.style= building.style
-					.era= building.era
-					.researchBy= 'Contributed by ' + building.researchBy
+			-i++
+			li.building(data-slug=building.slug, data-id=building.id)
+				a(href='/building/'+building.slug)
+					.index
+						.circle= i
+					.image
+						.img
+					.meta
+						.name= building.name
+						.address= building.address
+						.style= building.style
+						.era= building.era
+						.researchBy= 'Contributed by ' + building.researchBy

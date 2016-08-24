@@ -4,6 +4,7 @@ $ ->
 	$side = $('aside')
 	$buildingsWrap = $('.mapWrap.buildings')
 	$buildingsMap = $('.map.buildings')
+	$buildingTiles = $buildingsMap.find('.building')
 	$buildings = $('.building')
 	$infoSect = $('section#info')
 	$indexSect = $('section#index')
@@ -21,15 +22,17 @@ $ ->
 		$body.on 'mouseenter', '.building a', hoverBuilding
 		$body.on 'mouseleave', '.building a', unhoverBuilding
 		$body.on 'click', '.building a', clickBuilding
-		$body.on 'click', '#filter a', clickFilter
+		$body.on 'click', 'a.filter', clickFilter
 		$body.on 'click', 'aside .tab', switchSection
 		$body.on 'click', '#closedHeader', openSide
 
 		if(loadedSlug && loadedType)
 			if(loadedType == 'building')
-				selectBuilding(loadedSlug)
-			if(loadedType == 'tour')
-				filter(loadedSlug, loadedType)
+				selectBuilding('slug', loadedSlug)
+			else if(loadedType == 'tour')
+				id = $('#filter .tour[data-slug="'+loadedSlug+'"]').data('id')
+				getContent(id, loadedType, 'html')
+				filter(id, loadedType)
 		else
 			$infoSect.addClass('show')
 
@@ -46,7 +49,7 @@ $ ->
 	makeDraggable = () ->
 		Draggable.create $buildingsMap, {
 			type: 'x,y',
-			edgeResistance: 0.9,
+			edgeResistance: 0.95,
 			throwProps: true,
 			bounds: $buildingsWrap
 		}
@@ -58,10 +61,11 @@ $ ->
 
 	resizeMap = () -> 
 		$window = $(window)
-		length = $buildings.length
+		length = $buildingTiles.filter(':not(.hidden)').length
+		console.log(length);
 		smaller = Math.floor(Math.sqrt(length))
 		larger = Math.round(Math.sqrt(length))
-		edge = $buildings.eq(0).innerWidth()
+		edge = $buildingTiles.eq(0).innerWidth()
 		mapWidth = larger * edge
 		mapHeight = smaller * edge
 		$buildingsMap.css({
@@ -104,38 +108,45 @@ $ ->
 		if($buildingsMap.is('.dragging'))
 			return
 		parent = $(self).parents('.building')[0]
-		slug = parent.dataset.slug
+		id = parent.dataset.id
 		url = self.href
-		selectBuilding(slug, url)
+		selectBuilding('id', id, url)
 
-	selectBuilding = (slug, url) ->
-		$building = $('.building[data-slug="'+slug+'"]')
+	selectBuilding = (attr, val, url) ->
+		$building = $('.building[data-'+attr+'='+val+']')
 		if(!$building)
 			return
+		id = $building.attr('data-id')
 		$('.building.selected').removeClass('selected')
 		$building.addClass('selected')
-		getContent(slug, 'building', 'html')
+		getContent(id, 'building', 'html')
 		if(url)
 			window.history.pushState('', document.title, url);
 		openSide()
 
 	clickFilter = () ->
 		event.preventDefault()
-		slug = $(this).parent().attr('data-slug')
-		type = $(this).parent().attr('data-type')
+		id = this.dataset.id
+		type = this.dataset.type
 		url = this.href
-		filter(slug, type, url)
-
-	filter = (slug, type, url) ->
-		getContent(slug, type, 'html')
+		getContent(id, type, 'html')
 		if(url)
 			window.history.pushState('', document.title, url);
-		openSide()
-		return
+		filter(id, type)
 
-	getContent = (slug, type, format, filter) ->
+	filter = (id, type) ->
+		$('.map.buildings .building').each (i, building) ->
+			attr = 'data-'+type
+			data = $(building).attr(attr)
+			if(data == id)
+				$(building).removeClass('hidden')
+			else
+				$(building).addClass('hidden')
+		resizeMap()
+
+	getContent = (id, type, format, filter) ->
 		$singleSect.addClass('show loading')
-		url = '/api/'+type+'/?slug='+slug+'&format='+format
+		url = '/api/'+type+'/?id='+id+'&format='+format
 		if(filter)
 			url += '&filter='+filter
 		$.ajax
@@ -147,39 +158,26 @@ $ ->
 				if(type=='building'&&format=='html'&&filter=='tour')
 					$singleSect.find('.group.tour').html(response)
 				else if(type=='building'&&format=='html')
-					updatePanelSection(response, slug)
+					updateSingleSect(response, id)
 				else if(type=='tour'&&format=='html')
-					updatePanelSection(response, slug)
+					updateSingleSect(response, id)
 		return
 
-	updatePanelSection = (content, slug) ->
+	updateSingleSect = (content, id) ->
 		$('section.show').removeClass('show')
+		$singleSect.parents('.inner').scrollTop(0)
 		$singleSect
 			.html(content)
 			.addClass('show')
 			.removeClass('loading')
-			.attr('data-slug', slug)
+			.attr('data-id', id)
 		if($(content).find('.gMapWrap').length)
 			panelMapSetUp($singleSect)
-		tours = $(content).attr('data-tour')
-		if(tours)
-			addTourList(tours)
-
-	addTourList = (tours) ->	
-		if(tours.includes('['))
-			tours = JSON.parse(tours)
-			$(tours).each (i, tour) ->
-				console.log(tour)
-				getContent(tour, 'building', 'html', 'tour')
-		else
-			tour = tours
-			console.log(tour)
-			getContent(tour, 'building', 'html', 'tour')
+		openSide()
 
 	panelMapSetUp = (container) ->
 		address = $(container).find('.buildingWrap').data('address') + ', New Haven, CT 06510'
 		geocoder = new google.maps.Geocoder()
-		console.log(address)
 		geocoder.geocode {'address': address}, (results, status) ->
 			if(status == 'OK')
 				coords = results[0].geometry.location

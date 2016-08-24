@@ -1,39 +1,54 @@
--var building = object
-.buildingWrap(data-tour=building.tour, data-address=building.address)
+.buildingWrap(data-tour=object.tour, data-address=object.address)
 	.group.header
-		h1.name= building.name
-		//- h2.address= building.address
+		h1.name= object.name
 	.group.gMapWrap
 		.gMap
 		.loader
-	//- .group.streetViewWrap
-	//- 	.streetView
-	//- 	.loader
 	.group.meta
 		ul
 			if(style)
 				li.style
 					span.label= 'Style: '
-					span.value= building.style
-			if(building.dateConstructed)	
+					span.value= object.style
+			if(object.dateConstructed)	
 				li.dateConstructed
 					span.label= 'Constructed: '
-					span.value= building.dateConstructed
-			if(building.architect)	
+					span.value= object.dateConstructed
+			if(object.architect)	
 				li.architect
 					span.label= 'Architect: '
-					span.value= building.architect
-			if(building.use)	
+					span.value= object.architect
+			if(object.use)	
 				li.use
 					span.label= 'Use: '
-					span.value= building.use
-			if(building.researchBy)
+					span.value= object.use
+			if(object.researchBy)
 				li.research
 					span.label= 'Researched by: '
-					span.value= building.researchBy+(building.researchYear ? ', '+building.researchYear : '')
-			if(building.neighborhood)	
+					span.value= object.researchBy+(object.researchYear ? ', '+object.researchYear : '')
+			if(object.neighborhood)	
 				li.neighborhood
 					span.label= 'Neighborhood: '
-					span.value= building.neighborhood
-	.group.paragraphs #{building.research}
-	.group.tour
+					span.value= object.neighborhood
+	.group.paragraphs #{object.research}
+	if(tour)
+		.group.tour
+			h4
+				span= 'Other Buildings on '
+				a.filter.tour(href='/tour/'+tour.slug, data-slug=tour.slug, data-id=tour.id, data-type='tour')= tour.name+' Tour'
+			ul.buildings
+				-var i = 0
+				for building in buildings
+					-i++
+					li.building(data-slug=building.slug, data-id=building.id)
+						a(href='/building/'+building.slug)
+							.index
+								.circle= i
+							.image
+								.img
+							.meta
+								.name= building.name
+								.address= building.address
+								.style= building.style
+								.era= building.era
+								.researchBy= 'Contributed by ' + building.researchBy

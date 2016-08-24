@@ -23,8 +23,8 @@ aside
 								.title(data-slug=name)= uppercase(name)
 								ul(class=name)
 									for item in model
-										li.filter(class=item.type, data-slug=item.slug, data-type=item.type)
-											a(href='/'+item.type+'/'+item.slug) #{item.name}
+										li(class=item.type)
+											a.filter(href='/'+item.type+'/'+item.slug, data-slug=item.slug, data-id=item.id, data-type=item.type) #{item.name}
 				li(class='eras')
 					.title(data-slug='eras')= 'Eras'
 					ul(class='eras')

@@ -361,43 +361,55 @@ main {
 main {
   position: relative; }
 
-aside section .gMapWrap, aside section .streetViewWrap {
+aside section#single .gMapWrap, aside section#single .streetViewWrap {
   width: 100%;
   height: 20em;
   position: relative;
   padding: 0; }
-  aside section .gMapWrap .gMap, aside section .gMapWrap .streetView, aside section .streetViewWrap .gMap, aside section .streetViewWrap .streetView {
+  aside section#single .gMapWrap .gMap, aside section#single .gMapWrap .streetView, aside section#single .streetViewWrap .gMap, aside section#single .streetViewWrap .streetView {
     width: 100%;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
     pointer-events: none; }
-  aside section .gMapWrap .loader, aside section .streetViewWrap .loader {
+  aside section#single .gMapWrap .loader, aside section#single .streetViewWrap .loader {
     background: #f0f0f0; }
-  aside section .gMapWrap.show .gMap, aside section .gMapWrap.show .streetView, aside section .streetViewWrap.show .gMap, aside section .streetViewWrap.show .streetView {
+  aside section#single .gMapWrap.show .gMap, aside section#single .gMapWrap.show .streetView, aside section#single .streetViewWrap.show .gMap, aside section#single .streetViewWrap.show .streetView {
     pointer-events: all; }
-  aside section .gMapWrap.show .loader, aside section .streetViewWrap.show .loader {
+  aside section#single .gMapWrap.show .loader, aside section#single .streetViewWrap.show .loader {
     opacity: 0; }
-aside section .paragraphs {
+aside section#single .paragraphs {
   white-space: pre-line; }
-aside section .tour h4 {
+aside section#single .tour h4 {
   margin-bottom: 0.5em; }
-  aside section .tour h4 a {
+  aside section#single .tour h4 a {
     border-bottom: black 2px dashed; }
-aside section .tour .buildings .building {
+aside section#single .buildings .building {
   width: 100%;
-  display: table;
   margin-bottom: 1em; }
-  aside section .tour .buildings .building .image {
-    width: 30%;
+  aside section#single .buildings .building a {
+    display: flex; }
+  aside section#single .buildings .building .index {
+    display: table;
+    margin-right: 0.4em;
+    align-self: center; }
+    aside section#single .buildings .building .index .circle {
+      width: 1.3em;
+      height: 1.3em;
+      border: 1px solid black;
+      border-radius: 50%;
+      display: table-cell;
+      vertical-align: middle;
+      line-height: 1;
+      text-align: center; }
+  aside section#single .buildings .building .image {
     height: 140px;
-    margin-right: 2%;
+    margin-right: 0.4em;
     background: rgba(255, 0, 0, 0.3);
-    float: left; }
-  aside section .tour .buildings .building .meta {
-    width: 68%;
-    float: left;
+    flex-grow: 1; }
+  aside section#single .buildings .building .meta {
+    width: 50%;
     font-size: inherit;
     line-height: 1.2em; }
 
@@ -442,5 +454,7 @@ aside section .tour .buildings .building {
   .buildings.map .building.selected .image {
     border-color: black;
     background: transparent; }
+  .buildings.map .building.hidden {
+    display: none; }
 
 /*# sourceMappingURL=style.css.map */
