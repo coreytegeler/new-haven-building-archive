@@ -26,6 +26,9 @@ var buildingSchema = mongoose.Schema({
 	architect: {
 		type: String
 	},
+	client: {
+		type: String
+	},
 	currentTenant: {
 		type: String
 	},
@@ -50,7 +53,7 @@ var buildingSchema = mongoose.Schema({
 	citations: {
 		type: String
 	},
-	type: String,
+	type: String
 }, { 
 	timestamps: true
 })

@@ -20,9 +20,8 @@ aside {
 			display: flex;
 			align-content: space-between;
 			.tab {
-				display: table;
-				margin: auto;
-				padding-right: 3px;
+				float: left;
+				margin-right: 0.5em;
 				&:hover {
 					cursor: pointer;
 				}
@@ -33,6 +32,7 @@ aside {
 					width: 1.5em;
 					height: 1.5em;
 					padding: 1px;
+					display: table;
 					background-size: contain;
 					background-repeat: no-repeat;
 					background-position: center;
@@ -47,11 +47,14 @@ aside {
 					padding-right: 0;
 				}
 			}
-			form {
-				padding: 0;
-				input {
-					padding: 0.2em;
-					background: $yellow;
+			.search {
+				flex-grow: 1;
+				form {
+					padding: 0;
+					input {
+						padding: 0.2em;
+						background: $yellow;
+					}
 				}
 			}
 		}
@@ -76,12 +79,18 @@ aside {
 				padding: 0;
 				margin: 0;
 			}
+			h1 {
+				margin-bottom: 0.5em;
+			}
 			h3 {
 				span {
 					&::before {
 						content: ' ';
 					}
 				}
+			}
+			p {
+				margin-top: 0;
 			}
 		}
 	}

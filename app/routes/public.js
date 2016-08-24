@@ -2,7 +2,6 @@ var Async = require('async')
 var User = require('../models/user')
 var Building = require('../models/building')
 var Tour = require('../models/tour')
-var Era = require('../models/era')
 var Neighborhood = require('../models/neighborhood')
 var tools = require('../tools')
 var slugify = require('slug')
@@ -10,7 +9,7 @@ var slugify = require('slug')
 module.exports = function(app) {
 
   app.get('/:type/:slug', function(req, res) {
-    var func = function(results, err, models) {
+    tools.async(function(results, err, models) {
       var slug = req.params.slug
       var type = req.params.type
       var data = {}
@@ -20,8 +19,9 @@ module.exports = function(app) {
           buildings: results[0],
           neighborhoods: results[1],
           tours: results[2],
-          eras: results[3]
+          styles: results[3]
         },
+        eras: tools.eras,
         user: req.user,
         loadedSlug: slug,
         loadedType: {
@@ -29,12 +29,11 @@ module.exports = function(app) {
           p: tools.pluralize(type)
         }
       })
-    }
-    tools.async(func, req, res)
+    }, req, res)
   })
 
   app.get('/*', function(req, res) {
-    var func = function(results, err, models) {
+    tools.async(function(results, err, models) {
       var data = {}
       res.render('index.pug', {
         errors: err,
@@ -42,11 +41,11 @@ module.exports = function(app) {
           buildings: results[0],
           neighborhoods: results[1],
           tours: results[2],
-          eras: results[3]
+          styles: results[3]
         },
+        eras: tools.eras,
         user: req.user
       })
-    }
-    tools.async(func, req, res)
+    }, req, res)
   })
 }

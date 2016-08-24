@@ -21,11 +21,15 @@ $ ->
 		$body.on 'mouseenter', '.building a', hoverBuilding
 		$body.on 'mouseleave', '.building a', unhoverBuilding
 		$body.on 'click', '.building a', clickBuilding
+		$body.on 'click', '#filter a', clickFilter
 		$body.on 'click', 'aside .tab', switchSection
 		$body.on 'click', '#closedHeader', openSide
 
 		if(loadedSlug && loadedType)
-			selectBuilding(loadedSlug, loadedType)
+			if(loadedType == 'building')
+				selectBuilding(loadedSlug)
+			if(loadedType == 'tour')
+				filter(loadedSlug, loadedType)
 		else
 			$infoSect.addClass('show')
 
@@ -101,11 +105,10 @@ $ ->
 			return
 		parent = $(self).parents('.building')[0]
 		slug = parent.dataset.slug
-		type = parent.dataset.type
 		url = self.href
-		selectBuilding(slug, type, url)
+		selectBuilding(slug, url)
 
-	selectBuilding = (slug, type, url) ->
+	selectBuilding = (slug, url) ->
 		$building = $('.building[data-slug="'+slug+'"]')
 		if(!$building)
 			return
@@ -116,9 +119,23 @@ $ ->
 			window.history.pushState('', document.title, url);
 		openSide()
 
+	clickFilter = () ->
+		event.preventDefault()
+		slug = $(this).parent().attr('data-slug')
+		type = $(this).parent().attr('data-type')
+		url = this.href
+		filter(slug, type, url)
+
+	filter = (slug, type, url) ->
+		getContent(slug, type, 'html')
+		if(url)
+			window.history.pushState('', document.title, url);
+		openSide()
+		return
+
 	getContent = (slug, type, format, filter) ->
 		$singleSect.addClass('show loading')
-		url = '/api/?type='+type+'&slug='+slug+'&format='+format
+		url = '/api/'+type+'/?slug='+slug+'&format='+format
 		if(filter)
 			url += '&filter='+filter
 		$.ajax
@@ -131,6 +148,8 @@ $ ->
 					$singleSect.find('.group.tour').html(response)
 				else if(type=='building'&&format=='html')
 					updatePanelSection(response, slug)
+				else if(type=='tour'&&format=='html')
+					updatePanelSection(response, slug)
 		return
 
 	updatePanelSection = (content, slug) ->
@@ -140,11 +159,12 @@ $ ->
 			.addClass('show')
 			.removeClass('loading')
 			.attr('data-slug', slug)
-		if($(content).find('#gMapWrap'))
+		if($(content).find('.gMapWrap').length)
 			panelMapSetUp($singleSect)
 		tours = $(content).attr('data-tour')
 		if(tours)
 			addTourList(tours)
+
 	addTourList = (tours) ->	
 		if(tours.includes('['))
 			tours = JSON.parse(tours)
@@ -173,6 +193,7 @@ $ ->
 		$gMapWrap = $(container).find('.gMapWrap')
 		$gMap = $gMapWrap.find('.gMap')
 		gMapObj = new google.maps.Map $gMap[0], {
+			scrollwheel: false,
 			center: coords,
 			zoom: 16
 		}
@@ -227,5 +248,5 @@ $ ->
 
 	openSide = () ->
 		$body.removeClass('full')
-
+		
 	initPublic()

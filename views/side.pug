@@ -23,8 +23,14 @@ aside
 								.title(data-slug=name)= uppercase(name)
 								ul(class=name)
 									for item in model
-										li.filter(class=name, data-slug=item.slug, data-type=name)
-											a(href='/'+name+'/'+item.slug) #{item.name}
+										li.filter(class=item.type, data-slug=item.slug, data-type=item.type)
+											a(href='/'+item.type+'/'+item.slug) #{item.name}
+				li(class='eras')
+					.title(data-slug='eras')= 'Eras'
+					ul(class='eras')
+						for era in eras
+							li.filter(class=era, data-slug=era, data-type='era')
+								a(href='/era/'+era) #{item.name}
 			//- ul.group.admin
 			//- 	ul.account
 			//- 		if user

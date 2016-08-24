@@ -11,12 +11,14 @@ var tourSchema = mongoose.Schema({
 	brief: {
 		type: String
 	},
-	buildings: Mixed
+	buildings: Mixed,
+	type: String
 }, { 
 	timestamps: true
 });
 
 tourSchema.pre('save', function(next) {
+	this.type = 'tour'
 	tools.preSave(this)
 	next()
 })

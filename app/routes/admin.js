@@ -2,13 +2,12 @@ var Async = require('async')
 var User = require('../models/user')
 var Building = require('../models/building')
 var Tour = require('../models/tour')
-var Era = require('../models/era')
 var Neighborhood = require('../models/neighborhood')
+var Style = require('../models/style')
 var tools = require('../tools')
 var slugify = require('slug')
 
 module.exports = function(app) {
-
   app.get('/admin', tools.isLoggedIn, function(req, res) {
     tools.async(function(results, err, models) {
       var data = {}
@@ -73,6 +72,9 @@ module.exports = function(app) {
         break
       case 'neighborhood':
         var object = new Neighborhood(data)
+        break
+      case 'style':
+        var object = new Style(data)
         break 
     }
     object.save(function(err) {
@@ -134,9 +136,6 @@ module.exports = function(app) {
       var slug = slugify(data.name, {lower: true})
       data.slug = slug
     }
-    if(tools.singularize(type) == 'building') {
-      data.era = tools.getEra(data.dateConstructed)
-    }
     model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {
       if(err) {
         console.log('Failed:')
@@ -183,14 +182,14 @@ module.exports = function(app) {
     var type = tools.singularize(req.params.type)
     var errors
     switch(type) {
-      case 'era':
-        var object = new Era(data)
-        break
       case 'neighborhood':
         var object = new Neighborhood(data)
         break
       case 'tour':
         var object = new Tour(data)
+        break
+      case 'style':
+        var object = new Style(data)
         break
       default:
         return

@@ -1,7 +1,7 @@
 var tools = require('../tools')
 var mongoose = require('mongoose')
 
-var neighborhoodSchema = mongoose.Schema({
+var styleSchema = mongoose.Schema({
 	name: {
 		type: String,
 		required: true
@@ -12,10 +12,10 @@ var neighborhoodSchema = mongoose.Schema({
 	timestamps: true
 });
 
-neighborhoodSchema.pre('save', function(next) {
-	this.type = 'neighborhood'
+styleSchema.pre('save', function(next) {
+	this.type = 'style'
 	tools.preSave(this)
 	next()
 })
 
-module.exports = mongoose.model('Neighborood', neighborhoodSchema)
+module.exports = mongoose.model('Style', styleSchema)

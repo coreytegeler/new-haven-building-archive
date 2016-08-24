@@ -20,9 +20,8 @@ aside {
       display: flex;
       align-content: space-between; }
       aside header .tabs .tab {
-        display: table;
-        margin: auto;
-        padding-right: 3px; }
+        float: left;
+        margin-right: 0.5em; }
         aside header .tabs .tab:hover {
           cursor: pointer; }
         aside header .tabs .tab.glossary, aside header .tabs .tab.index {
@@ -31,6 +30,7 @@ aside {
           width: 1.5em;
           height: 1.5em;
           padding: 1px;
+          display: table;
           background-size: contain;
           background-repeat: no-repeat;
           background-position: center; }
@@ -40,11 +40,13 @@ aside {
             background-image: url(/img/x.svg); }
         aside header .tabs .tab:last-child {
           padding-right: 0; }
-      aside header .tabs form {
-        padding: 0; }
-        aside header .tabs form input {
-          padding: 0.2em;
-          background: #fffed3; }
+      aside header .tabs .search {
+        flex-grow: 1; }
+        aside header .tabs .search form {
+          padding: 0; }
+          aside header .tabs .search form input {
+            padding: 0.2em;
+            background: #fffed3; }
   aside .inner {
     width: calc(100% - 1em*2);
     height: calc(100% - (1em*2 + 2.1em));
@@ -63,8 +65,12 @@ aside {
       aside .inner section h1, aside .inner section h2, aside .inner section h3 {
         padding: 0;
         margin: 0; }
+      aside .inner section h1 {
+        margin-bottom: 0.5em; }
       aside .inner section h3 span::before {
         content: ' '; }
+      aside .inner section p {
+        margin-top: 0; }
   aside h3 {
     margin: 0;
     clear: both; }
@@ -210,7 +216,7 @@ form {
       background: black; }
 
 .checkboxes {
-  height: 9.75em;
+  max-height: 6.5em;
   padding: 0.2em 0.5em; }
   .checkboxes .checkbox label::before {
     width: 0.55em;

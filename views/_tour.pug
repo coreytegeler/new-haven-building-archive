@@ -1,8 +1,10 @@
+-var tour = object
 if(tour)
-	h1= tour.name
-	.group.brief= tour.brief
-	ul.buildings.group
-		for building in buildings
+	h4
+		span= 'Other Buildings on '
+		a(href='')= 'Tour'
+	ul.buildings
+		for building in tour
 			li.building(data-slug=building.slug)
 				.image
 				.meta
