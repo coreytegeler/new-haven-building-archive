@@ -18,7 +18,7 @@ aside
 			ul.group.filters.nested
 				if models
 					each model, name in models
-						if(name != 'buildings' && name != 'terms')
+						if(name != 'buildings' && name != 'glossary')
 							li(class='name')
 								.title(data-slug=name)= uppercase(name)
 								ul(class=name)
