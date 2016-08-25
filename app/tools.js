@@ -47,13 +47,12 @@ var async = function(func, req, res) {
     }
   ],
   function(err, results) { 
-    var glossary = alphaSort(results[3].concat(results[4]))
     var models = {
       'buildings': results[0],
       'neighborhoods': results[1],
       'tours': results[2],
       'styles': results[3],
-      'glossary': glossary
+      'terms': results[4]
     }
     func(results, err, models)
   });
