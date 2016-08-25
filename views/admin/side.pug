@@ -31,15 +31,6 @@ aside
 						for neighborhood in neighborhoods
 							li(class=neighborhood.slug)
 								a(href='/admin/neighborhood/edit/'+neighborhood.slug)= neighborhood.name
-				li.eras
-					.title(data-slug='eras') Eras
-					ul.eras
-						li.add
-							a(href='/admin/era/new')= 'Add new era'
-						-var eras = models['eras']
-						for era in eras
-							li(class=era.slug)
-								a(href='/admin/era/edit/'+era.slug)= era.name
 				li.styles
 					.title(data-slug='styles') Styles
 					ul.eras

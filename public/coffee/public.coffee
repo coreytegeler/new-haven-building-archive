@@ -11,6 +11,7 @@ $ ->
 	$glossarySect = $('section#glossary')
 	$searchSect = $('section#search')
 	$singleSect = $('section#single')
+	filterQuery = {}
 
 	initPublic = () ->
 		$buildingsMap.masonry({
@@ -25,6 +26,13 @@ $ ->
 		$body.on 'click', 'a.filter', clickFilter
 		$body.on 'click', 'aside .tab', switchSection
 		$body.on 'click', '#closedHeader', openSide
+		filterQuery = {
+			'tour': getQuery('tour'),
+			'neighborhood': getQuery('neighborhood'),
+			'era': getQuery('era'),
+			'style': getQuery('style')
+		}
+		filter()
 
 		if(loadedSlug && loadedType)
 			if(loadedType == 'building')
@@ -62,7 +70,6 @@ $ ->
 	resizeMap = () -> 
 		$window = $(window)
 		length = $buildingTiles.filter(':not(.hidden)').length
-		console.log(length);
 		smaller = Math.floor(Math.sqrt(length))
 		larger = Math.round(Math.sqrt(length))
 		edge = $buildingTiles.eq(0).innerWidth()
@@ -129,16 +136,31 @@ $ ->
 		id = this.dataset.id
 		type = this.dataset.type
 		url = this.href
-		getContent(id, type, 'html')
+		$li = $(this).parent()
 		if(url)
 			window.history.pushState('', document.title, url);
-		filter(id, type)
+		if($(this).is('.selected'))
+			$(this).removeClass('selected')
+			filterQuery[type] = ''
+		else
+			$('#filter .'+type+' a.filter').removeClass('selected')
+			$(this).addClass('selected')
+			filterQuery[type] = id
+		filter()
 
 	filter = (id, type) ->
+		console.log(filterQuery)
 		$('.map.buildings .building').each (i, building) ->
-			attr = 'data-'+type
-			data = $(building).attr(attr)
-			if(data == id)
+			show = true
+			for key, value of filterQuery
+				if(value)
+					id = $('#filter a.filter[data-slug="'+value+'"]').data('id')
+					if(id)
+						value = id
+					buildingValue = $(building).data(key)
+					if(buildingValue != value)
+						show = false
+			if(show)
 				$(building).removeClass('hidden')
 			else
 				$(building).addClass('hidden')
@@ -246,5 +268,13 @@ $ ->
 
 	openSide = () ->
 		$body.removeClass('full')
+
+	getQuery = (type) ->
+  	query = window.location.search.substring(1)
+  	strings = query.split('&')
+  	for string in strings
+  		pair = string.split('=')
+			if(pair[0] == type)
+				return pair[1]
 		
 	initPublic()

@@ -92,13 +92,13 @@ aside {
       display: table; }
       aside ul.nested li.add {
         opacity: 0.25; }
-      aside ul.nested li.selected a {
-        color: #0724fb; }
       aside ul.nested li a {
         font-size: 1.5em;
         line-height: 1.1em;
         color: black;
         text-decoration: none; }
+        aside ul.nested li a.selected {
+          font-style: oblique; }
       aside ul.nested li .title {
         font-size: 1.5em;
         line-height: 1.1em;
@@ -392,7 +392,7 @@ aside section#single .buildings .building {
     display: flex; }
   aside section#single .buildings .building .index {
     display: table;
-    margin-right: 0.4em;
+    margin-right: 0.5em;
     align-self: center; }
     aside section#single .buildings .building .index .circle {
       width: 1.3em;
@@ -405,7 +405,7 @@ aside section#single .buildings .building {
       text-align: center; }
   aside section#single .buildings .building .image {
     height: 140px;
-    margin-right: 0.4em;
+    margin-right: 0.5em;
     background: rgba(255, 0, 0, 0.3);
     flex-grow: 1; }
   aside section#single .buildings .building .meta {

@@ -115,14 +115,14 @@ aside {
 			&.add {
 				opacity: 0.25;
 			}
-			&.selected a {
-				color: $blue;
-			}
 			a {
 				font-size: $xlargeFont;
 				line-height: 1.1em;
 				color: black;
 				text-decoration: none;
+				&.selected {
+					font-style: oblique;
+				}
 			}
 			$arrowSize: 1.2em;
 			.title {
