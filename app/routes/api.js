@@ -13,47 +13,19 @@ module.exports = function(app) {
   //   var style = req.query.style
   // })
 
-	app.get('/api/building/*', function(req, res) {
-    var type = 'building'
+	app.get('/api/json/*', function(req, res) {
+    var type = req.query.type
     var slug = req.query.slug
     var id = req.query.id
-    var format = req.query.format
-    var filter = req.query.filter
-    Async.waterfall([
-      function(callback) {
-        Building.findOne(id, function(err, building) {
-          if(err)
-            callback(err)
-          callback(null, building);
-        })
-      },
-      function(building, callback) {
-        Tour.findOne(building.tour, function(err, tour) {
-          if(err)
-            callback(err)
-          callback(null, building, tour);
-        })
-      },
-      function(building, tour, callback) {
-        Building.find({tour: building.tour}, function(err, buildings) {
-          if(err)
-            callback(err)
-          callback(null, building, tour, buildings);
-        })
-      }
-    ], function (err, building, tour, buildings) {
+    console.log(type)
+    var model = tools.getModel(type)
+    var query = {}
+    if(slug)
+      query['slug'] = slug
+    model.find(query, function(err, response) {
       if(err)
         callback(err)
-      data = {
-        'object': building,
-        'tour': tour,
-        'buildings': buildings
-      }
-      if(format == 'json') {
-        return res.json(data)
-      } else if(format == 'html') {
-        return res.render('building.pug', data)
-      }
+      return res.json(response)
     })
   })
 

@@ -15,15 +15,12 @@
 
   getData = function() {
     $('.populate').each(function(i, container) {
-      var model, type;
+      var containerType, modelType;
       createQuickAddForms(container);
-      model = $(container).data('model');
-      if (model === 'parentLocation') {
-        model = 'location';
-      }
-      type = $(container).data('type');
+      modelType = $(container).data('model');
+      containerType = $(container).data('type');
       $.ajax({
-        url: '/api/?type=' + model + '&slug=all&format=json',
+        url: '/api/json/?type=' + modelType,
         error: function(jqXHR, status, error) {
           console.log(jqXHR, status, error);
         },
@@ -31,7 +28,7 @@
           if (!objects) {
             return;
           }
-          switch (type) {
+          switch (containerType) {
             case 'checkboxes':
               $(objects).each(function(i, object) {
                 return addCheckbox(container, object);
