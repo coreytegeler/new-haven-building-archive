@@ -25,12 +25,13 @@ aside
 									for item in model
 										li(class=item.type)
 											a.filter(href='/?'+item.type+'='+item.slug, data-slug=item.slug, data-id=item.id, data-type=item.type) #{item.name}
+
 				li(class='eras')
 					.title(data-slug='eras')= 'Eras'
 					ul(class='eras')
 						for era in eras
 							li(class='era')
-								a.filter(href='/?era='+era, data-slug=era, data-type='era') #{item.name}
+								a.filter(href='/?era='+era, data-slug=era, data-type='era') #{era.name}
 			//- ul.group.admin
 			//- 	ul.account
 			//- 		if user
