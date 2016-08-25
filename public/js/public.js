@@ -194,9 +194,12 @@
     };
     getContent = function(id, type, format, filter) {
       var url;
-      url = '/api/' + type + '/?id=' + id;
-      if (filter) {
-        url += '&filter=' + filter;
+      url = '/api/?type=' + type;
+      if (id) {
+        url += '&id=' + id;
+      }
+      if (format) {
+        url += '&format=' + format;
       }
       $.ajax({
         url: url,
@@ -204,7 +207,6 @@
           console.log(jqXHR, status, error);
         },
         success: function(response, status, jqXHR) {
-          console.log(response);
           if (type === 'building' && format === 'html' && filter === 'tour') {
             return $singleSect.find('.group.tour').html(response);
           } else if (type === 'building' && format === 'html') {

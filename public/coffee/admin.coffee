@@ -14,7 +14,7 @@ getData = () ->
 		modelType = $(container).data('model')
 		containerType = $(container).data('type')
 		$.ajax
-			url: '/api/json/?type='+modelType,
+			url: '/api/?type='+modelType+'&format=json',
 			error:  (jqXHR, status, error) ->
 				console.log jqXHR, status, error
 				return

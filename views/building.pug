@@ -38,17 +38,17 @@
 				a.filter.tour(href='/?tour='+tour.slug, data-slug=tour.slug, data-id=tour.id, data-type='tour')= tour.name+' Tour'
 			ul.buildings
 				-var i = 0
-				for building in buildings
+				for building in tourBuildings
 					-i++
-					li.building(data-slug=building.slug, data-id=building.id)
-						a(href='/building/'+building.slug)
+					li.building(data-slug=object.slug, data-id=object.id)
+						a(href='/building/'+object.slug)
 							.index
 								.circle= i
 							.image
 								.img
 							.meta
-								.name= building.name
-								.address= building.address
-								.style= building.style
-								.era= building.era
-								.researchBy= 'Contributed by ' + building.researchBy
+								.name= object.name
+								.address= object.address
+								.style= object.style
+								.era= object.era
+								.researchBy= 'Contributed by ' + object.researchBy

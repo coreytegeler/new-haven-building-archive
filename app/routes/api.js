@@ -5,28 +5,63 @@ var Building = tools.getModel('building')
 querystring = require('querystring');
 module.exports = function(app) {
 
-	app.get('/api/json/*', function(req, res) {
+	app.get('/api/*', function(req, res) {
     var type = req.query.type
-    var slug = req.query.slug
     var id = req.query.id
-    console.log(type)
+    var slug = req.query.slug
+    var format = req.query.format
     var model = tools.getModel(type)
     var query = {}
-    if(slug)
-      query['slug'] = slug
-    model.find(query, function(err, response) {
-      if(err)
-        callback(err)
-      return res.json(response)
+    if(type == 'tour')
+      getTourSection(slug, id, format, res) 
+    else if(type == 'building')
+      getBuildingSection(slug, id, format, res)  
+    else
+      model.find(query, function(err, response) {
+        if(err)
+          callback(err)
+        return res.json(response)
     })
   })
 
-  app.get('/api/tour/*', function(req, res) {
-    var type = 'tour'
-    var slug = req.query.slug
-    var id = req.query.id
-    var format = req.query.format
-    var filter = req.query.filter
+  var getBuildingSection = function(slug, id, format, res)  {
+    Async.waterfall([
+      function(callback) {
+        Building.findOne({_id:id}, function(err, building) {
+          if(err)
+            callback(err)
+          callback(null, building);
+        })
+      },
+      function(building, callback) {
+        Tour.findOne({_id:building.tour}, function(err, tour) {
+          if(err)
+            callback(err)
+          callback(null, building, tour);
+        })
+      },
+      function(building, tour, callback) {
+        Building.find({tour: tour.id}, function(err, tourBuildings) {
+          if(err)
+            callback(err)
+          callback(null, building, tour, tourBuildings);
+        })
+      },
+    ], function (err, building, tour, tourBuildings) {
+      data = {
+        object: building,
+        tour: tour,
+        tourBuildings: tourBuildings
+      }
+      if(format == 'json') {
+        return res.json(data)
+      } else if(format == 'html') {
+        return res.render('building.pug', data)
+      }
+    })
+  }
+
+  var getTourSection = function(slug, id, format, res)  {
     Async.parallel([
       function(callback) {
         Tour.findOne(id, function(err, tour) {
@@ -53,5 +88,5 @@ module.exports = function(app) {
         return res.render('tour.pug', data)
       }
     })
-  })
+  }
 }
