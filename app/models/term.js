@@ -1,7 +1,7 @@
 var tools = require('../tools')
 var mongoose = require('mongoose')
 
-var styleSchema = mongoose.Schema({
+var termSchema = mongoose.Schema({
 	name: {
 		type: String,
 		required: true
@@ -13,10 +13,10 @@ var styleSchema = mongoose.Schema({
 	timestamps: true
 });
 
-styleSchema.pre('save', function(next) {
-	this.type = 'style'
+termSchema.pre('save', function(next) {
+	this.type = 'term'
 	tools.preSave(this)
 	next()
 })
 
-module.exports = mongoose.model('Style', styleSchema)
+module.exports = mongoose.model('Term', termSchema)

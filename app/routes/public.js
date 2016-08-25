@@ -15,12 +15,7 @@ module.exports = function(app) {
       var data = {}
       res.render('index.pug', {
         errors: err,
-        models: {
-          buildings: results[0],
-          neighborhoods: results[1],
-          tours: results[2],
-          styles: results[3]
-        },
+        models: models,
         eras: tools.eras,
         user: req.user,
         loadedSlug: slug,
@@ -37,12 +32,7 @@ module.exports = function(app) {
       var data = {}
       res.render('index.pug', {
         errors: err,
-        models: {
-          buildings: results[0],
-          neighborhoods: results[1],
-          tours: results[2],
-          styles: results[3]
-        },
+        models: models,
         eras: tools.eras,
         user: req.user
       })

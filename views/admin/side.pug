@@ -40,6 +40,15 @@ aside
 						for style in styles
 							li(class=style.slug)
 								a(href='/admin/style/edit/'+style.slug)= style.name
+				li.terms
+					.title(data-slug='terms') Terms
+					ul.terms
+						li.add
+							a(href='/admin/term/new')= 'Add new term'
+						-var terms = models['terms']
+						for term in terms
+							li(class=term.slug)
+								a(href='/admin/term/edit/'+term.slug)= term.name
 			ul.group.account
 				if(user)
 					li

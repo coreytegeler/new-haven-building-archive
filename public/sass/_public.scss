@@ -76,6 +76,11 @@ aside {
 				}
 			}
 		}
+		&#glossary {
+			.alpha, .term, .name, .definition {
+				margin-bottom: 1em;
+			}
+		}
 	}
 }
 .loader {

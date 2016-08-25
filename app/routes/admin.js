@@ -4,6 +4,7 @@ var Building = require('../models/building')
 var Tour = require('../models/tour')
 var Neighborhood = require('../models/neighborhood')
 var Style = require('../models/style')
+var Term = require('../models/term')
 var tools = require('../tools')
 var slugify = require('slug')
 
@@ -75,6 +76,9 @@ module.exports = function(app) {
         break
       case 'style':
         var object = new Style(data)
+        break 
+      case 'term':
+        var object = new Term(data)
         break 
     }
     object.save(function(err) {

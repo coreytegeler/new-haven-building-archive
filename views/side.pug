@@ -18,7 +18,7 @@ aside
 			ul.group.filters.nested
 				if models
 					each model, name in models
-						if(name != 'buildings')
+						if(name != 'buildings' && name != 'terms')
 							li(class='name')
 								.title(data-slug=name)= uppercase(name)
 								ul(class=name)
@@ -41,6 +41,15 @@ aside
 			//- 			li
 			//- 				a(href='/admin/login/') Login
 		section#glossary
+			-var currentAlpha
+			each term in models['glossary']
+				-var termAlpha = term.name.charAt(0)
+				if(termAlpha != currentAlpha)
+					-currentAlpha = termAlpha
+					.alpha= termAlpha
+				.term
+					.name= term.name
+					.definition= term.definition
 		section#single
 		#closedHeader
 			| New Haven Building Archive

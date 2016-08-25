@@ -4,6 +4,7 @@ var Building = require('./models/building')
 var Neighborhood = require('./models/neighborhood')
 var Tour = require('./models/tour')
 var Style = require('./models/style')
+var Term = require('./models/term')
 var slugify = require('slug')
 var moment = require('moment')
   
@@ -36,14 +37,23 @@ var async = function(func, req, res) {
           callback(err)
         callback(null, data)
       })
+    },
+    function(callback) {
+      Term.find({}, function(err, data) {
+        if(err)
+          callback(err)
+        callback(null, data)
+      })
     }
   ],
   function(err, results) { 
+    var glossary = alphaSort(results[3].concat(results[4]))
     var models = {
       'buildings': results[0],
       'neighborhoods': results[1],
       'tours': results[2],
-      'styles': results[3]
+      'styles': results[3],
+      'glossary': glossary
     }
     func(results, err, models)
   });
@@ -53,6 +63,15 @@ var isLoggedIn = function(req, res, next) {
   // if(req.isAuthenticated())
   return next();
   // res.redirect('/admin/login');
+}
+
+var alphaSort = function(object) {
+  object.sort(function(a, b) {
+    var textA = a.name.toUpperCase();
+    var textB = b.name.toUpperCase();
+    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+  })
+  return object
 }
 
 var singularize = function(string) {
@@ -78,6 +97,8 @@ var getModel = function(type) {
       return Neighborhood
     case 'style':
       return Style
+    case 'term':
+      return Term
   }
 }
 
@@ -89,6 +110,7 @@ var preSave = function(item) {
 }
 exports.slugify = slugify;
 exports.isLoggedIn = isLoggedIn;
+exports.alphaSort = alphaSort;
 exports.singularize = singularize;
 exports.pluralize = pluralize;
 exports.getModel = getModel;

@@ -412,6 +412,8 @@ aside section#single .buildings .building {
     width: 50%;
     font-size: inherit;
     line-height: 1.2em; }
+aside section#glossary .alpha, aside section#glossary .term, aside section#glossary .name, aside section#glossary .definition {
+  margin-bottom: 1em; }
 
 .loader {
   width: 100%;

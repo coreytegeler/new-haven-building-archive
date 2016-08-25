@@ -14,6 +14,10 @@ block body
 				include ../admin/forms/tour.pug
 			when 'neighborhood'
 				include ../admin/forms/neighborhood.pug
+			when 'style'
+				include ../admin/forms/style.pug
+			when 'term'
+				include ../admin/forms/term.pug
 			default
 				- var noForm = true
 				| No form for "#{loadedType.s}"
