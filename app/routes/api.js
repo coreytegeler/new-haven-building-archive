@@ -5,14 +5,6 @@ var Building = tools.getModel('building')
 querystring = require('querystring');
 module.exports = function(app) {
 
-  // app.get('/api/*', function(req, res) {
-  //   var type = 'building'
-  //   var tour = req.query.tour
-  //   var neighborhood = req.query.neighborhood
-  //   var era = req.query.era
-  //   var style = req.query.style
-  // })
-
 	app.get('/api/json/*', function(req, res) {
     var type = req.query.type
     var slug = req.query.slug

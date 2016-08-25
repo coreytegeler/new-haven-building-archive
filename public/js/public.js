@@ -168,7 +168,6 @@
       return filter();
     };
     filter = function(id, type) {
-      console.log(filterQuery);
       $('.map.buildings .building').each(function(i, building) {
         var buildingValue, key, show, value;
         show = true;
@@ -195,8 +194,7 @@
     };
     getContent = function(id, type, format, filter) {
       var url;
-      $singleSect.addClass('show loading');
-      url = '/api/' + type + '/?id=' + id + '&format=' + format;
+      url = '/api/' + type + '/?id=' + id;
       if (filter) {
         url += '&filter=' + filter;
       }
@@ -206,6 +204,7 @@
           console.log(jqXHR, status, error);
         },
         success: function(response, status, jqXHR) {
+          console.log(response);
           if (type === 'building' && format === 'html' && filter === 'tour') {
             return $singleSect.find('.group.tour').html(response);
           } else if (type === 'building' && format === 'html') {

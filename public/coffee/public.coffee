@@ -149,7 +149,6 @@ $ ->
 		filter()
 
 	filter = (id, type) ->
-		console.log(filterQuery)
 		$('.map.buildings .building').each (i, building) ->
 			show = true
 			for key, value of filterQuery
@@ -167,8 +166,7 @@ $ ->
 		resizeMap()
 
 	getContent = (id, type, format, filter) ->
-		$singleSect.addClass('show loading')
-		url = '/api/'+type+'/?id='+id+'&format='+format
+		url = '/api/'+type+'/?id='+id
 		if(filter)
 			url += '&filter='+filter
 		$.ajax
@@ -177,6 +175,7 @@ $ ->
 				console.log jqXHR, status, error
 				return
 			success: (response, status, jqXHR) ->
+				console.log(response)
 				if(type=='building'&&format=='html'&&filter=='tour')
 					$singleSect.find('.group.tour').html(response)
 				else if(type=='building'&&format=='html')
