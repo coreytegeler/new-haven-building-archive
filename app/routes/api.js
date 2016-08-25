@@ -12,9 +12,9 @@ module.exports = function(app) {
     var format = req.query.format
     var model = tools.getModel(type)
     var query = {}
-    if(type == 'tour')
+    if(type == 'tour' && format == 'html')
       getTourSection(slug, id, format, res) 
-    else if(type == 'building')
+    else if(type == 'building' && format == 'html')
       getBuildingSection(slug, id, format, res)  
     else
       model.find(query, function(err, response) {

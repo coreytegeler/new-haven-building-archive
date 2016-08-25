@@ -25,6 +25,7 @@
           console.log(jqXHR, status, error);
         },
         success: function(objects, status, jqXHR) {
+          console.log(objects);
           if (!objects) {
             return;
           }

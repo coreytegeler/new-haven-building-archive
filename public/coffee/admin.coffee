@@ -19,6 +19,7 @@ getData = () ->
 				console.log jqXHR, status, error
 				return
 			success: (objects, status, jqXHR) ->
+				console.log(objects)
 				if(!objects)
 					return
 				switch containerType
