@@ -1,19 +1,19 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-var configVars = require('./config/vars.js');
-var port = process.env.PORT || configVars.port[app.settings.env];
-var mongoose = require('mongoose');
-var passport = require('passport');
+var express       = require('express');
+var app           = express();
+var path          = require('path');
+var configVars    = require('./config/vars.js');
+var port          = configVars.port[app.settings.env];
+var mongoose      = require('mongoose');
+var passport      = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
+var flash         = require('connect-flash');
 
-var morgan       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var session      = require('express-session');
-var sass = require('node-sass');
-var coffeeScript = require('coffee-script');
+var morgan        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+var session       = require('express-session');
+var sass          = require('node-sass');
+var coffeeScript  = require('coffee-script');
 require('coffee-script').register();
 
 // configuration
@@ -53,4 +53,4 @@ require('./app/routes/public.js')(app);
 
 // launch
 app.listen(port);
-console.log('IT\'S GOING DOWN ON PORT ' + port);
+console.log('IT\'S GOING DOWN ON PORT ' + port + ' in ' + app.settings.env + ' mode');
