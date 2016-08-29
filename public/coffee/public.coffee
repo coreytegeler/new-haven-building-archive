@@ -114,8 +114,10 @@ $ ->
 		self = this
 		if($buildingsMap.is('.dragging'))
 			return
-		parent = $(self).parents('.building')[0]
-		id = parent.dataset.id
+		building = $(self).parents('.building')[0]
+		if($(building).is('.selected'))
+			return
+		id = building.dataset.id
 		url = self.href
 		selectBuilding('id', id, url)
 

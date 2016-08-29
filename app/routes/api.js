@@ -28,31 +28,31 @@ module.exports = function(app) {
     Async.waterfall([
       function(callback) {
         Building.findOne({_id:id}, function(err, building) {
-          if(err)
-            callback(err)
           callback(null, building);
         })
       },
       function(building, callback) {
         Tour.findOne({_id:building.tour}, function(err, tour) {
-          if(err)
-            callback(err)
           callback(null, building, tour);
         })
       },
       function(building, tour, callback) {
-        Building.find({tour: tour.id}, function(err, tourBuildings) {
-          if(err)
-            callback(err)
-          callback(null, building, tour, tourBuildings);
-        })
+        if(!tour)
+          callback(null, building, tour, null)
+        else
+          Building.find({tour: tour.id}, function(err, tourBuildings) {
+            callback(null, building, tour, tourBuildings);
+          })
       },
     ], function (err, building, tour, tourBuildings) {
+      if(err)
+        return err
       data = {
         object: building,
         tour: tour,
         tourBuildings: tourBuildings
       }
+      console.log(data)
       if(format == 'json') {
         return res.json(data)
       } else if(format == 'html') {
