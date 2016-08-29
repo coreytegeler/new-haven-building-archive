@@ -1,7 +1,8 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var port = process.env.PORT || 8080;
+var configVars = require('./config/vars.js');
+var port = process.env.PORT || configVars.port[app.settings.env];
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -11,14 +12,12 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-
-var configDB = require('./config/database.js');
 var sass = require('node-sass');
 var coffeeScript = require('coffee-script');
 require('coffee-script').register();
 
 // configuration
-app.set('dbUrl', configDB[app.settings.env]);
+app.set('dbUrl', configVars.db[app.settings.env]);
 mongoose.connect(app.get('dbUrl')); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
