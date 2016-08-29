@@ -28,21 +28,26 @@ module.exports = function(app) {
     Async.waterfall([
       function(callback) {
         Building.findOne({_id:id}, function(err, building) {
-          callback(null, building);
+          callback(null, building)
         })
       },
       function(building, callback) {
         Tour.findOne({_id:building.tour}, function(err, tour) {
-          callback(null, building, tour);
+          callback(null, building, tour)
         })
       },
       function(building, tour, callback) {
         if(!tour)
           callback(null, building, tour, null)
-        else
-          Building.find({tour: tour.id}, function(err, tourBuildings) {
-            callback(null, building, tour, tourBuildings);
-          })
+        Building.find({tour: tour.id}, function(err, tourBuildings) {
+          for(var i = 0; i < tourBuildings.length; i++) {
+            if(tourBuildings[i]._id == id) {
+              tourBuildings.splice(i, 1)
+              break
+            }
+          }
+          callback(null, building, tour, tourBuildings)
+        })
       },
     ], function (err, building, tour, tourBuildings) {
       if(err)
@@ -52,7 +57,6 @@ module.exports = function(app) {
         tour: tour,
         tourBuildings: tourBuildings
       }
-      console.log(data)
       if(format == 'json') {
         return res.json(data)
       } else if(format == 'html') {

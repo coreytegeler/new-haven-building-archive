@@ -40,15 +40,15 @@
 				-var i = 0
 				for building in tourBuildings
 					-i++
-					li.building(data-slug=object.slug, data-id=object.id)
-						a(href='/building/'+object.slug)
+					li.building(data-slug=building.slug, data-id=building.id)
+						a(href='/building/'+building.slug)
 							.index
 								.circle= i
 							.image
 								.img
 							.meta
-								.name= object.name
-								.address= object.address
-								.style= object.style
-								.era= object.era
-								.researchBy= 'Contributed by ' + object.researchBy
+								.name= building.name
+								.address= building.address
+								.style= building.style
+								.era= building.era
+								.researchBy= 'Contributed by ' + building.researchBy
