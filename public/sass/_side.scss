@@ -101,51 +101,51 @@ aside {
 	.group {
 		width: 100%;
 		display: table;
-		margin: 0 0 1em 0;
+		padding: 0 0 1em 0;
 	}
-	ul.nested {
-		width: 100%;
-		margin: 0;
-		float: left;
-		@include noSelect;
-		li {
-			line-height: 1.1em;
-			padding: 0.1em 0;
-			display: table;
-			&.add {
-				opacity: 0.25;
-			}
-			a {
-				font-size: $xlargeFont;
-				line-height: 1.1em;
-				color: black;
-				text-decoration: none;
-				&.selected {
-					font-style: oblique;
-				}
-			}
-			$arrowSize: 1.2em;
-			.title {
-				font-size: $xlargeFont;
-				line-height: 1.1em;
-				padding-left: $arrowSize + 0.2em;
+	#filter {
+		font-size: $xlargeFont;
+		line-height: 1.1em;
+		ul.nested {
+			width: 100%;
+			margin: 0;
+			float: left;
+			@include noSelect;
+			li {
+				padding: 0.1em 0;
 				display: table;
-				background-image: url(/img/arrows.svg);
-				background-size: $arrowSize auto;
-				background-repeat: no-repeat;
-				background-position: 0 -#{$arrowSize};
-				&.toggled {
-					background-position: 0 -#{$arrowSize*2};
+				&.add {
+					opacity: 0.25;
 				}
-				&:hover {
-					cursor: pointer;
+				a {
+					color: black;
+					text-decoration: none;
+					&.selected {
+						font-style: oblique;
+					}
 				}
-			}
-			ul {
-				display: none;
-				padding: 0.1em 0 0.1em ($arrowSize*3);
-				&.open {
-					display: block;
+				$arrowSize: 1.2em;
+				.title {
+					line-height: 1.1em;
+					padding-left: $arrowSize + 0.2em;
+					display: table;
+					background-image: url(/img/arrows.svg);
+					background-size: $arrowSize auto;
+					background-repeat: no-repeat;
+					background-position: 0 -#{$arrowSize};
+					&.toggled {
+						background-position: 0 -#{$arrowSize*2};
+					}
+					&:hover {
+						cursor: pointer;
+					}
+				}
+				ul {
+					display: none;
+					padding: 0.1em 0 0.1em ($arrowSize*2);
+					&.open {
+						display: block;
+					}
 				}
 			}
 		}
@@ -163,6 +163,7 @@ aside {
 	}
 	#closedHeader {
 		font-size: $xlargeFont;
+		line-height: 1.1em;
 		display: none;
 		&:hover {
 			cursor: pointer;

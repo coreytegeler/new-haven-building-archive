@@ -20,6 +20,7 @@ $ ->
 		resizeMap()
 		makeDraggable()
 		$(window).resize resizeMap
+		$(window).on 'popstate', popState
 		$body.on 'mouseenter', '.building a', hoverBuilding
 		$body.on 'mouseleave', '.building a', unhoverBuilding
 		$body.on 'click', '.building a', clickBuilding
@@ -278,5 +279,20 @@ $ ->
   		pair = string.split('=')
 			if(pair[0] == type)
 				return pair[1]
+
+	popState = (e) ->
+		e.preventDefault()
+		state = e.originalEvent.state
+		location = e.originalEvent.currentTarget.location
+		path = location.pathname
+		params = path.split('/')
+		type = params[1]
+		slug = params[2]
+		url = location.href
+		if(!slug)
+			return
+		if (type == 'building')
+			selectBuilding('slug', slug)
+
 		
 	initPublic()

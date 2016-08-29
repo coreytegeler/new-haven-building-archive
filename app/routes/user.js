@@ -61,6 +61,10 @@ module.exports = function(app, passport) {
 			res.render('admin/login', {
 				user: req.user,
 				models: models,
+				loadedType: {
+	        s: 'user',
+	        p: 'users'
+	      },
 				error: req.flash('error')
 			})
 		}, req, res)

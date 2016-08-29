@@ -14,6 +14,7 @@ module.exports = function(app) {
       var data = {}
       res.render('admin/index.pug', {
         errors: err,
+        loadedType: {s: 'home',p: 'home'},
         models: models,
         user: req.user
       })
@@ -28,6 +29,7 @@ module.exports = function(app) {
       else
         var model = tools.getModel(type)
       res.render('admin/model.pug', {
+        errors: err,
         loadedType: {
           s: tools.singularize(type),
           p: tools.pluralize(type)

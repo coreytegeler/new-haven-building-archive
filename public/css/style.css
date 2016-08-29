@@ -77,46 +77,45 @@ aside {
   aside .group {
     width: 100%;
     display: table;
-    margin: 0 0 1em 0; }
-  aside ul.nested {
-    width: 100%;
-    margin: 0;
-    float: left;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none; }
-    aside ul.nested li {
-      line-height: 1.1em;
-      padding: 0.1em 0;
-      display: table; }
-      aside ul.nested li.add {
-        opacity: 0.25; }
-      aside ul.nested li a {
-        font-size: 1.5em;
-        line-height: 1.1em;
-        color: black;
-        text-decoration: none; }
-        aside ul.nested li a.selected {
-          font-style: oblique; }
-      aside ul.nested li .title {
-        font-size: 1.5em;
-        line-height: 1.1em;
-        padding-left: 1.4em;
-        display: table;
-        background-image: url(/img/arrows.svg);
-        background-size: 1.2em auto;
-        background-repeat: no-repeat;
-        background-position: 0 -1.2em; }
-        aside ul.nested li .title.toggled {
-          background-position: 0 -2.4em; }
-        aside ul.nested li .title:hover {
-          cursor: pointer; }
-      aside ul.nested li ul {
-        display: none;
-        padding: 0.1em 0 0.1em 3.6em; }
-        aside ul.nested li ul.open {
-          display: block; }
+    padding: 0 0 1em 0; }
+  aside #filter {
+    font-size: 1.5em;
+    line-height: 1.1em; }
+    aside #filter ul.nested {
+      width: 100%;
+      margin: 0;
+      float: left;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none; }
+      aside #filter ul.nested li {
+        padding: 0.1em 0;
+        display: table; }
+        aside #filter ul.nested li.add {
+          opacity: 0.25; }
+        aside #filter ul.nested li a {
+          color: black;
+          text-decoration: none; }
+          aside #filter ul.nested li a.selected {
+            font-style: oblique; }
+        aside #filter ul.nested li .title {
+          line-height: 1.1em;
+          padding-left: 1.4em;
+          display: table;
+          background-image: url(/img/arrows.svg);
+          background-size: 1.2em auto;
+          background-repeat: no-repeat;
+          background-position: 0 -1.2em; }
+          aside #filter ul.nested li .title.toggled {
+            background-position: 0 -2.4em; }
+          aside #filter ul.nested li .title:hover {
+            cursor: pointer; }
+        aside #filter ul.nested li ul {
+          display: none;
+          padding: 0.1em 0 0.1em 2.4em; }
+          aside #filter ul.nested li ul.open {
+            display: block; }
   .full aside {
     background: transparent;
     pointer-events: none; }
@@ -127,6 +126,7 @@ aside {
       pointer-events: all; }
   aside #closedHeader {
     font-size: 1.5em;
+    line-height: 1.1em;
     display: none; }
     aside #closedHeader:hover {
       cursor: pointer; }
@@ -175,6 +175,8 @@ form {
       float: left; }
       form .row .cell:first-child {
         margin-right: 1em; }
+    form .row.two .cell {
+      width: calc(50% - .5em); }
   form [data-template] {
     display: none; }
   form .button {

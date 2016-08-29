@@ -5,8 +5,8 @@ aside
 		section#index.show
 			ul.group.edit.nested
 				li.buildings
-					.title(data-slug='buildings') Buildings
-					ul.buildings
+					.title(data-slug='buildings' class=(loadedType.p == 'buildings' ? 'toggled' : '')) Buildings
+					ul.buildings(class=(loadedType.p == 'buildings' ? 'open' : ''))
 						li.add
 							a(href='/admin/building/new')= 'Add new building'
 						-var buildings = models['buildings']
@@ -14,8 +14,8 @@ aside
 							li(class=building.slug)
 								a(href='/admin/building/edit/'+building.slug)= building.name
 				li.tours
-					.title(data-slug='tours') Tours
-					ul.tours
+					.title(data-slug='tours' class=(loadedType.p == 'tours' ? 'toggled' : '')) Tours
+					ul.tours(class=(loadedType.p == 'tours' ? 'open' : ''))
 						li.add
 							a(href='/admin/tour/new')= 'Add new tour'
 						-var tours = models['tours']
@@ -23,8 +23,8 @@ aside
 							li(class=tour.slug)
 								a(href='/admin/tour/edit/'+tour.slug)= tour.name
 				li.neighborhoods
-					.title(data-slug='neighborhoods') Neighborhoods
-					ul.neighborhoods
+					.title(data-slug='neighborhoods' class=(loadedType.p == 'neighborhoods' ? 'toggled' : '')) Neighborhoods
+					ul.neighborhoods(class=(loadedType.p == 'neighborhoods' ? 'open' : ''))
 						li.add
 							a(href='/admin/neighborhood/new')= 'Add new neighborhood'
 						-var neighborhoods = models['neighborhoods']
@@ -32,8 +32,8 @@ aside
 							li(class=neighborhood.slug)
 								a(href='/admin/neighborhood/edit/'+neighborhood.slug)= neighborhood.name
 				li.styles
-					.title(data-slug='styles') Styles
-					ul.styles
+					.title(data-slug='styles' class=(loadedType.p == 'styles' ? 'toggled' : '')) Styles
+					ul.styles(class=(loadedType.p == 'styles' ? 'open' : ''))
 						li.add
 							a(href='/admin/style/new')= 'Add new style'
 						-var styles = models['styles']
@@ -41,8 +41,8 @@ aside
 							li(class=style.slug)
 								a(href='/admin/style/edit/'+style.slug)= style.name
 				li.terms
-					.title(data-slug='terms') Terms
-					ul.terms
+					.title(data-slug='terms' class=(loadedType.p == 'terms' ? 'toggled' : '')) Terms
+					ul.terms(class=(loadedType.p == 'terms' ? 'open' : ''))
 						li.add
 							a(href='/admin/term/new')= 'Add new term'
 						-var terms = models['terms']
@@ -52,10 +52,10 @@ aside
 			ul.group.account
 				if(user)
 					li
-						a(href='/admin/profile/') Profile
+						a.title(href='/admin/profile/') Profile
 					li
-						a(href='/admin/logout/') Logout
+						a.title(href='/admin/logout/') Logout
 				else
 					li
-						a(href='/admin/login/') Login
+						a.title(href='/admin/login/') Login
 				

@@ -55,7 +55,9 @@ form {
 			}
 		}
 		&.two {
-
+			.cell {
+				width: calc(50% - .5em)
+			}
 		}
 	}
 	[required] {
