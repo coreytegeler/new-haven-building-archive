@@ -5,7 +5,7 @@ aside {
   top: 0;
   left: 0;
   z-index: 2000;
-  line-height: 1.5em;
+  line-height: 1.2em;
   clear: both;
   background: #fffed3; }
   aside header {
@@ -64,7 +64,8 @@ aside {
         pointer-events: all; }
       aside .inner section h1, aside .inner section h2, aside .inner section h3 {
         padding: 0;
-        margin: 0; }
+        margin: 0;
+        line-height: 1.15em; }
       aside .inner section h1 {
         margin-bottom: 0.5em; }
       aside .inner section h3 span::before {
@@ -77,11 +78,11 @@ aside {
   aside .group {
     width: 100%;
     display: table;
-    padding: 0 0 1em 0; }
-  aside #filter {
+    margin-bottom: 2em; }
+  aside #filter, aside #index {
     font-size: 1.5em;
     line-height: 1.1em; }
-    aside #filter ul.nested {
+    aside #filter ul.nested, aside #index ul.nested {
       width: 100%;
       margin: 0;
       float: left;
@@ -89,17 +90,17 @@ aside {
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none; }
-      aside #filter ul.nested li {
+      aside #filter ul.nested li, aside #index ul.nested li {
         padding: 0.1em 0;
         display: table; }
-        aside #filter ul.nested li.add {
+        aside #filter ul.nested li.add, aside #index ul.nested li.add {
           opacity: 0.25; }
-        aside #filter ul.nested li a {
+        aside #filter ul.nested li a, aside #index ul.nested li a {
           color: black;
           text-decoration: none; }
-          aside #filter ul.nested li a.selected {
+          aside #filter ul.nested li a.selected, aside #index ul.nested li a.selected {
             font-style: oblique; }
-        aside #filter ul.nested li .title {
+        aside #filter ul.nested li .title, aside #index ul.nested li .title {
           line-height: 1.1em;
           padding-left: 1.4em;
           display: table;
@@ -107,14 +108,14 @@ aside {
           background-size: 1.2em auto;
           background-repeat: no-repeat;
           background-position: 0 -1.2em; }
-          aside #filter ul.nested li .title.toggled {
+          aside #filter ul.nested li .title.toggled, aside #index ul.nested li .title.toggled {
             background-position: 0 -2.4em; }
-          aside #filter ul.nested li .title:hover {
+          aside #filter ul.nested li .title:hover, aside #index ul.nested li .title:hover {
             cursor: pointer; }
-        aside #filter ul.nested li ul {
+        aside #filter ul.nested li ul, aside #index ul.nested li ul {
           display: none;
           padding: 0.1em 0 0.1em 2.4em; }
-          aside #filter ul.nested li ul.open {
+          aside #filter ul.nested li ul.open, aside #index ul.nested li ul.open {
             display: block; }
   .full aside {
     background: transparent;
@@ -384,7 +385,7 @@ aside section#single .gMapWrap, aside section#single .streetViewWrap {
 aside section#single .paragraphs {
   white-space: pre-line; }
 aside section#single .tour h4 {
-  margin-bottom: 0.5em; }
+  margin-bottom: 1.5em; }
   aside section#single .tour h4 a {
     border-bottom: black 2px dashed; }
 aside section#single .buildings .building {

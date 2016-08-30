@@ -7,6 +7,9 @@ var Style = require('../models/style')
 var Term = require('../models/term')
 var tools = require('../tools')
 var slugify = require('slug')
+var fs = require('fs')
+var multipart = require('connect-multiparty')
+var multipartMiddleware = multipart()
 
 module.exports = function(app) {
   app.get('/admin', tools.isLoggedIn, function(req, res) {
@@ -132,7 +135,7 @@ module.exports = function(app) {
     })
   })
 
-  app.post('/admin/:type/update/:id', tools.isLoggedIn, function(req, res) {
+  app.post('/admin/:type/update/:id', multipartMiddleware, tools.isLoggedIn, function(req, res) {
     var data = req.body
     var type = req.params.type
     var id = req.params.id
@@ -142,24 +145,35 @@ module.exports = function(app) {
       var slug = slugify(data.name, {lower: true})
       data.slug = slug
     }
-    model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {
-      if(err) {
-        console.log('Failed:')
-        console.log(err)
-        res.render('admin/edit.pug', {
-          errors: err,
-          type: {
-            s: tools.singularize(type),
-            p: tools.pluralize(type)
-          },
-          object: object,
-          action: 'update'
-        })
-      } else {
-        console.log('Updated:')
-        console.log(object)
-        res.redirect('/admin/'+type+'/edit/'+slug)
+    fs.readFile(req.files.image.path, function (err, img) {
+      var imageName = req.files.image.name
+      if(imageName){
+        var newPath = '/uploads/' + imageName;
+        fs.writeFile(newPath, img, function (err) {
+          if(!data.images)
+            data.images = []
+          data.images.push(newPath)
+        });
       }
+      model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {
+        if(err) {
+          console.log('Failed:')
+          console.log(err)
+          res.render('admin/edit.pug', {
+            errors: err,
+            type: {
+              s: tools.singularize(type),
+              p: tools.pluralize(type)
+            },
+            object: object,
+            action: 'update'
+          })
+        } else {
+          console.log('Updated:')
+          console.log(object)
+          res.redirect('/admin/'+type+'/edit/'+slug)
+        }
+      })
     })
   })
 

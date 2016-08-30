@@ -1,4 +1,6 @@
 .row
+	+file('image', 'Thumbnail', '', false)
+.row
 	+input('address', 'Street Address', 'text', (object ? object.address : ''), true)
 .row
 	+input('name', 'Name', 'text', (object ? object.name : ''))

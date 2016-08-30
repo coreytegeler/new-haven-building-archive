@@ -26,16 +26,21 @@
 				li.research
 					span.label= 'Researched by: '
 					span.value= object.researchBy+(object.researchYear ? ', '+object.researchYear : '')
+			if(object.tour)	
+				li.tour
+					span.label= 'Tour: '
+					span.value
+						a.tour(href='/tour/'+tour.slug)= tour.name
 			if(object.neighborhood)	
 				li.neighborhood
 					span.label= 'Neighborhood: '
 					span.value= object.neighborhood
 	.group.paragraphs #{object.research}
-	if(tour)
+	if(tourBuildings.length)
 		.group.tour
 			h4
 				span= 'Other Buildings on '
-				a.filter.tour(href='/?tour='+tour.slug, data-slug=tour.slug, data-id=tour.id, data-type='tour')= tour.name+' Tour'
+				a.tour(href='/tour/'+tour.slug, data-slug=tour.slug, data-id=tour.id, data-type='tour')= tour.name+' Tour'
 			ul.buildings
 				-var i = 0
 				for building in tourBuildings

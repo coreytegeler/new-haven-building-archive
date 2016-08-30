@@ -61,9 +61,9 @@ var async = function(func, req, res) {
 }
 
 var isLoggedIn = function(req, res, next) {
-  if(req.isAuthenticated())
-    return next();
-  res.redirect('/admin/login');
+  // if(req.isAuthenticated())
+  return next();
+  // res.redirect('/admin/login');
 }
 
 var alphaSort = function(object) {

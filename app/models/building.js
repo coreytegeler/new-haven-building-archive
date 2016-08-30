@@ -53,6 +53,9 @@ var buildingSchema = mongoose.Schema({
 	citations: {
 		type: String
 	},
+	images: {
+		type: Mixed
+	},
 	type: String
 }, { 
 	timestamps: true

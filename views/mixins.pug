@@ -3,6 +3,11 @@ mixin input(name, label, type, value, required)
 		label(name=name) #{label}
 	input(name=name, type=type, value=(value ? value : ''), required=(required ? true : false))
 
+mixin file(name, label, value, required)
+	if(label)
+		label(name=name) #{label}
+	input(name=name, type='file', required=(required ? true : false))
+
 mixin textarea(name, label, value)
 	label(name=name) #{label}
 	textarea(name=name, rows=10) #{value ? value : ''}

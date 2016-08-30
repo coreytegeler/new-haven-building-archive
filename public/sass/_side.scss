@@ -5,7 +5,7 @@ aside {
 	top: 0;
 	left: 0;
 	z-index: 2000;
-  line-height: 1.5em;
+  line-height: 1.2em;
 	clear: both;
 	background: $yellow;
 	header {
@@ -78,6 +78,7 @@ aside {
 			h1, h2, h3 {
 				padding: 0;
 				margin: 0;
+				line-height: 1.15em;
 			}
 			h1 {
 				margin-bottom: 0.5em;
@@ -101,9 +102,9 @@ aside {
 	.group {
 		width: 100%;
 		display: table;
-		padding: 0 0 1em 0;
+		margin-bottom: 2em;
 	}
-	#filter {
+	#filter, #index {
 		font-size: $xlargeFont;
 		line-height: 1.1em;
 		ul.nested {
