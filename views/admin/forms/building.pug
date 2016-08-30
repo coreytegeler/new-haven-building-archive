@@ -1,5 +1,5 @@
 .row
-	+file('image', 'Thumbnail', '', false)
+	+images('images', (object ? object.images : ''), false)
 .row
 	+input('address', 'Street Address', 'text', (object ? object.address : ''), true)
 .row

@@ -2,7 +2,7 @@ extends layout.pug
 block body
 	if(errors)
 		pre #{errors}
-	form(method='post' action='/admin/'+loadedType.s+'/'+action+'/'+(object ? object.id : '') enctype='multipart/form-data')
+	form(method='post' action='/admin/'+loadedType.s+'/'+action+'/'+(object ? object.id : ''))
 		script(type='text/javascript').
 			var checked = {};
 		case loadedType.s

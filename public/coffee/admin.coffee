@@ -9,17 +9,17 @@ $ ->
 	return
 
 getData = () ->
+	addQuickCreates('image')
 	$('.populate').each (i, container) ->
-		createQuickAddForms(container)
 		modelType = $(container).data('model')
 		containerType = $(container).data('type')
+		addQuickCreates(modelType)
 		$.ajax
 			url: '/api/?type='+modelType+'&format=json',
 			error:  (jqXHR, status, error) ->
 				console.log jqXHR, status, error
 				return
 			success: (objects, status, jqXHR) ->
-				console.log(objects)
 				if(!objects)
 					return
 				switch containerType
@@ -69,8 +69,7 @@ updateSelectValue = (event) ->
 	$options.removeClass('open')
 	return
 
-createQuickAddForms = (container) ->
-	type = $(container).data('model')
+addQuickCreates = (type) ->
 	$.ajax
 		url: '/admin/'+type+'/quick-create'
 		error: (jqXHR, status, error) ->
@@ -89,8 +88,8 @@ openQuickCreate = (event) ->
 	$module = $button.parents('.module')
 	$quickCreate = $('.quickCreate[data-model="'+type+'"]')
 	$quickCreate.addClass('open')
-	$submit = $quickCreate.find('input[type="submit"]')
-	$submit.click(quickCreate)
+	$form = $quickCreate.find('form')
+	$form.submit(quickCreate)
 	$close = $quickCreate.find('.close')
 	$close.click ->
 		$quickCreate.removeClass('open')
@@ -98,25 +97,53 @@ openQuickCreate = (event) ->
 	return
 
 quickCreate = (event) ->
+	event.stopPropagation()
 	event.preventDefault()
-	$quickCreate = $(event.target).parents('.quickCreate')
-	$form = $quickCreate.find('form')
-	postUrl = $form.attr('action')
-	data = $form.serializeArray()
+	$form = $(this)
+	$quickCreate = $form.parents('.quickCreate')
 	type = $quickCreate.data('model')
-	checkboxes = $('.checkboxes.'+type)
+
+	if(type == 'image')
+		data = new FormData()
+		image = $form.find('input:file')[0].files[0]
+		caption = $form.find('input.caption').val()
+		data.append('image', image, image.name)
+		data.append('caption', caption)
+	else
+  	data = $form.serializeArray() 
+
+	postUrl = $form.attr('action')
 	$.ajax
 		type: 'POST',
 		data: data,
 		url: postUrl,
-		dataType: 'HTML',
+		processData: false,
+		contentType: false,
 		error: (jqXHR, status, error) ->
 			return console.log(jqXHR, status, error)
 		success: (object, status, jqXHR) ->
+			type = $quickCreate.data('model')
+			checkboxes = $('.checkboxes.'+type)
 			$quickCreate.removeClass('open')
 			$main.removeClass('noscroll')
-			return addCheckbox(checkboxes, JSON.parse(object), [object.slug])
+			if(checkboxes.length)
+				addCheckbox(checkboxes, object, [object.slug])
+			else if(type == 'image')
+				addImage(object)
 	return
+
+addImage = (object) ->
+	$imagesWrapper = $('.images')
+	$clone = $imagesWrapper.find('.sample').clone()
+	$clone.removeClass('sample')
+	imageObject = {
+		id: object._id,
+		path: object.path,
+		caption: object.caption
+	}
+	$clone.val(JSON.stringify(imageObject))
+	$clone.attr('name', 'images[5]')
+	$imagesWrapper.append($clone)
 
 updateTemplate = (event) ->
 	$input = $(event.target)
@@ -127,7 +154,6 @@ updateTemplate = (event) ->
 askToDelete = (event) ->
 	if(!confirm('Are you sure you want to delete this?'))
 		event.preventDefault();
-
 
 
 

@@ -5,11 +5,12 @@ var Tour = require('../models/tour')
 var Neighborhood = require('../models/neighborhood')
 var Style = require('../models/style')
 var Term = require('../models/term')
+var Image = require('../models/image')
 var tools = require('../tools')
 var slugify = require('slug')
-var fs = require('fs')
-var multipart = require('connect-multiparty')
-var multipartMiddleware = multipart()
+var path  = require('path')
+var fs  = require('fs')
+var multer  = require('multer')
 
 module.exports = function(app) {
   app.get('/admin', tools.isLoggedIn, function(req, res) {
@@ -135,7 +136,7 @@ module.exports = function(app) {
     })
   })
 
-  app.post('/admin/:type/update/:id', multipartMiddleware, tools.isLoggedIn, function(req, res) {
+  app.post('/admin/:type/update/:id', tools.isLoggedIn, function(req, res) {
     var data = req.body
     var type = req.params.type
     var id = req.params.id
@@ -145,35 +146,29 @@ module.exports = function(app) {
       var slug = slugify(data.name, {lower: true})
       data.slug = slug
     }
-    fs.readFile(req.files.image.path, function (err, img) {
-      var imageName = req.files.image.name
-      if(imageName){
-        var newPath = '/uploads/' + imageName;
-        fs.writeFile(newPath, img, function (err) {
-          if(!data.images)
-            data.images = []
-          data.images.push(newPath)
-        });
+    if(data.images) {
+      for(var i = 0; i < data.images.length; i++) {
+        data.images[i] = JSON.parse(data.images[i])
       }
-      model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {
-        if(err) {
-          console.log('Failed:')
-          console.log(err)
-          res.render('admin/edit.pug', {
-            errors: err,
-            type: {
-              s: tools.singularize(type),
-              p: tools.pluralize(type)
-            },
-            object: object,
-            action: 'update'
-          })
-        } else {
-          console.log('Updated:')
-          console.log(object)
-          res.redirect('/admin/'+type+'/edit/'+slug)
-        }
-      })
+    }
+    model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {
+      if(!err) {
+        console.log('Updated:')
+        console.log(object)
+        res.redirect('/admin/'+type+'/edit/'+object.slug)
+      } else {
+        console.log('Failed:')
+        console.log(err)
+        res.render('admin/edit.pug', {
+          errors: err,
+          type: {
+            s: tools.singularize(type),
+            p: tools.pluralize(type)
+          },
+          object: object,
+          action: 'update'
+        })
+      }
     })
   })
 
@@ -182,7 +177,8 @@ module.exports = function(app) {
     var id = req.params.id
     var model = tools.getModel(type)
     model.findByIdAndRemove(id, function(err, object) {
-      if (err) throw err
+      if (err)
+        return console.log(err)
       console.log(type+' successfully deleted!')
       res.redirect('/admin/'+type)
     })
@@ -192,8 +188,39 @@ module.exports = function(app) {
     var type = req.params.type
     if(!type)
       return
-    res.render('admin/quick.pug', {
+    var form = 'quick'
+    if(type == 'image')
+      form = 'image'
+    res.render('admin/'+form+'.pug', {
       type: type
+    })
+  })
+
+  var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+      callback(null, appRoot+'/public/uploads/')
+    },
+    filename: function (req, file, callback) {
+      var datetimestamp = Date.now();
+      callback(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+    }
+  })
+
+  var upload = multer({
+    storage: storage
+  })
+
+  app.post('/admin/image/quick-create/', upload.single('image'), function(req, res) {
+    var data = req.body
+    var imageData = req.file
+    console.log(imageData)
+    var path = '/uploads/'+imageData.filename
+    data['path'] = path
+    var image = new Image(data)
+    image.save(function(err) {
+      if(err)
+        return res.json(err)
+      return res.json(image)
     })
   })
 
@@ -215,9 +242,8 @@ module.exports = function(app) {
         return
     }
     object.save(function(err) {
-      if(err) {
+      if(err)
         return res.json(err)
-      }
       return res.json(object)
     })
   })

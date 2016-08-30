@@ -1,0 +1,11 @@
+include ../mixins
+.quickCreate(data-model='image')
+	.close.button.x
+	.inner
+		h1 Create New Image
+		form(method='post', action='/admin/image/quick-create/', enctype='multipart/form-data')
+			.row
+				+image('image', 'Image')
+			.row
+				+input('caption', 'Caption', 'text', (object ? object.caption : ''))
+			input(type='submit' value='Upload' name='submit').button

@@ -150,7 +150,7 @@ form {
     outline: none;
     font-family: Arial;
     background: transparent; }
-    form input[type="text"], form input[type="email"], form input[type="password"] {
+    form input[type="text"], form input[type="email"], form input[type="password"], form input[type="file"] {
       background: white;
       width: calc(100% - 1em - 2px);
       padding: 0.5em; }
@@ -265,6 +265,17 @@ form {
     position: absolute;
     right: 0;
     top: 0; }
+
+form .images {
+  display: block;
+  clear: both; }
+  form .images input[type="text"] {
+    display: none; }
+  form .images .image {
+    width: 100px;
+    display: inline-block; }
+    form .images .image img {
+      width: 100%; }
 
 .quickCreate {
   width: calc(100% - calc(15em + 20vw));

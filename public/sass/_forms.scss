@@ -21,7 +21,8 @@ form {
 		background: transparent;
 		&[type="text"],
 		&[type="email"], 
-		&[type="password"] {
+		&[type="password"],
+		&[type="file"] {
 			background: white;
 			width: calc(100% - 1em - 2px);
 			padding: 0.5em;
@@ -189,6 +190,21 @@ form {
 			position: absolute;
 			right: 0;
 			top: 0;
+		}
+	}
+}
+
+form .images {
+	display: block;
+	clear: both;
+	input[type="text"] {
+		display: none;
+	}
+	.image {
+		width: 100px;
+		display: inline-block;
+		img {
+			width: 100%;
 		}
 	}
 }
