@@ -105,10 +105,14 @@ quickCreate = (event) ->
 
 	if(type == 'image')
 		data = new FormData()
+		console.log($form.find('input:file')[0])
 		image = $form.find('input:file')[0].files[0]
+		console.log(image)
 		caption = $form.find('input.caption').val()
 		data.append('image', image, image.name)
+		console.log(data)
 		data.append('caption', caption)
+		console.log(data)
 	else
   	data = $form.serializeArray() 
 
