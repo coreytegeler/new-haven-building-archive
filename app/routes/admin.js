@@ -215,19 +215,21 @@ module.exports = function(app) {
     var imageData = req.file
     var path = '/uploads/'+imageData.filename
     data['path'] = path
+    console.log(data)
     var image = new Image(data)
+    console.log(image)
     image.save(function(err) {
       if(err) {
         console.log(err)
         return res.json(err)
       }
+      console.log(image)
       return res.json(image)
     })
   })
 
   app.post('/admin/:type/quick-create', tools.isLoggedIn, function(req, res) {
     var data = req.body
-    console.log(req)
     var type = tools.singularize(req.params.type)
     var errors    
     switch(type) {
@@ -243,7 +245,6 @@ module.exports = function(app) {
       default:
         return
     }
-    console.log(object)
     object.save(function(err) {
       if(err)
         return res.json(err)
