@@ -135,6 +135,8 @@
       contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
       processData = true;
     }
+    console.log(data);
+    console.log(postUrl);
     postUrl = $form.attr('action');
     $.ajax({
       type: 'POST',
