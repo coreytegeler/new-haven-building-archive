@@ -213,13 +213,15 @@ module.exports = function(app) {
   app.post('/admin/image/quick-create/', upload.single('image'), function(req, res) {
     var data = req.body
     var imageData = req.file
-    console.log(imageData)
+    console.dir(imageData)
     var path = '/uploads/'+imageData.filename
     data['path'] = path
     var image = new Image(data)
     image.save(function(err) {
       if(err)
+        console.log(err)
         return res.json(err)
+      console.log(image)
       return res.json(image)
     })
   })

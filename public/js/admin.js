@@ -128,6 +128,8 @@
       data = $form.serializeArray();
     }
     postUrl = $form.attr('action');
+    console.log(data);
+    console.log(postUrl);
     $.ajax({
       type: 'POST',
       data: data,
@@ -154,6 +156,7 @@
 
   addImage = function(object) {
     var $clone, $imagesWrapper, imageObject;
+    console.log(object);
     $imagesWrapper = $('.images');
     $clone = $imagesWrapper.find('.sample').clone();
     $clone.removeClass('sample');

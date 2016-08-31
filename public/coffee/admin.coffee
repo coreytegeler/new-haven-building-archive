@@ -113,6 +113,9 @@ quickCreate = (event) ->
   	data = $form.serializeArray() 
 
 	postUrl = $form.attr('action')
+
+	console.log(data)
+	console.log(postUrl)
 	$.ajax
 		type: 'POST',
 		data: data,
@@ -120,7 +123,7 @@ quickCreate = (event) ->
 		processData: false,
 		contentType: false,
 		error: (jqXHR, status, error) ->
-			return console.log(jqXHR, status, error)
+			console.log(jqXHR, status, error)
 		success: (object, status, jqXHR) ->
 			type = $quickCreate.data('model')
 			checkboxes = $('.checkboxes.'+type)
@@ -133,6 +136,7 @@ quickCreate = (event) ->
 	return
 
 addImage = (object) ->
+	console.log(object)
 	$imagesWrapper = $('.images')
 	$clone = $imagesWrapper.find('.sample').clone()
 	$clone.removeClass('sample')
