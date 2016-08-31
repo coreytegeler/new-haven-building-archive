@@ -6,14 +6,13 @@ mixin input(name, label, type, value, required)
 mixin images(name, images, required)
 	label(name=name) Images
 	.images
-		.image.sample
+		.image.edit.sample
 			img
 			.caption
 			input(type='text')
-		input(name=name, type='text', class='sample')
 		if(images)
 			each image, index in images
-				.image(data-id=image.id)
+				.image.edit(data-id=image.id)
 					img(src=image.path)
 					.caption= image.caption
 					input(name='images['+index+']', type='text', value=image)

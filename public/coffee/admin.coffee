@@ -1,21 +1,30 @@
 $main = $('main')
 $ ->
 	getData()
-	$('body').on('click', 'form .add', openQuickCreate)
-	$('body').on('click', '.quickCreate .close', closeQuickCreate)
-	$('body').on('submit', '.quickCreate form', quickCreate)
-	$('a.delete').click(askToDelete)		
+	$('body').on('click',  'form .add', openQuicky)
+	$('body').on('click',  'form .images .edit', openQuicky)
+	$('body').on('click',  '.quicky .close', closeQuicky)
+	$('body').on('submit', '.quicky form', quickySave)
+	$('body').on('click',  'a.delete', deleteObject)		
 	$('.select .display').click(openSelect)
 	$('.select .options input').change(updateSelectValue)
 	$('.updateTemplate input').change(updateTemplate)
 	return
 
 getData = () ->
-	addQuickCreates('image')
-	$('.populate').each (i, container) ->
+	if($('form .images').length)
+		$('form .images .image').each (i, imageWrap) ->
+			if($(imageWrap).is('.sample'))
+				addQuicky('image')	
+			else
+				id = $(imageWrap).attr('data-id')
+				if(id.length)
+					addQuicky('image', id)
+
+	$('form .populate').each (i, container) ->
 		modelType = $(container).data('model')
 		containerType = $(container).data('type')
-		addQuickCreates(modelType)
+		addQuicky(modelType)
 		$.ajax
 			url: '/api/?type='+modelType+'&format=json',
 			error:  (jqXHR, status, error) ->
@@ -47,7 +56,6 @@ addCheckbox = (container, object, checked) ->
 	if(checked)
 		if(value == checked || checked.indexOf(value) > -1)
 			$input.attr('checked', true)
-
 	$clone
 		.attr('data-slug', object.slug)
 		.appendTo(container)
@@ -71,9 +79,12 @@ updateSelectValue = (event) ->
 	$options.removeClass('open')
 	return
 
-addQuickCreates = (type) ->
+addQuicky = (type, id) ->
+	url = '/admin/'+type+'/quicky/'
+	if(id)
+		url += id
 	$.ajax
-		url: '/admin/'+type+'/quick-create'
+		url: url
 		error: (jqXHR, status, error) ->
 			console.log jqXHR, status, error
 			return
@@ -81,29 +92,34 @@ addQuickCreates = (type) ->
 			if(!html)
 				return
 			$main.addClass('noscroll')
-			return $('.quickCreates').append(html)
+			return $('.quickies').append(html)
 	return
 
-openQuickCreate = (event) ->
-	$button = $(event.target)
+openQuicky = (event) ->
+	$button = $(this)
+	id = $button.data('id')
 	type = $button.data('model')
 	$module = $button.parents('.module')
-	$quickCreate = $('.quickCreate[data-model="'+type+'"]')
-	$quickCreate.addClass('open')
+	if(!id)
+		$quicky = $('.quicky.create[data-model="'+type+'"]')
+	else
+		$quicky = $('.quicky.edit[data-id="'+id+'"]')
+	$quicky.addClass('open')
 	return
 
-closeQuickCreate = () ->
-	$quickCreate = $(this).parents('.quickCreate')
-	$quickCreate.removeClass('open')
+closeQuicky = () ->
+	$quicky = $(this).parents('.quicky')
+	$quicky.removeClass('open')
 	$main.removeClass('noscroll')
 	return
 
-quickCreate = (event) ->
+quickySave = (event) ->
+	console.log(event)
 	event.stopPropagation()
 	event.preventDefault()
 	$form = $(this)
-	$quickCreate = $form.parents('.quickCreate')
-	type = $quickCreate.data('model')
+	$quicky = $form.parents('.quicky')
+	type = $quicky.data('model')
 	data = new FormData()
 	if(type == 'image')
 		image = $form.find('input:file')[0].files[0]
@@ -117,7 +133,6 @@ quickCreate = (event) ->
   	contentType = 'application/x-www-form-urlencoded; charset=UTF-8'
   	processData = true
 	postUrl = $form.attr('action')
-	console.log(postUrl)
 	if(!data)
 		return
 	$.ajax
@@ -131,9 +146,9 @@ quickCreate = (event) ->
 			alert('Error, check browser console logs')
 		success: (object, status, jqXHR) ->
 			console.log(object)
-			type = $quickCreate.data('model')
+			type = $quicky.data('model')
 			checkboxes = $('.checkboxes.'+type)
-			$quickCreate.removeClass('open')
+			$quicky.removeClass('open')
 			$main.removeClass('noscroll')
 			if(checkboxes.length)
 				addCheckbox(checkboxes, object, object._id)
@@ -166,9 +181,17 @@ updateTemplate = (event) ->
 	$('[data-template]').removeClass('show')
 	$('[data-template="'+value+'"]').addClass('show')
 
-askToDelete = (event) ->
+deleteObject = (event) ->
 	if(!confirm('Are you sure you want to delete this?'))
-		event.preventDefault();
+		return event.preventDefault();
+	$quicky = $(this).parents('.quicky')
+	if($quicky)
+		id = $quicky.attr('data-id')
+		$input = $('.image[data-id="'+id+'"]')
+		$input.remove()
+		$quicky.remove()
+		$main.removeClass('noscroll')
+		return event.preventDefault();
 
 
 

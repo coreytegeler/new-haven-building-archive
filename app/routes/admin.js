@@ -178,22 +178,40 @@ module.exports = function(app) {
     var id = req.params.id
     var model = tools.getModel(type)
     model.findByIdAndRemove(id, function(err, object) {
-      if (err)
+      if(err)
         return console.log(err)
       console.log(type+' successfully deleted!')
-      res.redirect('/admin/'+type)
+      if(type == 'image')
+        if(object.path)
+          return
+          // fs.unlinkSync(appRoot+'/public'+object.path);
+      else
+        res.redirect('/admin/')
     })
   })
 
-  app.get('/admin/:type/quick-create', tools.isLoggedIn, function(req, res) {
+  app.get('/admin/:type/quicky', tools.isLoggedIn, function(req, res) {
     var type = req.params.type
     if(!type)
       return
-    var form = 'quick'
+    var form = 'quicky'
     if(type == 'image')
       form = 'image'
-    res.render('admin/'+form+'.pug', {
-      type: type
+    if(form)
+      res.render('admin/'+form+'.pug', {
+        type: type
+      })
+    else
+      return
+  })
+
+  app.get('/admin/image/quicky/:id', tools.isLoggedIn, function(req, res) {
+    var id = req.params.id
+    Image.findOne({_id: id}, function(err, image) {
+      res.render('admin/image.pug', {
+        object: image,
+        type: 'image'
+      })
     })
   })
 
@@ -211,7 +229,7 @@ module.exports = function(app) {
     storage: storage
   })
 
-  app.post('/admin/image/quick-create/', upload.single('image'), function(req, res) {
+  app.post('/admin/image/quicky/', upload.single('image'), tools.isLoggedIn, function(req, res) {
     var data = req.body
     var imageData = req.file
     var path = '/uploads/'+imageData.filename
@@ -220,16 +238,32 @@ module.exports = function(app) {
     var image = new Image(data)
     console.log(image)
     image.save(function(err) {
-      if(err) {
+      if(!err) {
+        console.log(image)
+        return res.json(image)
+      } else {
         console.log(err)
         return res.json(err)
       }
-      console.log(image)
-      return res.json(image)
     })
   })
 
-  app.post('/admin/:type/quick-create', tools.isLoggedIn, function(req, res) {
+  app.post('/admin/image/quicky/:id', tools.isLoggedIn, function(req, res) {
+    var data = req.body
+    var id = req.params.id
+    Image.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, image) {
+       if(!err) {
+        console.log('Updated:')
+        console.log(image)
+        res.json(image)
+      } else {
+        console.log('Failed:')
+        return res.json(err)
+      }
+    })
+  })
+
+  app.post('/admin/:type/quicky', tools.isLoggedIn, function(req, res) {
     var data = req.body
     var type = tools.singularize(req.params.type)
     var errors    

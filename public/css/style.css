@@ -317,7 +317,7 @@ form .images {
     form .images .image input[type="text"], form .images .image .caption {
       display: none; }
 
-.quickCreate {
+.quicky {
   width: calc(100% - calc(15em + 20vw));
   height: 100%;
   padding: 0;
@@ -327,17 +327,21 @@ form .images {
   overflow: auto;
   display: none;
   background: rgba(255, 255, 255, 0.95); }
-  .quickCreate .inner {
+  .quicky .inner {
     width: calc(100% - 6em);
     max-width: 900px;
     padding: 3em;
     margin: auto;
     display: table; }
-    .quickCreate .inner form {
+    .quicky .inner form {
       padding: 0; }
-  .quickCreate.open {
+      .quicky .inner form img {
+        max-width: 100%;
+        display: table;
+        margin: auto; }
+  .quicky.open {
     display: block; }
-  .quickCreate .close {
+  .quicky .close {
     width: 1.5em;
     height: 1.5em;
     padding: 1px;
@@ -348,7 +352,7 @@ form .images {
     background-repeat: no-repeat;
     background-size: contain;
     background-image: url(/img/x.svg); }
-    .quickCreate .close:hover {
+    .quicky .close:hover {
       cursor: pointer; }
 
 html {

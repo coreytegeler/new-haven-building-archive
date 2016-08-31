@@ -226,7 +226,7 @@ form .images {
 	}
 }
 
-.quickCreate {
+.quicky {
 	width: calc(100% - #{$sideWidth});
 	height: 100%;
 	padding: 0;
@@ -244,6 +244,11 @@ form .images {
     display: table;
     form {
     	padding: 0;
+    	img {
+    		max-width: 100%;
+    		display: table;
+    		margin: auto;
+    	}
     }
 	}
 	&.open {

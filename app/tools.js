@@ -5,6 +5,7 @@ var Neighborhood = require('./models/neighborhood')
 var Tour = require('./models/tour')
 var Style = require('./models/style')
 var Term = require('./models/term')
+var Image = require('./models/image')
 var slugify = require('slug')
 var moment = require('moment')
   
@@ -100,6 +101,8 @@ var getModel = function(type) {
       return Style
     case 'term':
       return Term
+    case 'image':
+      return Image
   }
 }
 
