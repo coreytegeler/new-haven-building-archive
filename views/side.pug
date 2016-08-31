@@ -1,8 +1,8 @@
 aside
 	header
 		.tabs
-			.tab.glossary(data-section='glossary')= 'Glossary'
 			.tab.filter(data-section='filter')= 'Filter'
+			.tab.glossary(data-section='glossary')= 'Glossary'
 			.tab.search
 				form
 					input(name='search', type='text', placeholder='Search')
@@ -18,7 +18,7 @@ aside
 			ul.group.filters.nested
 				if models
 					each model, name in models
-						if(name != 'buildings' && name != 'glossary')
+						if(name != 'buildings' && name != 'glossary'&&  name != 'terms')
 							li(class='name')
 								.title(data-slug=name)= uppercase(name)
 								ul(class=name)

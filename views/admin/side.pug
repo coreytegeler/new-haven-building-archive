@@ -1,23 +1,42 @@
 aside
 	header
 		.tabs
+			.tab.filter(data-section='filter')= 'Filter'
+			.tab.glossary(data-section='glossary')= 'Glossary'
+			.tab.archive(data-section='archive')= 'Archive'
+			.tab.profile(data-section='profile')= 'Profile'
+			.tab.info.button(data-section='info')
 	.inner
-		section#index.show
+		section#glossary
+			ul.group.edit
+				ul.terms(class=(loadedType.p == 'terms' ? 'open' : ''))
+					li.add
+						a(href='/admin/term/new')= 'Add Glossary Term'
+					-var currentAlpha
+					-var terms = models['terms']
+					for term in terms
+						-var termAlpha = term.name.charAt(0)
+						if(termAlpha != currentAlpha)
+							-currentAlpha = termAlpha
+							.alpha= termAlpha
+						a.term(href='/admin/term/edit/'+term.slug)
+							.name= term.name
+							.definition= term.definition
+		section#archive.show
+			ul.buildings
+				li.add
+					a(href='/admin/building/new')= 'Add Building'
+				-var buildings = models['buildings']
+				for building in buildings
+					li(class=building.slug)
+						a(href='/admin/building/edit/'+building.slug)= building.name
+		section#filter
 			ul.group.edit.nested
-				li.buildings
-					.title(data-slug='buildings' class=(loadedType.p == 'buildings' ? 'toggled' : '')) Buildings
-					ul.buildings(class=(loadedType.p == 'buildings' ? 'open' : ''))
-						li.add
-							a(href='/admin/building/new')= 'Add new building'
-						-var buildings = models['buildings']
-						for building in buildings
-							li(class=building.slug)
-								a(href='/admin/building/edit/'+building.slug)= building.name
 				li.tours
 					.title(data-slug='tours' class=(loadedType.p == 'tours' ? 'toggled' : '')) Tours
 					ul.tours(class=(loadedType.p == 'tours' ? 'open' : ''))
 						li.add
-							a(href='/admin/tour/new')= 'Add new tour'
+							a(href='/admin/tour/new')= 'Add Tour'
 						-var tours = models['tours']
 						for tour in tours
 							li(class=tour.slug)
@@ -26,7 +45,7 @@ aside
 					.title(data-slug='neighborhoods' class=(loadedType.p == 'neighborhoods' ? 'toggled' : '')) Neighborhoods
 					ul.neighborhoods(class=(loadedType.p == 'neighborhoods' ? 'open' : ''))
 						li.add
-							a(href='/admin/neighborhood/new')= 'Add new neighborhood'
+							a(href='/admin/neighborhood/new')= 'Add Neighborhood'
 						-var neighborhoods = models['neighborhoods']
 						for neighborhood in neighborhoods
 							li(class=neighborhood.slug)
@@ -35,20 +54,11 @@ aside
 					.title(data-slug='styles' class=(loadedType.p == 'styles' ? 'toggled' : '')) Styles
 					ul.styles(class=(loadedType.p == 'styles' ? 'open' : ''))
 						li.add
-							a(href='/admin/style/new')= 'Add new style'
+							a(href='/admin/style/new')= 'Add Style'
 						-var styles = models['styles']
 						for style in styles
 							li(class=style.slug)
 								a(href='/admin/style/edit/'+style.slug)= style.name
-				li.terms
-					.title(data-slug='terms' class=(loadedType.p == 'terms' ? 'toggled' : '')) Terms
-					ul.terms(class=(loadedType.p == 'terms' ? 'open' : ''))
-						li.add
-							a(href='/admin/term/new')= 'Add new term'
-						-var terms = models['terms']
-						for term in terms
-							li(class=term.slug)
-								a(href='/admin/term/edit/'+term.slug)= term.name
 			ul.group.account
 				if(user)
 					li

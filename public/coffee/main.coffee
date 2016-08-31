@@ -7,6 +7,7 @@ $ ->
 		resize()
 		$(window).resize resize
 		$body.on 'click', 'aside li .title', openNestedNav
+		$body.on 'click', 'aside .tab', switchSection
 		
 	resize = () -> 
 		$window = $(window)
@@ -27,5 +28,15 @@ $ ->
 		$childList = $parentList.find('ul.'+slug)
 		$title.toggleClass('toggled')
 		$childList.toggleClass('open')
+
+	switchSection = () ->
+		$tab = $(event.target)
+		sectionId = $tab.attr('data-section')
+		if(sectionId)
+			$section = $side.find('section#'+sectionId)
+			$side.find('section.show').removeClass('show')
+			$side.find('.tab.selected').removeClass('selected')
+			$section.addClass('show')
+			$tab.addClass('selected')
 
 	init()

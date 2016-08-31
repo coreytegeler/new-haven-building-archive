@@ -19,11 +19,22 @@ aside {
 		.tabs {
 			display: flex;
 			align-content: space-between;
+			flex-direction: row;
+	    align-items: center;
 			.tab {
+				display: table;
 				float: left;
-				margin-right: 0.5em;
+				margin-right: 1em;
 				&:hover {
 					cursor: pointer;
+				}
+				&:not(.button) {
+					padding-bottom: 2px;
+					margin-bottom: -2px;
+					&.selected {
+						padding-bottom: 0;
+						border-bottom: 2px solid black;
+					}
 				}
 				&.glossary, &.index {
 					padding: 0.2em auto;
@@ -36,6 +47,10 @@ aside {
 					background-size: contain;
 					background-repeat: no-repeat;
 					background-position: center;
+					margin-left: auto;
+					&:last-child {
+						margin-right: 0;
+					}
 					&.info {
 						background-image: url(/img/i.svg);
 					}
@@ -99,6 +114,12 @@ aside {
 		margin: 0;
 		clear: both;
 	}
+	ul {
+		li.add {
+			opacity: 0.25;
+			text-transform: capitalize;
+		}
+	}
 	.group {
 		width: 100%;
 		display: table;
@@ -115,14 +136,11 @@ aside {
 			li {
 				padding: 0.1em 0;
 				display: table;
-				&.add {
-					opacity: 0.25;
-				}
 				a {
 					color: black;
 					text-decoration: none;
 					&.selected {
-						font-style: oblique;
+						border-bottom: 2px solid black;
 					}
 				}
 				$arrowSize: 1.2em;
@@ -130,12 +148,17 @@ aside {
 					line-height: 1.1em;
 					padding-left: $arrowSize + 0.2em;
 					display: table;
-					background-image: url(/img/arrows.svg);
+					background-image: url(/img/arrow_right.svg);
 					background-size: $arrowSize auto;
 					background-repeat: no-repeat;
-					background-position: 0 -#{$arrowSize};
+					background-position: 0 center;
+					&::after {
+						content: '';
+						background-image: url(/img/arrow_down.svg);
+						display: none;
+					}
 					&.toggled {
-						background-position: 0 -#{$arrowSize*2};
+						background-image: url(/img/arrow_down.svg);
 					}
 					&:hover {
 						cursor: pointer;
@@ -149,6 +172,19 @@ aside {
 					}
 				}
 			}
+		}
+	}
+	#archive {
+		font-size: 1.5em;
+		line-height: 1.25em;
+	}
+	#glossary {
+		.add, .alpha, .term, .name, .definition {
+			margin-bottom: 1em;
+		}
+		.alpha, .add {
+			font-size: 1.5em;
+			line-height: 1.25em;
 		}
 	}
 	.full & {

@@ -76,11 +76,6 @@ aside {
 				}
 			}
 		}
-		&#glossary {
-			.alpha, .term, .name, .definition {
-				margin-bottom: 1em;
-			}
-		}
 	}
 }
 .loader {
@@ -117,7 +112,8 @@ aside {
 		background: transparent !important;
 		a {
 			display: table;
-			font-size: $smallFont;
+			font-size: 1em;
+	    line-height: 1.1em;
 		}
 		.image {
 			margin-bottom: .5em;

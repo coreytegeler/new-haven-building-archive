@@ -25,7 +25,6 @@ $ ->
 		$body.on 'mouseleave', '.building a', unhoverBuilding
 		$body.on 'click', '.building a', clickBuilding
 		$body.on 'click', 'a.filter', clickFilter
-		$body.on 'click', 'aside .tab', switchSection
 		$body.on 'click', '#closedHeader', openSide
 		filterQuery = {
 			'tour': getQuery('tour'),
@@ -45,15 +44,6 @@ $ ->
 		else
 			$infoSect.addClass('show')
 
-	switchSection = () ->
-		$tab = $(event.target)
-		sectionId = $tab.attr('data-section')
-		if(sectionId)
-			$section = $side.find('section#'+sectionId)
-			$side.find('section.show').removeClass('show')
-			$section.addClass('show')
-		else if($tab.is('.close'))
-			closeSide()
 
 	makeDraggable = () ->
 		Draggable.create $buildingsMap, {

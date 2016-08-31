@@ -18,12 +18,21 @@ aside {
     background: #fffed3; }
     aside header .tabs {
       display: flex;
-      align-content: space-between; }
+      align-content: space-between;
+      flex-direction: row;
+      align-items: center; }
       aside header .tabs .tab {
+        display: table;
         float: left;
-        margin-right: 0.5em; }
+        margin-right: 1em; }
         aside header .tabs .tab:hover {
           cursor: pointer; }
+        aside header .tabs .tab:not(.button) {
+          padding-bottom: 2px;
+          margin-bottom: -2px; }
+          aside header .tabs .tab:not(.button).selected {
+            padding-bottom: 0;
+            border-bottom: 2px solid black; }
         aside header .tabs .tab.glossary, aside header .tabs .tab.index {
           padding: 0.2em auto; }
         aside header .tabs .tab.button {
@@ -33,7 +42,10 @@ aside {
           display: table;
           background-size: contain;
           background-repeat: no-repeat;
-          background-position: center; }
+          background-position: center;
+          margin-left: auto; }
+          aside header .tabs .tab.button:last-child {
+            margin-right: 0; }
           aside header .tabs .tab.button.info {
             background-image: url(/img/i.svg); }
           aside header .tabs .tab.button.close {
@@ -75,6 +87,9 @@ aside {
   aside h3 {
     margin: 0;
     clear: both; }
+  aside ul li.add {
+    opacity: 0.25;
+    text-transform: capitalize; }
   aside .group {
     width: 100%;
     display: table;
@@ -93,23 +108,25 @@ aside {
       aside #filter ul.nested li, aside #index ul.nested li {
         padding: 0.1em 0;
         display: table; }
-        aside #filter ul.nested li.add, aside #index ul.nested li.add {
-          opacity: 0.25; }
         aside #filter ul.nested li a, aside #index ul.nested li a {
           color: black;
           text-decoration: none; }
           aside #filter ul.nested li a.selected, aside #index ul.nested li a.selected {
-            font-style: oblique; }
+            border-bottom: 2px solid black; }
         aside #filter ul.nested li .title, aside #index ul.nested li .title {
           line-height: 1.1em;
           padding-left: 1.4em;
           display: table;
-          background-image: url(/img/arrows.svg);
+          background-image: url(/img/arrow_right.svg);
           background-size: 1.2em auto;
           background-repeat: no-repeat;
-          background-position: 0 -1.2em; }
+          background-position: 0 center; }
+          aside #filter ul.nested li .title::after, aside #index ul.nested li .title::after {
+            content: '';
+            background-image: url(/img/arrow_down.svg);
+            display: none; }
           aside #filter ul.nested li .title.toggled, aside #index ul.nested li .title.toggled {
-            background-position: 0 -2.4em; }
+            background-image: url(/img/arrow_down.svg); }
           aside #filter ul.nested li .title:hover, aside #index ul.nested li .title:hover {
             cursor: pointer; }
         aside #filter ul.nested li ul, aside #index ul.nested li ul {
@@ -117,6 +134,14 @@ aside {
           padding: 0.1em 0 0.1em 2.4em; }
           aside #filter ul.nested li ul.open, aside #index ul.nested li ul.open {
             display: block; }
+  aside #archive {
+    font-size: 1.5em;
+    line-height: 1.25em; }
+  aside #glossary .add, aside #glossary .alpha, aside #glossary .term, aside #glossary .name, aside #glossary .definition {
+    margin-bottom: 1em; }
+  aside #glossary .alpha, aside #glossary .add {
+    font-size: 1.5em;
+    line-height: 1.25em; }
   .full aside {
     background: transparent;
     pointer-events: none; }
@@ -141,7 +166,8 @@ form {
     display: table; }
   form input, form textarea, form select {
     font-size: 1em;
-    line-height: 1.1em; }
+    line-height: 1.1em;
+    font-weight: 700; }
     form input:-webkit-autofill, form textarea:-webkit-autofill, form select:-webkit-autofill {
       background: none; }
   form input {
@@ -161,7 +187,8 @@ form {
     border: 1px solid black;
     resize: none;
     outline: none;
-    background: white; }
+    background: white;
+    vertical-align: bottom; }
   form .group {
     padding: 0 0 20px 0; }
   form .sample {
@@ -169,7 +196,7 @@ form {
   form .row {
     width: 100%;
     display: table;
-    margin: 0 0 10px 0;
+    margin: 0 0 1em 0;
     clear: both;
     position: relative; }
     form .row .cell {
@@ -178,27 +205,35 @@ form {
         margin-right: 1em; }
     form .row.two .cell {
       width: calc(50% - .5em); }
+    form .row .button {
+      margin-top: 0.5em; }
   form [data-template] {
     display: none; }
   form .button {
-    display: inline-table;
-    margin-right: 10px;
-    padding: 2px;
+    display: block;
+    padding: 0.5em;
+    margin: 0 1em 0 0;
+    float: left;
+    vertical-align: middle;
     font-size: 0.8em;
     font-weight: bold;
+    line-height: 1.1em;
     text-transform: uppercase;
     color: black;
     text-decoration: none;
-    border: 0; }
+    border: 0;
+    border: 1px solid black; }
     form .button:hover {
-      cursor: pointer; }
+      cursor: pointer;
+      background: black;
+      color: white; }
     form .button:last-child {
       margin-right: 0; }
 
 .checkboxes, .options {
   overflow: auto;
   font-size: 1em;
-  line-height: 1.1em;
+  line-height: 1em;
   border: 1px solid black;
   background: white; }
   .checkboxes.populate .item, .options.populate .item {
@@ -426,8 +461,6 @@ aside section#single .buildings .building {
     width: 50%;
     font-size: inherit;
     line-height: 1.2em; }
-aside section#glossary .alpha, aside section#glossary .term, aside section#glossary .name, aside section#glossary .definition {
-  margin-bottom: 1em; }
 
 .loader {
   width: 100%;
@@ -461,7 +494,8 @@ aside section#glossary .alpha, aside section#glossary .term, aside section#gloss
   background: transparent !important; }
   .buildings.map .building a {
     display: table;
-    font-size: 0.8em; }
+    font-size: 1em;
+    line-height: 1.1em; }
   .buildings.map .building .image {
     margin-bottom: .5em;
     display: block;

@@ -9,6 +9,7 @@ form {
 	input, textarea, select {
 		font-size: 1em;
 		line-height: 1.1em;
+		font-weight: 700;
 		&:-webkit-autofill {
 			background: none;
 		}
@@ -36,6 +37,7 @@ form {
 		resize: none;
 		outline: none;
 		background: white;
+		vertical-align: bottom;
 	}
 	.group {
 		padding: 0 0 20px 0;
@@ -46,7 +48,7 @@ form {
 	.row {
 		width: 100%;
 		display: table;
-		margin: 0 0 10px 0;
+		margin: 0 0 1em 0;
 		clear: both;
 		position: relative;
 		.cell {
@@ -60,6 +62,9 @@ form {
 				width: calc(50% - .5em)
 			}
 		}
+		.button {
+			margin-top: 0.5em;
+		}
 	}
 	[required] {
 		
@@ -68,19 +73,25 @@ form {
 		display: none;
 	}
 	.button {
-		display: inline-table;
-		margin-right: 10px;
-		padding: 2px;
+		display: block;
+		padding: 0.5em;
+		margin: 0 1em 0 0;
+		float: left;
+		vertical-align: middle;
 		font: {
 			size: 0.8em;
 			weight: bold;
 		}
+		line-height: 1.1em;
 		text-transform: uppercase;
 		color: black;
 		text-decoration: none;
 		border: 0;
+		border: 1px solid black;
 		&:hover {
 			cursor: pointer;
+			background: black;
+			color: white;
 		}
 		&:last-child {
 			margin-right: 0;
@@ -91,7 +102,7 @@ form {
 .checkboxes, .options {
 	overflow: auto;
 	font-size: 1em;
-	line-height: 1.1em;
+	line-height: 1em;
 	border: 1px solid black;
 	background: white;
 	&.populate {
