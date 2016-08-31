@@ -24,7 +24,7 @@
           return addQuicky('image');
         } else {
           id = $(imageWrap).attr('data-id');
-          if (id.length) {
+          if (id) {
             return addQuicky('image', id);
           }
         }

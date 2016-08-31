@@ -18,7 +18,7 @@ getData = () ->
 				addQuicky('image')	
 			else
 				id = $(imageWrap).attr('data-id')
-				if(id.length)
+				if(id)
 					addQuicky('image', id)
 
 	$('form .populate').each (i, container) ->
