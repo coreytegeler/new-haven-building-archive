@@ -6,23 +6,21 @@ block body
 				-var buildings = models.buildings
 				for building in buildings
 
-					-var width = 300
-					-var height = 300
-					-var sizeStyle = 'width:'+width+'px; height:'+height+'px;'
-
-					-var imgWidth = Math.floor((Math.random() * (width - 100) + 100))
-					-var imgHeight = Math.floor((Math.random() * (height - 100) + 100))
-					-var imgStyle = 'width:'+imgWidth+'px; height:'+imgHeight+'px;'
-
 					-var opacity = Math.random() * (1 - .1) + .1
 					-var opacityStyle = 'background:rgba(0,0,0,' + opacity + ');'
 
-					-var style = sizeStyle+opacityStyle
 
-					.building(style=style, data-slug=building.slug, data-id=building.id, data-type='building', data-tour=building.tour, data-neighborhood=building.neighborhood, data-era=building.era)
+					.building(data-slug=building.slug, data-id=building.id, data-type='building', data-tour=building.tour, data-neighborhood=building.neighborhood, data-era=building.era)
 						.vert
 							.horz
 								a(href='/building/'+building.slug)
-									.image(style=imgStyle)
+									if(building.images)
+										if(building.images[0])
+											img(src=building.images[0].path)
+									else
+										-var imgWidth = Math.floor((Math.random() * (200) + 100))
+										-var imgHeight = Math.floor((Math.random() * (200) + 100))
+										-var imgStyle = 'width:'+imgWidth+'px; height:'+imgHeight+'px;'+opacityStyle
+										.image(style=imgStyle)
 								a(href='/building/'+building.slug)= building.name
 				

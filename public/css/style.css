@@ -497,6 +497,8 @@ aside section#single .buildings .building {
     display: block; }
 
 .buildings.map .building {
+  width: 300px;
+  height: 300px;
   padding: 2em;
   display: table;
   float: left;
@@ -505,10 +507,10 @@ aside section#single .buildings .building {
     display: table;
     font-size: 1em;
     line-height: 1.1em; }
-  .buildings.map .building .image {
+  .buildings.map .building .image, .buildings.map .building img {
+    width: 100%;
     margin-bottom: .5em;
     display: block;
-    background: rgba(255, 0, 0, 0.3);
     border: 1px solid transparent; }
   .buildings.map .building.selected .image {
     border-color: black;
