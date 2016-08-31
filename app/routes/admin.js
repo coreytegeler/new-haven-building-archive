@@ -148,7 +148,8 @@ module.exports = function(app) {
     }
     if(data.images) {
       for(var i = 0; i < data.images.length; i++) {
-        data.images[i] = JSON.parse(data.images[i])
+        if(data.images[i])
+          data.images[i] = JSON.parse(data.images[i])
       }
     }
     model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {

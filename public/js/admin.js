@@ -135,9 +135,11 @@
       contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
       processData = true;
     }
-    console.log(data);
-    console.log(postUrl);
     postUrl = $form.attr('action');
+    console.log(postUrl);
+    if (!data) {
+      return;
+    }
     $.ajax({
       type: 'POST',
       data: data,
@@ -145,7 +147,8 @@
       processData: processData,
       contentType: contentType,
       error: function(jqXHR, status, error) {
-        return console.log(jqXHR, status, error);
+        console.log(jqXHR, status, error);
+        return alert('Error, check browser console logs');
       },
       success: function(object, status, jqXHR) {
         var checkboxes;
@@ -164,17 +167,23 @@
   };
 
   addImage = function(object) {
-    var $clone, $imagesWrapper, imageObject;
+    var $clone, $cloneCaption, $cloneImg, $cloneInput, $imagesWrapper, imageObject;
     $imagesWrapper = $('.images');
     $clone = $imagesWrapper.find('.sample').clone();
+    $cloneImg = $clone.find('img');
+    $cloneCaption = $clone.find('.caption');
+    $cloneInput = $clone.find('input:text');
     $clone.removeClass('sample');
     imageObject = {
       id: object._id,
       path: object.path,
       caption: object.caption
     };
-    $clone.val(JSON.stringify(imageObject));
-    $clone.attr('name', 'images[5]');
+    $clone.attr('data-id', imageObject._id);
+    $cloneImg.attr('src', imageObject.path);
+    $cloneCaption.text(imageObject.caption);
+    $cloneInput.val(JSON.stringify(imageObject));
+    $cloneInput.attr('name', 'images[' + $imagesWrapper.find('.image').length + ']');
     return $imagesWrapper.append($clone);
   };
 

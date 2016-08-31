@@ -307,13 +307,15 @@ form {
 form .images {
   display: block;
   clear: both; }
-  form .images input[type="text"] {
-    display: none; }
   form .images .image {
     width: 100px;
     display: inline-block; }
+    form .images .image.sample {
+      display: none; }
     form .images .image img {
       width: 100%; }
+    form .images .image input[type="text"], form .images .image .caption {
+      display: none; }
 
 .quickCreate {
   width: calc(100% - calc(15em + 20vw));
