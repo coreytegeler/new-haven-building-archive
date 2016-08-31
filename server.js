@@ -29,6 +29,7 @@ app.use(cookieParser()) // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({
   extended: true
 }))
+app.use(bodyParser.json())
 
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, 'public')))

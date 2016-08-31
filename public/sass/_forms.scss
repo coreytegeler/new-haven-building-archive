@@ -1,6 +1,9 @@
 form {
-	max-width: 900px;
-	padding: 20px;
+	width: calc(100% - 2em);
+	max-width: 600px;
+	padding: 1em;
+	margin: auto;
+	display: table;
 	label {
 		font-size: 1em;
 		line-height: 1.5em;
@@ -136,7 +139,7 @@ form {
 }	
 
 .checkboxes {
-	max-height: 6.5em;
+	max-height: 8em;
 	padding: 0.2em 0.5em;
 	.checkbox {
 		label::before {

@@ -102,7 +102,7 @@ module.exports = function(app) {
       } else {
         console.log('Updated:')
         console.log(object)
-        res.redirect('/admin/'+type)
+        res.redirect('/admin/'+type+'/'+object._id)
       }
     })
   })
@@ -213,23 +213,23 @@ module.exports = function(app) {
   app.post('/admin/image/quick-create/', upload.single('image'), function(req, res) {
     var data = req.body
     var imageData = req.file
-    console.dir(imageData)
     var path = '/uploads/'+imageData.filename
     data['path'] = path
     var image = new Image(data)
     image.save(function(err) {
-      if(err)
+      if(err) {
         console.log(err)
         return res.json(err)
-      console.log(image)
+      }
       return res.json(image)
     })
   })
 
   app.post('/admin/:type/quick-create', tools.isLoggedIn, function(req, res) {
     var data = req.body
+    console.log(req)
     var type = tools.singularize(req.params.type)
-    var errors
+    var errors    
     switch(type) {
       case 'neighborhood':
         var object = new Neighborhood(data)
@@ -243,6 +243,7 @@ module.exports = function(app) {
       default:
         return
     }
+    console.log(object)
     object.save(function(err) {
       if(err)
         return res.json(err)

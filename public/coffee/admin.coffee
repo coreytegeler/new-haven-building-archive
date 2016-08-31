@@ -1,7 +1,9 @@
 $main = $('main')
 $ ->
 	getData()
-	$('.add').click(openQuickCreate)
+	$('body').on('click', 'form .add', openQuickCreate)
+	$('body').on('click', '.quickCreate .close', closeQuickCreate)
+	$('body').on('submit', '.quickCreate form', quickCreate)
 	$('a.delete').click(askToDelete)		
 	$('.select .display').click(openSelect)
 	$('.select .options input').change(updateSelectValue)
@@ -31,7 +33,7 @@ getData = () ->
 		return
 	return
 
-addCheckbox = (container, object) ->
+addCheckbox = (container, object, checked) ->
 	$clone = $(container).find('.sample').clone().removeClass('sample')
 	$label = $clone.find('label')
 	$input = $clone.find('input')
@@ -39,10 +41,10 @@ addCheckbox = (container, object) ->
 	
 	$input.attr('value', value).attr('id', object.slug+'Checkbox')
 	$label.text(object.name).attr('for', object.slug+'Checkbox')
-
 	model = $(container).data('model')
-	checked = $(container).data('checked')
-	if checked
+	if(!checked)
+		checked = $(container).data('checked')
+	if(checked)
 		if(value == checked || checked.indexOf(value) > -1)
 			$input.attr('checked', true)
 
@@ -88,12 +90,12 @@ openQuickCreate = (event) ->
 	$module = $button.parents('.module')
 	$quickCreate = $('.quickCreate[data-model="'+type+'"]')
 	$quickCreate.addClass('open')
-	$form = $quickCreate.find('form')
-	$form.submit(quickCreate)
-	$close = $quickCreate.find('.close')
-	$close.click ->
-		$quickCreate.removeClass('open')
-		$main.removeClass('noscroll')
+	return
+
+closeQuickCreate = () ->
+	$quickCreate = $(this).parents('.quickCreate')
+	$quickCreate.removeClass('open')
+	$main.removeClass('noscroll')
 	return
 
 quickCreate = (event) ->
@@ -102,45 +104,41 @@ quickCreate = (event) ->
 	$form = $(this)
 	$quickCreate = $form.parents('.quickCreate')
 	type = $quickCreate.data('model')
-
+	data = new FormData()
 	if(type == 'image')
-		data = new FormData()
-		console.log($form.find('input:file')[0])
 		image = $form.find('input:file')[0].files[0]
-		console.log(image)
 		caption = $form.find('input.caption').val()
 		data.append('image', image, image.name)
-		console.log(data)
 		data.append('caption', caption)
-		console.log(data)
+		contentType = false
+		processData = false
 	else
   	data = $form.serializeArray() 
+  	contentType = 'application/x-www-form-urlencoded; charset=UTF-8'
+  	processData = true
 
 	postUrl = $form.attr('action')
-
-	console.log(data)
-	console.log(postUrl)
 	$.ajax
 		type: 'POST',
 		data: data,
 		url: postUrl,
-		processData: false,
-		contentType: false,
+		processData: processData,
+		contentType: contentType,
 		error: (jqXHR, status, error) ->
 			console.log(jqXHR, status, error)
 		success: (object, status, jqXHR) ->
+			console.log(object)
 			type = $quickCreate.data('model')
 			checkboxes = $('.checkboxes.'+type)
 			$quickCreate.removeClass('open')
 			$main.removeClass('noscroll')
 			if(checkboxes.length)
-				addCheckbox(checkboxes, object, [object.slug])
+				addCheckbox(checkboxes, object, object._id)
 			else if(type == 'image')
 				addImage(object)
 	return
 
 addImage = (object) ->
-	console.log(object)
 	$imagesWrapper = $('.images')
 	$clone = $imagesWrapper.find('.sample').clone()
 	$clone.removeClass('sample')

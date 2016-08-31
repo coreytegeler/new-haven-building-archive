@@ -4,7 +4,7 @@
 	+input('address', 'Street Address', 'text', (object ? object.address : ''), true)
 .row
 	+input('name', 'Name', 'text', (object ? object.name : ''))
-.row
+.row.two
 	.cell
 		+input('researchBy', 'Researched By', 'text', (object ? object.researchBy : ''))
 	.cell
@@ -27,13 +27,12 @@
 	+checkboxes('tour', 'Tour(s)', true, true)
 .row
 	+checkboxes('neighborhood', 'Neighborhood', true, true)
-.row
-	+input('originalUse', 'Original Use', 'text', (object ? object.originalUse : ''))
-.row
-	+input('use', 'Use', 'text', (object ? object.use : ''))
+.row.two
+	.cell
+		+input('originalUse', 'Original Use', 'text', (object ? object.originalUse : ''))
+	.cell
+		+input('use', 'Current Use', 'text', (object ? object.use : ''))
 .row
 	+input('currentTenant', 'Current Tenant', 'text', (object ? object.currentTenant : ''))
 .row
 	+textarea('research', 'Research', (object ? object.research : ''))
-.row
-	+textarea('citations', 'Citations', (object ? object.citations : ''))
