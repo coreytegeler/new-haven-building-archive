@@ -139,15 +139,16 @@
   };
 
   quickySave = function(event) {
-    var $form, $quicky, caption, contentType, data, image, postUrl, processData, type;
+    var $form, $quicky, caption, contentType, data, id, image, postUrl, processData, type;
     console.log(event);
     event.stopPropagation();
     event.preventDefault();
     $form = $(this);
     $quicky = $form.parents('.quicky');
+    id = $quicky.data('id');
     type = $quicky.data('model');
     data = new FormData();
-    if (type === 'image') {
+    if (type === 'image' && !id.length) {
       image = $form.find('input:file')[0].files[0];
       caption = $form.find('input.caption').val();
       data.append('image', image, image.name);
@@ -192,6 +193,9 @@
   addImage = function(object) {
     var $clone, $cloneCaption, $cloneImg, $cloneInput, $imagesWrapper, imageObject;
     $imagesWrapper = $('.images');
+    if (($imagesWrapper.find('.image[data-id="' + object._id + '"]').length)) {
+      return;
+    }
     $clone = $imagesWrapper.find('.sample').clone();
     $cloneImg = $clone.find('img');
     $cloneCaption = $clone.find('.caption');

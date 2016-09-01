@@ -29,7 +29,7 @@ aside
 				-var buildings = models['buildings']
 				for building in buildings
 					li(class=building.slug)
-						a(href='/admin/building/edit/'+building.slug)= building.name
+						a(href='/admin/building/edit/'+building.slug)= building.address
 		section#filter
 			ul.group.edit.nested
 				li.tours

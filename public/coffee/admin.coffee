@@ -119,9 +119,10 @@ quickySave = (event) ->
 	event.preventDefault()
 	$form = $(this)
 	$quicky = $form.parents('.quicky')
+	id = $quicky.data('id')
 	type = $quicky.data('model')
 	data = new FormData()
-	if(type == 'image')
+	if(type == 'image' && !id.length)
 		image = $form.find('input:file')[0].files[0]
 		caption = $form.find('input.caption').val()
 		data.append('image', image, image.name)
@@ -158,6 +159,8 @@ quickySave = (event) ->
 
 addImage = (object) ->
 	$imagesWrapper = $('.images')
+	if($imagesWrapper.find('.image[data-id="'+object._id+'"]').length)
+		return
 	$clone = $imagesWrapper.find('.sample').clone()
 	$cloneImg = $clone.find('img')
 	$cloneCaption = $clone.find('.caption')

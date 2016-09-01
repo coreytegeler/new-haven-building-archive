@@ -1,9 +1,9 @@
 .row
-	+images('images', (object ? object.images : ''), false)
-.row
 	+input('address', 'Street Address', 'text', (object ? object.address : ''), true)
 .row
 	+input('name', 'Name', 'text', (object ? object.name : ''))
+.row
+	+images('images', (object ? object.images : ''), false)
 .row.two
 	.cell
 		+input('researchBy', 'Researched By', 'text', (object ? object.researchBy : ''))
