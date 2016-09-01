@@ -62,7 +62,6 @@ var buildingSchema = mongoose.Schema({
 })
 
 buildingSchema.pre('save', function(next) {
-	this.era = tools.getEra(this.dateConstructed)
 	if(!this.name)
 		this.name = this.address
 	this.type = 'building'

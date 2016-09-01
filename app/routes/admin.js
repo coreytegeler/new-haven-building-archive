@@ -102,7 +102,7 @@ module.exports = function(app) {
       } else {
         console.log('Updated:')
         console.log(object)
-        res.redirect('/admin/'+type+'/'+object._id)
+        res.redirect('/admin/'+type+'/edit/'+object.slug)
       }
     })
   })
