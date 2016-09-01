@@ -228,7 +228,7 @@
       return event.preventDefault();
     }
     $quicky = $(this).parents('.quicky');
-    if ($quicky) {
+    if ($quicky.length) {
       id = $quicky.attr('data-id');
       $input = $('.image[data-id="' + id + '"]');
       $input.remove();

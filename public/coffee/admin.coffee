@@ -188,13 +188,13 @@ deleteObject = (event) ->
 	if(!confirm('Are you sure you want to delete this?'))
 		return event.preventDefault();
 	$quicky = $(this).parents('.quicky')
-	if($quicky)
+	if($quicky.length)
 		id = $quicky.attr('data-id')
 		$input = $('.image[data-id="'+id+'"]')
 		$input.remove()
 		$quicky.remove()
 		$main.removeClass('noscroll')
-		return event.preventDefault();
+		return event.preventDefault()
 
 
 

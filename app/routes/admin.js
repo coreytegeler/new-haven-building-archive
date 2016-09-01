@@ -181,10 +181,8 @@ module.exports = function(app) {
       if(err)
         return console.log(err)
       console.log(type+' successfully deleted!')
-      if(type == 'image')
-        if(object.path)
-          return
-          // fs.unlinkSync(appRoot+'/public'+object.path);
+      if(type == 'image' && object.path)
+        fs.unlinkSync(appRoot+'/public'+object.path);
       else
         res.redirect('/admin/')
     })
