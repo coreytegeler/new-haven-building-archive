@@ -18,11 +18,10 @@ aside {
     background: #fffed3; }
     aside header .tabs {
       display: flex;
-      align-content: space-between;
       flex-direction: row;
-      align-items: center; }
+      align-items: center;
+      overflow: hidden; }
       aside header .tabs .tab {
-        display: table;
         float: left;
         margin-right: 1em; }
         aside header .tabs .tab:hover {
@@ -35,28 +34,35 @@ aside {
             border-bottom: 2px solid black; }
         aside header .tabs .tab.glossary, aside header .tabs .tab.index {
           padding: 0.2em auto; }
-        aside header .tabs .tab.button {
-          width: 1.5em;
-          height: 1.5em;
-          padding: 1px;
-          display: table;
-          background-size: contain;
-          background-repeat: no-repeat;
-          background-position: center;
-          margin-left: auto; }
-          aside header .tabs .tab.button:last-child {
-            margin-right: 0; }
-          aside header .tabs .tab.button.info {
-            background-image: url(/img/i.svg); }
-          aside header .tabs .tab.button.close {
-            background-image: url(/img/x.svg); }
-        aside header .tabs .tab:last-child {
-          padding-right: 0; }
+      aside header .tabs .buttons {
+        float: right;
+        margin-right: 0;
+        display: flex;
+        margin-left: auto; }
+      aside header .tabs .button {
+        width: 1.5em;
+        height: 1.5em;
+        padding: 1px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        float: right; }
+        aside header .tabs .button:last-child {
+          margin-right: 0; }
+        aside header .tabs .button.info {
+          background-image: url(/img/i.svg); }
+        aside header .tabs .button.close {
+          background-image: url(/img/x.svg); }
+      aside header .tabs:last-child {
+        padding-right: 0; }
       aside header .tabs .search {
-        flex-grow: 1; }
+        width: auto; }
         aside header .tabs .search form {
+          width: 100%;
+          margin: 0;
           padding: 0; }
           aside header .tabs .search form input {
+            width: calc(100% - 0.4em);
             padding: 0.2em;
             background: #fffed3; }
   aside .inner {
@@ -308,6 +314,8 @@ form {
 form .images {
   display: block;
   clear: both; }
+  form .images input[type="text"] {
+    display: none; }
   form .images .image {
     width: 100px;
     display: inline-block; }
@@ -315,8 +323,6 @@ form .images {
       display: none; }
     form .images .image img {
       width: 100%; }
-    form .images .image input[type="text"], form .images .image .caption {
-      display: none; }
 
 .quicky {
   width: calc(100% - calc(15em + 20vw));

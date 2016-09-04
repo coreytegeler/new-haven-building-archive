@@ -212,6 +212,9 @@ form {
 form .images {
 	display: block;
 	clear: both;
+	input[type="text"] {
+		display: none;
+	}
 	.image {
 		width: 100px;
 		display: inline-block;
@@ -220,9 +223,6 @@ form .images {
 		}
 		img {
 			width: 100%;
-		}
-		input[type="text"], .caption {
-			display: none;
 		}
 	}
 }

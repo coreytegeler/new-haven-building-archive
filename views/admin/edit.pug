@@ -22,11 +22,11 @@ block body
 				- var noForm = true
 				| No form for "#{loadedType.s}"
 		.buttons
+			if(!noForm)
+				input(type='submit' value=action).button
 			if(object)
 				if(loadedType.s == 'building' || loadedType.s == 'tour')
 					a.button(href='/'+loadedType.s+'/'+object.slug, target='_blank') Preview
-			if(!noForm)
-				input(type='submit' value=action).button
 			if(object)
 				a.button.delete(href='/admin/'+loadedType.p+'/remove/'+object.id) Delete
 	.quickies

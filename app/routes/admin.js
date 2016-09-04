@@ -147,10 +147,7 @@ module.exports = function(app) {
       data.slug = slug
     }
     if(data.images) {
-      for(var i = 0; i < data.images.length; i++) {
-        if(data.images[i])
-          data.images[i] = JSON.parse(data.images[i])
-      }
+      data.images = JSON.parse(data.images)
     }
     model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {
       if(!err) {
@@ -205,7 +202,7 @@ module.exports = function(app) {
 
   app.get('/admin/image/quicky/:id', tools.isLoggedIn, function(req, res) {
     var id = req.params.id
-    Image.findOne({_id: id}, function(err, image) {
+    Image.findById(id, function(err, image) {
       res.render('admin/image.pug', {
         object: image,
         type: 'image'

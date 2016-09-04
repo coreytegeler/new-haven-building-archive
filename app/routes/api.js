@@ -32,7 +32,9 @@ module.exports = function(app) {
         })
       },
       function(building, callback) {
-        Tour.findOne({_id:building.tour}, function(err, tour) {
+        if(!building.tour)
+          callback(null, building, null)
+        Tour.findOne({_id: building.tour}, function(err, tour) {
           callback(null, building, tour)
         })
       },

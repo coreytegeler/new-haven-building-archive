@@ -18,11 +18,10 @@ aside {
 		background: $yellow;
 		.tabs {
 			display: flex;
-			align-content: space-between;
 			flex-direction: row;
 	    align-items: center;
+	    overflow: hidden;
 			.tab {
-				display: table;
 				float: left;
 				margin-right: 1em;
 				&:hover {
@@ -39,34 +38,43 @@ aside {
 				&.glossary, &.index {
 					padding: 0.2em auto;
 				}
-				&.button {
-					width: 1.5em;
-					height: 1.5em;
-					padding: 1px;
-					display: table;
-					background-size: contain;
-					background-repeat: no-repeat;
-					background-position: center;
-					margin-left: auto;
-					&:last-child {
-						margin-right: 0;
-					}
-					&.info {
-						background-image: url(/img/i.svg);
-					}
-					&.close {
-						background-image: url(/img/x.svg);
-					}
-				}
+			}
+			.buttons {
+				float: right;
+				margin-right: 0;
+				display: flex;
+				margin-left: auto;
+			}
+			.button {
+				width: 1.5em;
+				height: 1.5em;
+				padding: 1px;
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				float: right;
 				&:last-child {
-					padding-right: 0;
+					margin-right: 0;
+				}
+				&.info {
+					background-image: url(/img/i.svg);
+				}
+				&.close {
+					background-image: url(/img/x.svg);
 				}
 			}
+			&:last-child {
+				padding-right: 0;
+			}
 			.search {
-				flex-grow: 1;
+				width: auto;
+				// flex-grow: 1;
 				form {
+					width: 100%;
+					margin: 0;
 					padding: 0;
 					input {
+						width: calc(100% - 0.4em);
 						padding: 0.2em;
 						background: $yellow;
 					}

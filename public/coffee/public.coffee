@@ -26,6 +26,7 @@ $ ->
 		$body.on 'click', '.building a', clickBuilding
 		$body.on 'click', 'a.filter', clickFilter
 		$body.on 'click', '#closedHeader', openSide
+		$body.on 'click', '.close.tab', closeSide
 		filterQuery = {
 			'tour': getQuery('tour'),
 			'neighborhood': getQuery('neighborhood'),

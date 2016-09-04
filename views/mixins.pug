@@ -31,16 +31,13 @@ mixin input(name, label, type, value, required)
 mixin images(name, images, required)
 	label(name=name) Images
 	.images
+		input(name='images', type='text', value=images)
 		.image.edit.sample
 			img
-			.caption
-			input(type='text')
 		if(images)
 			each image, index in images
 				.image.edit(data-id=image.id)
 					img(src=image.path)
-					.caption= image.caption
-					input(name='images['+index+']', type='text', value=image)
 	.add.button(data-model='image') Add New Image
 
 mixin image(name)

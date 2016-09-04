@@ -1,5 +1,5 @@
 include ../mixins
-.quicky(data-model=type, data-id=(object ? object.id : ''), class=(object ? 'edit' : 'create'))
+.quicky(data-model=type, data-id=(object ? object._id : ''), class=(object ? 'edit' : 'create'))
 	.close.button.x
 	.inner
 		h1 Create New #{name}

@@ -114,7 +114,6 @@ closeQuicky = () ->
 	return
 
 quickySave = (event) ->
-	console.log(event)
 	event.stopPropagation()
 	event.preventDefault()
 	$form = $(this)
@@ -146,7 +145,6 @@ quickySave = (event) ->
 			console.log(jqXHR, status, error)
 			alert('Error, check browser console logs')
 		success: (object, status, jqXHR) ->
-			console.log(object)
 			type = $quicky.data('model')
 			checkboxes = $('.checkboxes.'+type)
 			$quicky.removeClass('open')
@@ -159,23 +157,32 @@ quickySave = (event) ->
 
 addImage = (object) ->
 	$imagesWrapper = $('.images')
+	$imagesInput = $imagesWrapper.find('input:text')
+
+	if($imagesInput.val())
+		imagesInputVal = JSON.parse($imagesInput.val())
+	else
+		imagesInputVal = []
+
 	if($imagesWrapper.find('.image[data-id="'+object._id+'"]').length)
 		return
 	$clone = $imagesWrapper.find('.sample').clone()
 	$cloneImg = $clone.find('img')
 	$cloneCaption = $clone.find('.caption')
-	$cloneInput = $clone.find('input:text')
 	$clone.removeClass('sample')
 	imageObject = {
 		id: object._id,
 		path: object.path,
 		caption: object.caption
 	}
+	if(imagesInputVal)
+		imagesInputVal.push(imageObject)
+	else
+		imagesInputVal = imageObject
+	$imagesInput.val(JSON.stringify(imagesInputVal))
 	$clone.attr('data-id', imageObject._id)
 	$cloneImg.attr('src', imageObject.path)
 	$cloneCaption.text(imageObject.caption)
-	$cloneInput.val(JSON.stringify(imageObject))
-	$cloneInput.attr('name', 'images['+$imagesWrapper.find('.image').length+']')
 	$imagesWrapper.append($clone)
 
 updateTemplate = (event) ->
@@ -188,10 +195,15 @@ deleteObject = (event) ->
 	if(!confirm('Are you sure you want to delete this?'))
 		return event.preventDefault();
 	$quicky = $(this).parents('.quicky')
-	if($quicky.length)
+	if($quicky.length) # if is image
 		id = $quicky.attr('data-id')
-		$input = $('.image[data-id="'+id+'"]')
-		$input.remove()
+		$input = $('.images input:text[name="images"]')
+		inputVal = JSON.parse($input.val())
+		inputVal = inputVal.filter (image) ->
+	    return image.id != id
+		inputVal = JSON.stringify(inputVal)
+		$input.val(inputVal)
+		$('.image[data-id="'+id+'"]').remove()
 		$quicky.remove()
 		$main.removeClass('noscroll')
 		return event.preventDefault()
