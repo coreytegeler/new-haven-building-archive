@@ -5,24 +5,11 @@ block body
 			.map.buildings
 				-var buildings = models.buildings
 				for building in buildings
-					-var opacity = Math.random() * (1 - .1) + .1
-					-var opacityStyle = 'background:rgba(0,0,0,' + opacity + ');'
-					if(building.images)
-						if(building.images[0])
-							-var imageUrl = building.images[0].path
-					else
-						-var imageUrl = null
-
 					.building(data-slug=building.slug, data-id=building.id, data-type='building', data-tour=building.tour, data-neighborhood=building.neighborhood, data-era=building.era)
 						.vert
 							.horz
 								a(href='/building/'+building.slug)
-									if(imageUrl)
-										img(src=imageUrl)
-									else
-										-var imgWidth = Math.floor((Math.random() * (200) + 100))
-										-var imgHeight = Math.floor((Math.random() * (200) + 100))
-										-var imgStyle = 'width:'+imgWidth+'px; height:'+imgHeight+'px;'+opacityStyle
-										.image(style=imgStyle)
+									+thumb(building)
+									
 								a(href='/building/'+building.slug)= building.name
 				

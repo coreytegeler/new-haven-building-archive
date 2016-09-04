@@ -1,3 +1,28 @@
+//- PUBLIC
+mixin thumb(building)
+	-var thumbUrl = null
+	if(building.images)
+		-var images = building.images
+		if(images.length)
+			-var thumb = images[0]
+			-var thumbUrl = thumb.path
+	else
+		-var images = undefined
+		-var opacity = Math.random() * (1 - .1) + .1
+		-var opacityStyle = 'background:rgba(0,0,0,' + opacity + ');'
+
+
+	if(thumbUrl)
+		img(src=thumbUrl)
+	else
+		-var imgWidth = Math.floor((Math.random() * (100) + 200))
+		-var imgHeight = Math.floor((Math.random() * (100) + 200))
+		-var imgStyle = 'width:'+imgWidth+'px; height:'+imgHeight+'px;'+opacityStyle
+		.image(style=imgStyle)
+
+
+//- ADMIN
+
 mixin input(name, label, type, value, required)
 	if(label)
 		label(name=name) #{label}
