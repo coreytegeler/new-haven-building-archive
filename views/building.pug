@@ -26,15 +26,14 @@
 				li.research
 					span.label= 'Researched by: '
 					span.value= object.researchBy+(object.researchYear ? ', '+object.researchYear : '')
-			if(object.tour)	
+			if(tour)	
 				li.tour
 					span.label= 'Tour: '
-					span.value
-						a.tour(href='/tour/'+tour.slug)= tour.name
-			if(object.neighborhood)	
+					span.value= tour.name
+			if(neighborhood)	
 				li.neighborhood
 					span.label= 'Neighborhood: '
-					span.value= object.neighborhood
+					span.value= neighborhood.name
 	.group.paragraphs #{object.research}
 	if(tourBuildings.length)
 		.group.tour

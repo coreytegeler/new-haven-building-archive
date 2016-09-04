@@ -1,7 +1,8 @@
 var Async = require('async')
 var tools = require('../tools')
-var Tour = tools.getModel('tour')
 var Building = tools.getModel('building')
+var Tour = tools.getModel('tour')
+var Neighborhood = tools.getModel('neighborhood')
 querystring = require('querystring');
 module.exports = function(app) {
 
@@ -39,8 +40,15 @@ module.exports = function(app) {
         })
       },
       function(building, tour, callback) {
-        if(!tour)
+        if(!building.neighborhood)
           callback(null, building, tour, null)
+        Neighborhood.findOne(building.neighborhood, function(err, neighborhood) {
+          callback(null, building, tour, neighborhood)
+        })
+      },
+      function(building, tour, neighborhood, callback) {
+        if(!tour)
+          callback(null, building, tour, neighborhood, null)
         Building.find({tour: tour.id}, function(err, tourBuildings) {
           for(var i = 0; i < tourBuildings.length; i++) {
             if(tourBuildings[i]._id == id) {
@@ -48,15 +56,16 @@ module.exports = function(app) {
               break
             }
           }
-          callback(null, building, tour, tourBuildings)
+          callback(null, building, tour, neighborhood, tourBuildings)
         })
       },
-    ], function (err, building, tour, tourBuildings) {
+    ], function (err, building, tour, neighborhood, tourBuildings) {
       if(err)
         return err
       data = {
         object: building,
         tour: tour,
+        neighborhood: neighborhood,
         tourBuildings: tourBuildings
       }
       if(format == 'json') {
