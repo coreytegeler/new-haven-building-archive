@@ -15,3 +15,11 @@ $sidePad: 1em;
   -ms-user-select: none;
   user-select: none;
 }
+
+@mixin loader {
+	// background-image: url(/img/ajax.gif);
+	// background-position: center;
+	// background-repeat: no-repeat;
+	// background-size: 30px;
+	background-color: rgba(0,0,0,0.06);
+}

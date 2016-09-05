@@ -33,6 +33,11 @@
       $body.on('click', 'a.filter', clickFilter);
       $body.on('click', '#closedHeader', openSide);
       $body.on('click', '.close.tab', closeSide);
+      $buildingTiles.each(function() {
+        return $(this).imagesLoaded(function() {
+          return $(this.elements[0]).addClass('loaded');
+        });
+      });
       filterQuery = {
         'tour': getQuery('tour'),
         'neighborhood': getQuery('neighborhood'),
@@ -251,27 +256,32 @@
         grid: mapObj,
         position: coords
       });
-      $map.addClass('loaded');
+      $mapWrap.addClass('loaded');
     };
     setUpSlider = function() {
-      var $slideWrap, $slider, $slides, $slidesWrap, slideH, slideW, sliderL, sliderW;
+      var $slideWrap, $slider, $slides, $slidesWrap, slideHeight, slideWidth, sliderLength, sliderWidth;
       $slider = $('.slider');
       $slidesWrap = $('.sliderWrap');
       $slideWrap = $('.slideWrap');
       $slides = $('.slide');
-      sliderL = $slides.length;
-      sliderW = parseInt($slider.width());
-      slideW = sliderW / sliderL;
-      slideH = parseInt($slider.height());
+      sliderLength = $slides.length;
+      sliderWidth = $slider.innerWidth();
+      slideWidth = sliderWidth / sliderLength;
+      slideHeight = $slider.innerHeight();
       return $slides.each(function(i, slide) {
+        var $caption, $image, captionHeight;
+        $image = $(slide).find('.image');
+        $caption = $(slide).find('.caption');
+        captionHeight = $caption.innerHeight();
         $(slide).css({
-          width: slideW,
-          height: slideH
-        });
-        return $(slide).imagesLoaded(function() {
-          var $image;
+          width: slideWidth,
+          height: slideHeight
+        }).imagesLoaded(function() {
           $image = $(this.elements[0]);
           return $image.addClass('loaded');
+        });
+        return $image.css({
+          height: slideHeight - captionHeight
         });
       });
     };

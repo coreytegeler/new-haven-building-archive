@@ -18,7 +18,7 @@ aside {
 					top: 0;
 					pointer-events: none;
 				}
-				.map, .slide {
+				.map {
 					opacity: 0;
 				}
 				.loader {
@@ -27,7 +27,6 @@ aside {
 					position: absolute;
 					left: calc(50% - 10px);
 					top: calc(50% - 10px);
-					background: rgb(240,240,240);
 				}
 				&.show {
 					display: block;
@@ -42,6 +41,18 @@ aside {
 					}
 				}
 			}
+			.mapWrap {
+				@include loader;
+				&.loaded {
+					background: none;
+					.map {
+						opacity: 1;
+					}
+				}
+				.map {
+					opacity: 0;
+				}
+			}
 			.sliderWrap {
 				.slider {
 					.slideWrap {
@@ -52,9 +63,24 @@ aside {
 						top: 0;
 						.slide {
 							float: left;
-							background-position: center;
-							background-size: contain;
-							background-repeat: no-repeat;
+							@include loader;
+							&.loaded {
+								background: none;
+								.image {
+									opacity: 1;
+								}
+							}
+							.image {
+								width: 100%;
+								height: 100%;
+								background-position: center;
+								background-size: contain;
+								background-repeat: no-repeat;
+								opacity: 0;
+							}
+							.caption {
+
+							}
 						}
 					}
 				}
@@ -78,11 +104,11 @@ aside {
 			}
 			.buildings {
 				.building {
+					width: 100%;
+					margin-bottom: 1em;
 					a {
 						display: flex;
 					}
-					width: 100%;
-					margin-bottom: 1em;
 					.index {
 						display: table;
 						margin-right: 0.5em;
@@ -124,6 +150,9 @@ aside {
 	transition: all 500ms ease;
 	pointer-events: none;
 	z-index: 100;
+	background-image: url(/img/ajax.gif);
+	background-position: center;
+	background-repeat: no-repeat;
 }
 .gridWrap {
 	width: 100%;
@@ -147,7 +176,6 @@ aside {
 		padding: 2em;
 		display: table;
 		float: left;
-		background: transparent !important;
 		a {
 			display: table;
 			font-size: 1em;
@@ -156,10 +184,17 @@ aside {
 		.image {
 			margin-bottom: .5em;
 			border: 1px solid transparent;
+			@include loader;
 		}
 		.img, img {
 			width: 100%;
 			display: block;
+			opacity: 0;
+		}
+		&.loaded {
+			.img, img {
+				opacity: 1;
+			}
 		}
 		&.selected {
 			background: transparent;
@@ -167,6 +202,7 @@ aside {
 				opacity: 0;
 			}
 			.image {
+				background: transparent !important;
 				border-color: black;
 			}
 		}

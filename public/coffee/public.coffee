@@ -29,6 +29,12 @@ $ ->
 		$body.on 'click', 'a.filter', clickFilter
 		$body.on 'click', '#closedHeader', openSide
 		$body.on 'click', '.close.tab', closeSide
+
+		$buildingTiles.each () ->
+			$(this).imagesLoaded () ->
+				$(this.elements[0]).addClass('loaded')
+
+
 		filterQuery = {
 			'tour': getQuery('tour'),
 			'neighborhood': getQuery('neighborhood'),
@@ -218,7 +224,7 @@ $ ->
       grid: mapObj,
       position: coords
     }
-		$map.addClass('loaded')
+		$mapWrap.addClass('loaded')
 		return
 
 	# insertStreetView = (container, coords) ->
@@ -249,18 +255,25 @@ $ ->
 		$slidesWrap = $('.sliderWrap')
 		$slideWrap = $('.slideWrap')
 		$slides = $('.slide')
-		sliderL = $slides.length
-		sliderW = parseInt($slider.width())
-		slideW = sliderW/sliderL
-		slideH = parseInt($slider.height())
+		sliderLength = $slides.length
+		sliderWidth = $slider.innerWidth()
+		slideWidth = sliderWidth/sliderLength
+		slideHeight = $slider.innerHeight()
 		$slides.each (i, slide) ->
+			$image = $(slide).find('.image')
+			$caption = $(slide).find('.caption')
+			captionHeight = $caption.innerHeight()
+
 			$(slide).css({
-				width: slideW
-				height:	slideH
-			})
-			$(slide).imagesLoaded () ->
+				width: slideWidth
+				height:	slideHeight
+			}).imagesLoaded () ->
 				$image = $(this.elements[0])
 				$image.addClass('loaded')
+
+			$image.css({
+				height: slideHeight - captionHeight
+			})
 
 	closeSide = () ->
 		matrix = $grid.css('transform')

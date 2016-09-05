@@ -6,13 +6,16 @@
 		.toggler(data-group='photos')= 'Photos'
 		.toggler(data-group='map')= 'Map'
 
-	.group.sliderWrap(data-group='photos').show
+	.group.sliderWrap(data-group='photos', class=(object.images ? 'show' : ''))
 		.slider
 			if(object.images)
 				.slideWrap
 					each image, index in object.images
-						.slide(data-index=index, data-id=image.id, style='background-image:url('+image.path+')')
-	.group.mapWrap(data-group='map')
+						.slide(data-index=index, data-id=image.id)
+							.image(style='background-image:url('+image.path+')')
+							.caption= image.caption
+
+	.group.mapWrap(data-group='map', class=(!object.images ? 'show' : ''))
 		.map
 		.loader
 

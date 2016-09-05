@@ -9,16 +9,13 @@ mixin thumb(building)
 			-var thumbUrl = thumb.path
 	else
 		-var images = undefined
-		-var opacity = Math.random() * (1 - .1) + .1
-		-var opacityStyle = 'background:rgba(0,0,0,' + opacity + ');'
-
 
 	if(thumbUrl)
 		img(src=thumbUrl)
 	else
 		-var imgWidth = Math.floor((Math.random() * (100) + 200))
 		-var imgHeight = Math.floor((Math.random() * (100) + 200))
-		-var imgStyle = 'width:'+imgWidth+'px; height:'+imgHeight+'px;'+opacityStyle
+		-var imgStyle = 'width:'+imgWidth+'px; height:'+imgHeight+'px;'
 		.img(style=imgStyle)
 
 

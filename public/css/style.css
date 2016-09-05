@@ -162,17 +162,19 @@ aside {
     display: none; }
     aside #closedHeader:hover {
       cursor: pointer; }
-  aside .toggle .toggler {
-    padding: 0.5em 1em;
-    border: 1px solid black;
-    display: table;
-    float: left; }
-    aside .toggle .toggler:not(:last-child) {
-      border-right: 0; }
-    aside .toggle .toggler:hover {
-      cursor: pointer;
-      background-color: black;
-      color: #fffed3; }
+  aside .toggle {
+    margin-bottom: 1em; }
+    aside .toggle .toggler {
+      padding: 0.5em 1em;
+      border: 1px solid black;
+      display: table;
+      float: left; }
+      aside .toggle .toggler:not(:last-child) {
+        border-right: 0; }
+      aside .toggle .toggler:hover {
+        cursor: pointer;
+        background-color: black;
+        color: #fffed3; }
 
 form {
   width: calc(100% - 2em);
@@ -450,15 +452,14 @@ aside section#single .mapWrap, aside section#single .sliderWrap {
     left: 0;
     top: 0;
     pointer-events: none; }
-  aside section#single .mapWrap .map, aside section#single .mapWrap .slide, aside section#single .sliderWrap .map, aside section#single .sliderWrap .slide {
+  aside section#single .mapWrap .map, aside section#single .sliderWrap .map {
     opacity: 0; }
   aside section#single .mapWrap .loader, aside section#single .sliderWrap .loader {
     width: 20px;
     height: 20px;
     position: absolute;
     left: calc(50% - 10px);
-    top: calc(50% - 10px);
-    background: #f0f0f0; }
+    top: calc(50% - 10px); }
   aside section#single .mapWrap.show, aside section#single .sliderWrap.show {
     display: block; }
     aside section#single .mapWrap.show .map, aside section#single .mapWrap.show .slider, aside section#single .sliderWrap.show .map, aside section#single .sliderWrap.show .slider {
@@ -467,6 +468,14 @@ aside section#single .mapWrap, aside section#single .sliderWrap {
     opacity: 1; }
     aside section#single .mapWrap .loaded .loader, aside section#single .sliderWrap .loaded .loader {
       opacity: 0; }
+aside section#single .mapWrap {
+  background-color: rgba(0, 0, 0, 0.06); }
+  aside section#single .mapWrap.loaded {
+    background: none; }
+    aside section#single .mapWrap.loaded .map {
+      opacity: 1; }
+  aside section#single .mapWrap .map {
+    opacity: 0; }
 aside section#single .sliderWrap .slider .slideWrap {
   width: 100%;
   height: 100%;
@@ -475,9 +484,18 @@ aside section#single .sliderWrap .slider .slideWrap {
   top: 0; }
   aside section#single .sliderWrap .slider .slideWrap .slide {
     float: left;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat; }
+    background-color: rgba(0, 0, 0, 0.06); }
+    aside section#single .sliderWrap .slider .slideWrap .slide.loaded {
+      background: none; }
+      aside section#single .sliderWrap .slider .slideWrap .slide.loaded .image {
+        opacity: 1; }
+    aside section#single .sliderWrap .slider .slideWrap .slide .image {
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0; }
 aside section#single .paragraphs {
   white-space: pre-line; }
 aside section#single .header {
@@ -525,7 +543,10 @@ aside section#single .buildings .building {
   opacity: 1;
   transition: all 500ms ease;
   pointer-events: none;
-  z-index: 100; }
+  z-index: 100;
+  background-image: url(/img/ajax.gif);
+  background-position: center;
+  background-repeat: no-repeat; }
 
 .gridWrap {
   width: 100%;
@@ -546,23 +567,27 @@ aside section#single .buildings .building {
   height: 300px;
   padding: 2em;
   display: table;
-  float: left;
-  background: transparent !important; }
+  float: left; }
   .grid .building a {
     display: table;
     font-size: 1em;
     line-height: 1.1em; }
   .grid .building .image {
     margin-bottom: .5em;
-    border: 1px solid transparent; }
+    border: 1px solid transparent;
+    background-color: rgba(0, 0, 0, 0.06); }
   .grid .building .img, .grid .building img {
     width: 100%;
-    display: block; }
+    display: block;
+    opacity: 0; }
+  .grid .building.loaded .img, .grid .building.loaded img {
+    opacity: 1; }
   .grid .building.selected {
     background: transparent; }
     .grid .building.selected img, .grid .building.selected .img {
       opacity: 0; }
     .grid .building.selected .image {
+      background: transparent !important;
       border-color: black; }
   .grid .building.hidden {
     display: none; }
