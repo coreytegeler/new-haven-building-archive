@@ -162,6 +162,17 @@ aside {
     display: none; }
     aside #closedHeader:hover {
       cursor: pointer; }
+  aside .toggle .toggler {
+    padding: 0.5em 1em;
+    border: 1px solid black;
+    display: table;
+    float: left; }
+    aside .toggle .toggler:not(:last-child) {
+      border-right: 0; }
+    aside .toggle .toggler:hover {
+      cursor: pointer;
+      background-color: black;
+      color: #fffed3; }
 
 form {
   width: calc(100% - 2em);
@@ -426,26 +437,53 @@ main {
 main {
   position: relative; }
 
-aside section#single .gMapWrap, aside section#single .streetViewWrap {
+aside section#single .mapWrap, aside section#single .sliderWrap {
   width: 100%;
   height: 20em;
   position: relative;
-  padding: 0; }
-  aside section#single .gMapWrap .gMap, aside section#single .gMapWrap .streetView, aside section#single .streetViewWrap .gMap, aside section#single .streetViewWrap .streetView {
+  padding: 0;
+  display: none; }
+  aside section#single .mapWrap .map, aside section#single .mapWrap .slider, aside section#single .sliderWrap .map, aside section#single .sliderWrap .slider {
     width: 100%;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
     pointer-events: none; }
-  aside section#single .gMapWrap .loader, aside section#single .streetViewWrap .loader {
-    background: #f0f0f0; }
-  aside section#single .gMapWrap.show .gMap, aside section#single .gMapWrap.show .streetView, aside section#single .streetViewWrap.show .gMap, aside section#single .streetViewWrap.show .streetView {
-    pointer-events: all; }
-  aside section#single .gMapWrap.show .loader, aside section#single .streetViewWrap.show .loader {
+  aside section#single .mapWrap .map, aside section#single .mapWrap .slide, aside section#single .sliderWrap .map, aside section#single .sliderWrap .slide {
     opacity: 0; }
+  aside section#single .mapWrap .loader, aside section#single .sliderWrap .loader {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: calc(50% - 10px);
+    top: calc(50% - 10px);
+    background: #f0f0f0; }
+  aside section#single .mapWrap.show, aside section#single .sliderWrap.show {
+    display: block; }
+    aside section#single .mapWrap.show .map, aside section#single .mapWrap.show .slider, aside section#single .sliderWrap.show .map, aside section#single .sliderWrap.show .slider {
+      pointer-events: all; }
+  aside section#single .mapWrap .loaded, aside section#single .sliderWrap .loaded {
+    opacity: 1; }
+    aside section#single .mapWrap .loaded .loader, aside section#single .sliderWrap .loaded .loader {
+      opacity: 0; }
+aside section#single .sliderWrap .slider .slideWrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0; }
+  aside section#single .sliderWrap .slider .slideWrap .slide {
+    float: left;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat; }
 aside section#single .paragraphs {
   white-space: pre-line; }
+aside section#single .header {
+  margin-bottom: 0.3em; }
+  aside section#single .header h1 {
+    margin-bottom: 0; }
 aside section#single .tour h4 {
   margin-bottom: 1.5em; }
   aside section#single .tour h4 a {
@@ -489,40 +527,44 @@ aside section#single .buildings .building {
   pointer-events: none;
   z-index: 100; }
 
-.mapWrap {
+.gridWrap {
   width: 100%;
   height: 100%;
   position: absolute !important;
   top: 0;
   display: inline-block;
   overflow: hidden; }
-  .mapWrap .map {
+  .gridWrap .grid {
     min-width: calc(100% - calc(15em + 20vw));
     display: table;
     position: absolute;
     z-index: 9;
     display: block; }
 
-.buildings.map .building {
+.grid .building {
   width: 300px;
   height: 300px;
   padding: 2em;
   display: table;
   float: left;
   background: transparent !important; }
-  .buildings.map .building a {
+  .grid .building a {
     display: table;
     font-size: 1em;
     line-height: 1.1em; }
-  .buildings.map .building .image, .buildings.map .building img {
-    width: 100%;
+  .grid .building .image {
     margin-bottom: .5em;
-    display: block;
     border: 1px solid transparent; }
-  .buildings.map .building.selected .image {
-    border-color: black;
+  .grid .building .img, .grid .building img {
+    width: 100%;
+    display: block; }
+  .grid .building.selected {
     background: transparent; }
-  .buildings.map .building.hidden {
+    .grid .building.selected img, .grid .building.selected .img {
+      opacity: 0; }
+    .grid .building.selected .image {
+      border-color: black; }
+  .grid .building.hidden {
     display: none; }
 
 /*# sourceMappingURL=style.css.map */

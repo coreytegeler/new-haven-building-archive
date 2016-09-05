@@ -1,9 +1,21 @@
 .buildingWrap(data-tour=object.tour, data-address=object.address)
 	.group.header
 		h1.name= object.name
-	.group.gMapWrap
-		.gMap
+
+	.group.toggle
+		.toggler(data-group='photos')= 'Photos'
+		.toggler(data-group='map')= 'Map'
+
+	.group.sliderWrap(data-group='photos').show
+		.slider
+			if(object.images)
+				.slideWrap
+					each image, index in object.images
+						.slide(data-index=index, data-id=image.id, style='background-image:url('+image.path+')')
+	.group.mapWrap(data-group='map')
+		.map
 		.loader
+
 	.group.meta
 		ul
 			if(style)

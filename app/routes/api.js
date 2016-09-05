@@ -29,26 +29,26 @@ module.exports = function(app) {
     Async.waterfall([
       function(callback) {
         Building.findOne({_id:id}, function(err, building) {
-          callback(null, building)
+          return callback(null, building)
         })
       },
       function(building, callback) {
         if(!building.tour)
-          callback(null, building, null)
+          return callback(null, building, null)
         Tour.findOne({_id: building.tour}, function(err, tour) {
-          callback(null, building, tour)
+          return callback(null, building, tour)
         })
       },
       function(building, tour, callback) {
         if(!building.neighborhood)
-          callback(null, building, tour, null)
+          return callback(null, building, tour, null)
         Neighborhood.findOne(building.neighborhood, function(err, neighborhood) {
-          callback(null, building, tour, neighborhood)
+          return callback(null, building, tour, neighborhood)
         })
       },
       function(building, tour, neighborhood, callback) {
         if(!tour)
-          callback(null, building, tour, neighborhood, null)
+          return callback(null, building, tour, neighborhood, null)
         Building.find({tour: tour.id}, function(err, tourBuildings) {
           for(var i = 0; i < tourBuildings.length; i++) {
             if(tourBuildings[i]._id == id) {
@@ -56,7 +56,7 @@ module.exports = function(app) {
               break
             }
           }
-          callback(null, building, tour, neighborhood, tourBuildings)
+          return callback(null, building, tour, neighborhood, tourBuildings)
         })
       },
     ], function (err, building, tour, neighborhood, tourBuildings) {

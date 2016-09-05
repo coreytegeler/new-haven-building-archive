@@ -214,4 +214,20 @@ aside {
 			cursor: pointer;
 		}
 	}
+	.toggle {
+		.toggler {
+			padding: 0.5em 1em;
+			border: 1px solid black;
+			display: table;
+			float: left;
+			&:not(:last-child) {
+				border-right: 0;
+			}
+			&:hover {
+				cursor: pointer;
+				background-color: black;
+				color: $yellow;
+			}
+		}
+	}
 }

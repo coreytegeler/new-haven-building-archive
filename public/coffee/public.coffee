@@ -2,9 +2,9 @@ $ ->
 	$body = $('body')
 	$main = $('main')
 	$side = $('aside')
-	$buildingsWrap = $('.mapWrap.buildings')
-	$buildingsMap = $('.map.buildings')
-	$buildingTiles = $buildingsMap.find('.building')
+	$gridWrap = $('.gridWrap')
+	$grid = $('.grid')
+	$buildingTiles = $grid.find('.building')
 	$buildings = $('.building')
 	$infoSect = $('section#info')
 	$indexSect = $('section#index')
@@ -14,12 +14,14 @@ $ ->
 	filterQuery = {}
 
 	initPublic = () ->
-		$buildingsMap.masonry({
+		$grid.masonry({
 			transitionDuration: 0
 		})
 		resizeMap()
 		makeDraggable()
-		$(window).resize resizeMap
+		$(window).resize () ->
+			resizeMap()
+			setUpSlider()
 		$(window).on 'popstate', popState
 		$body.on 'mouseenter', '.building a', hoverBuilding
 		$body.on 'mouseleave', '.building a', unhoverBuilding
@@ -47,16 +49,16 @@ $ ->
 
 
 	makeDraggable = () ->
-		Draggable.create $buildingsMap, {
+		Draggable.create $grid, {
 			type: 'x,y',
 			edgeResistance: 0.95,
 			throwProps: true,
-			bounds: $buildingsWrap
+			bounds: $gridWrap
 		}
 
 	constrainArray = () ->
-	  wDiff = $buildingsWrap.innerWidth() - $buildingsMap.innerWidth();
-	  hDiff = $buildingsWrap.innerHeight() - $buildingsMap.innerHeight();
+	  wDiff = $gridWrap.innerWidth() - $grid.innerWidth();
+	  hDiff = $gridWrap.innerHeight() - $grid.innerHeight();
 	  return [hDiff, 0, 0, wDiff]
 
 	resizeMap = () -> 
@@ -65,24 +67,24 @@ $ ->
 		smaller = Math.floor(Math.sqrt(length))
 		larger = Math.round(Math.sqrt(length))
 		edge = $buildingTiles.eq(0).innerWidth()
-		mapWidth = larger * edge
-		mapHeight = smaller * edge
-		$buildingsMap.css({
-			width: mapWidth+'px',
-			height: mapHeight+'px'
+		gridWidth = larger * edge
+		gridHeight = smaller * edge
+		$grid.css({
+			width: gridWidth+'px',
+			height: gridHeight+'px'
 		}).masonry('layout')
 
-		if(!$buildingsMap.is('.dragged'))
+		if(!$grid.is('.dragged'))
 			centerMap()
 
 	centerMap = () ->
-		wrapWidth = $buildingsWrap.innerWidth()
-		wrapHeight = $buildingsWrap.innerHeight()
-		mapWidth = $buildingsMap.innerWidth()
-		mapHeight = $buildingsMap.innerHeight()
-		left = wrapWidth/2 - mapWidth/2
-		top = wrapHeight/2 - mapHeight/2
-		$buildingsMap.css({
+		wrapWidth = $gridWrap.innerWidth()
+		wrapHeight = $gridWrap.innerHeight()
+		gridWidth = $grid.innerWidth()
+		gridHeight = $grid.innerHeight()
+		left = wrapWidth/2 - gridWidth/2
+		top = wrapHeight/2 - gridHeight/2
+		$grid.css({
 			left: left,
 			top: top
 		});
@@ -104,7 +106,7 @@ $ ->
 	clickBuilding = () ->
 		event.preventDefault()
 		self = this
-		if($buildingsMap.is('.dragging'))
+		if($grid.is('.dragging'))
 			return
 		building = $(self).parents('.building')[0]
 		if($(building).is('.selected'))
@@ -143,7 +145,7 @@ $ ->
 		filter()
 
 	filter = (id, type) ->
-		$('.map.buildings .building').each (i, building) ->
+		$('.grid.buildings .building').each (i, building) ->
 			show = true
 			for key, value of filterQuery
 				if(value)
@@ -187,8 +189,9 @@ $ ->
 			.addClass('show')
 			.removeClass('loading')
 			.attr('data-id', id)
-		if($(content).find('.gMapWrap').length)
+		if($(content).find('.mapWrap').length)
 			panelMapSetUp($singleSect)
+			setUpSlider()
 		openSide()
 
 	panelMapSetUp = (container) ->
@@ -204,45 +207,63 @@ $ ->
 	insertMap = (container, coords) ->
 		$(container).find('show').removeClass('show');
 		address = $(container).find('.address').text() + ', New Haven, CT 06510'
-		$gMapWrap = $(container).find('.gMapWrap')
-		$gMap = $gMapWrap.find('.gMap')
-		gMapObj = new google.maps.Map $gMap[0], {
+		$mapWrap = $(container).find('.mapWrap')
+		$map = $mapWrap.find('.map')
+		mapObj = new google.maps.Map $map[0], {
 			scrollwheel: false,
 			center: coords,
 			zoom: 16
 		}
 		marker = new google.maps.Marker {
-      map: gMapObj,
+      grid: mapObj,
       position: coords
     }
-		$gMapWrap.addClass('show')
+		$map.addClass('loaded')
 		return
 
-	insertStreetView = (container, coords) ->
-		address = $(container).find('.address').text() + ', New Haven, CT 06510'
-		$streetViewWrap = $(container).find('.streetViewWrap')
-		$streetView = $streetViewWrap.find('.streetView')
-		streetViewObj = new  google.maps.StreetViewPanorama $streetView[0], {
-			position: coords
-		}
-		streetViewService = new google.maps.StreetViewService
-		streetViewService.getPanoramaByLocation streetViewObj.getPosition(), 50, (data) ->
-			if (data != null)
-				center = data.location.latLng
-				heading = google.maps.geometry.spherical.computeHeading(center, coords)
-				pov = streetViewObj.getPov()
-				pov.heading = heading
-				streetViewObj.setPov(pov)
-				$streetViewWrap.addClass('show')
-				marker = new google.maps.Marker {
-          map: streetViewObj,
-          position: coords
-        }
-			return
-		return
+	# insertStreetView = (container, coords) ->
+	# 	address = $(container).find('.address').text() + ', New Haven, CT 06510'
+	# 	$streetViewWrap = $(container).find('.streetViewWrap')
+	# 	$streetView = $streetViewWrap.find('.streetView')
+	# 	streetViewObj = new  google.maps.StreetViewPanorama $streetView[0], {
+	# 		position: coords
+	# 	}
+	# 	streetViewService = new google.maps.StreetViewService
+	# 	streetViewService.getPanoramaByLocation streetViewObj.getPosition(), 50, (data) ->
+	# 		if (data != null)
+	# 			center = data.location.latLng
+	# 			heading = google.maps.geometry.spherical.computeHeading(center, coords)
+	# 			pov = streetViewObj.getPov()
+	# 			pov.heading = heading
+	# 			streetViewObj.setPov(pov)
+	# 			$streetViewWrap.addClass('show')
+	# 			marker = new google.maps.Marker {
+ #          grid: streetViewObj,
+ #          position: coords
+ #        }
+	# 		return
+	# 	return
+
+	setUpSlider = () ->
+		$slider = $('.slider')
+		$slidesWrap = $('.sliderWrap')
+		$slideWrap = $('.slideWrap')
+		$slides = $('.slide')
+		sliderL = $slides.length
+		sliderW = parseInt($slider.width())
+		slideW = sliderW/sliderL
+		slideH = parseInt($slider.height())
+		$slides.each (i, slide) ->
+			$(slide).css({
+				width: slideW
+				height:	slideH
+			})
+			$(slide).imagesLoaded () ->
+				$image = $(this.elements[0])
+				$image.addClass('loaded')
 
 	closeSide = () ->
-		matrix = $buildingsMap.css('transform')
+		matrix = $grid.css('transform')
 		matrixParse = matrix.split('(')[1].split(')')[0].split(',')
 		a = parseInt(matrixParse[0])
 		b = parseInt(matrixParse[1])
@@ -253,8 +274,8 @@ $ ->
 		sideWidth = parseInt($side.innerWidth())
 		newX = x+sideWidth
 		newMatrix = [a,b,c,d,newX,y].join(',')
-		$buildingsMap.css({transform: 'matrix('+newMatrix+')'})
-		matrix = $buildingsMap.css('transform')
+		$grid.css({transform: 'matrix('+newMatrix+')'})
+		matrix = $grid.css('transform')
 		$body.addClass('full')
 		$main.attr('style', '')
 		resizeMap()
