@@ -224,7 +224,7 @@ aside {
 			&:not(:last-child) {
 				border-right: 0;
 			}
-			&:hover {
+			&:hover, &.selected {
 				cursor: pointer;
 				background-color: black;
 				color: $yellow;

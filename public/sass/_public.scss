@@ -4,12 +4,18 @@ main {
 aside {
 	section {
 		&#single {
-			.mapWrap, .sliderWrap  {
+			.togglables {
 				width: 100%;
 				height: 20em;
 				position: relative;
+			}
+			.mapWrap, .sliderWrap  {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: -99999%;
+				top: 0;
 				padding: 0;
-				display: none;
 				.map, .slider {
 					width: 100%;
 					height: 100%;
@@ -29,7 +35,7 @@ aside {
 					top: calc(50% - 10px);
 				}
 				&.show {
-					display: block;
+					left: 0;
 					.map, .slider {
 						pointer-events: all;
 					}
@@ -55,6 +61,10 @@ aside {
 			}
 			.sliderWrap {
 				.slider {
+					&.slippery .slide img,
+					&.slippery .slide img:hover {
+						cursor: pointer;
+					}
 					.slideWrap {
 						width: 100%;
 				    height: 100%;
@@ -62,7 +72,11 @@ aside {
 						left: 0;
 						top: 0;
 						.slide {
-							display: none;
+							width: 100%;
+							height: 100%;
+							position: absolute;
+							left: -99999%;
+							top: 0;
 							@include loader;
 							&.loaded {
 								background: none;
@@ -71,7 +85,7 @@ aside {
 								}
 							}
 							&.show {
-								display: block;
+								left: 0;
 							}
 							.imageWrap {
 								width: 100%;

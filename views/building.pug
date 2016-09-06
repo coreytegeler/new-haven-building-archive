@@ -3,24 +3,26 @@
 		h1.name= object.name
 
 	.group.toggle
-		.toggler(data-group='photos')= 'Photos'
-		.toggler(data-group='map')= 'Map'
+		if(object.images)
+			.toggler(data-group='photos', class='selected')= 'Photos'
+			.toggler(data-group='map')= 'Map'
 
-	.group.sliderWrap(data-group='photos', class=(object.images ? 'show' : ''))
-		.slider
-			if(object.images)
-				.slideWrap
-					each image, index in object.images
-						.slide(data-index=index, data-id=image.id)
-							.imageWrap
-								.vert
-									.horz
-										img(src=image.path)
-							.caption= image.caption
+	.group.togglables
+		.sliderWrap.togglable(data-group='photos', class=(object.images ? 'show' : ''))
+			.slider
+				if(object.images)
+					.slideWrap
+						each image, i in object.images
+							.slide(data-index=i, data-id=image.id, class=(i == 0 ? 'show' : ''))
+								.imageWrap
+									.vert
+										.horz
+											img(src=image.path)
+								.caption= image.caption
 
-	.group.mapWrap(data-group='map', class=(!object.images ? 'show' : ''))
-		.map
-		.loader
+		.mapWrap.togglable(data-group='map', class=(!object.images ? 'show' : ''))
+			.map
+			.loader
 
 	.group.meta
 		ul

@@ -169,12 +169,14 @@ addImage = (object) ->
 	else
 		imagesInputVal = []
 
+	updating = false
 	if(imagesInputVal)
 		for i, thisObject of imagesInputVal
 			if(thisObject.id == imageObject.id)
 				imagesInputVal[i] = imageObject
-			else	
-				imagesInputVal.push(imageObject)
+				updating = true
+		if(!updating)
+			imagesInputVal.push(imageObject)
 	else
 		imagesInputVal = imageObject
 	$imagesInput.val(JSON.stringify(imagesInputVal))

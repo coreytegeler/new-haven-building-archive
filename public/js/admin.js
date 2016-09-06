@@ -189,7 +189,7 @@
   };
 
   addImage = function(object) {
-    var $clone, $cloneCaption, $cloneImg, $imagesInput, $imagesWrapper, i, imageObject, imagesInputVal, thisObject;
+    var $clone, $cloneCaption, $cloneImg, $imagesInput, $imagesWrapper, i, imageObject, imagesInputVal, thisObject, updating;
     $imagesWrapper = $('.images');
     $imagesInput = $imagesWrapper.find('input:text');
     imageObject = {
@@ -202,14 +202,17 @@
     } else {
       imagesInputVal = [];
     }
+    updating = false;
     if (imagesInputVal) {
       for (i in imagesInputVal) {
         thisObject = imagesInputVal[i];
         if (thisObject.id === imageObject.id) {
           imagesInputVal[i] = imageObject;
-        } else {
-          imagesInputVal.push(imageObject);
+          updating = true;
         }
+      }
+      if (!updating) {
+        imagesInputVal.push(imageObject);
       }
     } else {
       imagesInputVal = imageObject;

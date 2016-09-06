@@ -30,6 +30,7 @@ $ ->
 		$body.on 'click', '#closedHeader', openSide
 		$body.on 'click', '.close.tab', closeSide
 		$body.on 'click', '.slide', nextSlide
+		$body.on 'click', '.toggler', clickToggle
 
 		$buildingTiles.imagesLoaded().progress (instance, image) ->
     	status = if image.isLoaded then 'loaded' else 'broken'
@@ -221,12 +222,10 @@ $ ->
 			center: coords,
 			zoom: 16
 		}
-		marker = new google.maps.Marker {
-      grid: mapObj,
+		marker = new google.maps.Marker
+      map: mapObj,
       position: coords
-    }
 		$mapWrap.addClass('loaded')
-		return
 
 	# insertStreetView = (container, coords) ->
 	# 	address = $(container).find('.address').text() + ', New Haven, CT 06510'
@@ -256,14 +255,15 @@ $ ->
 		$slidesWrap = $('.sliderWrap')
 		$slideWrap = $('.slideWrap')
 		$slides = $('.slide')
-		sliderLength = $slides.length
-		sliderWidth = $slider.innerWidth()
 		sliderWidth = $slider.innerWidth()
 		sliderHeight = $slider.innerHeight()
 
 		$slideWrap.imagesLoaded().progress (instance, image) ->
     	status = if image.isLoaded then 'loaded' else 'broken'
 	    $(image.img).parents('.slide').addClass(status)
+
+	  if($slides.length > 1)
+	  	$slider.addClass('slippery')
 
 		$slides.each (i, slide) ->
 			$image = $(slide).find('img')
@@ -274,7 +274,7 @@ $ ->
 			orientation = if ratio > 1 then 'landscape' else 'portait'
 			$caption = $(slide).find('.caption')
 			captionHeight = $caption.innerHeight()
-
+			
 			$imageWrap.css({
 				height: sliderHeight - captionHeight
 			})
@@ -282,7 +282,7 @@ $ ->
 			$(slide).css({
 				width: sliderWidth
 				height:	sliderHeight
-			}).addClass(if i==0 then 'show' else '')
+			})
 
 			if(orientation == 'landscape')
 				$image.css({
@@ -301,6 +301,7 @@ $ ->
 		if($next.length)
 			$slide.removeClass('show')
 			$next.addClass('show')
+		setUpSlider()
 
 	closeSide = () ->
 		matrix = $grid.css('transform')
@@ -323,6 +324,16 @@ $ ->
 
 	openSide = () ->
 		$body.removeClass('full')
+
+	clickToggle = () ->
+		group = this.dataset.group
+		$group = $('.togglable[data-group="'+group+'"]')
+		if(!$group.hasClass('show'))
+			$('.togglable.show').removeClass('show')
+			$group.addClass('show')
+			$('.toggler.selected').removeClass('selected')
+			$(this).addClass('selected')
+
 
 	getQuery = (type) ->
   	query = window.location.search.substring(1)

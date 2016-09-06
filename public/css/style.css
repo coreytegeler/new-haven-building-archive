@@ -171,7 +171,7 @@ aside {
       float: left; }
       aside .toggle .toggler:not(:last-child) {
         border-right: 0; }
-      aside .toggle .toggler:hover {
+      aside .toggle .toggler:hover, aside .toggle .toggler.selected {
         cursor: pointer;
         background-color: black;
         color: #fffed3; }
@@ -439,12 +439,17 @@ main {
 main {
   position: relative; }
 
-aside section#single .mapWrap, aside section#single .sliderWrap {
+aside section#single .togglables {
   width: 100%;
   height: 20em;
-  position: relative;
-  padding: 0;
-  display: none; }
+  position: relative; }
+aside section#single .mapWrap, aside section#single .sliderWrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: -99999%;
+  top: 0;
+  padding: 0; }
   aside section#single .mapWrap .map, aside section#single .mapWrap .slider, aside section#single .sliderWrap .map, aside section#single .sliderWrap .slider {
     width: 100%;
     height: 100%;
@@ -461,7 +466,7 @@ aside section#single .mapWrap, aside section#single .sliderWrap {
     left: calc(50% - 10px);
     top: calc(50% - 10px); }
   aside section#single .mapWrap.show, aside section#single .sliderWrap.show {
-    display: block; }
+    left: 0; }
     aside section#single .mapWrap.show .map, aside section#single .mapWrap.show .slider, aside section#single .sliderWrap.show .map, aside section#single .sliderWrap.show .slider {
       pointer-events: all; }
   aside section#single .mapWrap .loaded, aside section#single .sliderWrap .loaded {
@@ -476,6 +481,8 @@ aside section#single .mapWrap {
       opacity: 1; }
   aside section#single .mapWrap .map {
     opacity: 0; }
+aside section#single .sliderWrap .slider.slippery .slide img, aside section#single .sliderWrap .slider.slippery .slide img:hover {
+  cursor: pointer; }
 aside section#single .sliderWrap .slider .slideWrap {
   width: 100%;
   height: 100%;
@@ -483,14 +490,18 @@ aside section#single .sliderWrap .slider .slideWrap {
   left: 0;
   top: 0; }
   aside section#single .sliderWrap .slider .slideWrap .slide {
-    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: -99999%;
+    top: 0;
     background-color: rgba(0, 0, 0, 0.06); }
     aside section#single .sliderWrap .slider .slideWrap .slide.loaded {
       background: none; }
       aside section#single .sliderWrap .slider .slideWrap .slide.loaded .imageWrap img {
         opacity: 1; }
     aside section#single .sliderWrap .slider .slideWrap .slide.show {
-      display: block; }
+      left: 0; }
     aside section#single .sliderWrap .slider .slideWrap .slide .imageWrap {
       width: 100%;
       display: table; }
