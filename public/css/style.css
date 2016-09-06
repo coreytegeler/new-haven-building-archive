@@ -483,19 +483,22 @@ aside section#single .sliderWrap .slider .slideWrap {
   left: 0;
   top: 0; }
   aside section#single .sliderWrap .slider .slideWrap .slide {
-    float: left;
+    display: none;
     background-color: rgba(0, 0, 0, 0.06); }
     aside section#single .sliderWrap .slider .slideWrap .slide.loaded {
       background: none; }
-      aside section#single .sliderWrap .slider .slideWrap .slide.loaded .image {
+      aside section#single .sliderWrap .slider .slideWrap .slide.loaded .imageWrap img {
         opacity: 1; }
-    aside section#single .sliderWrap .slider .slideWrap .slide .image {
+    aside section#single .sliderWrap .slider .slideWrap .slide.show {
+      display: block; }
+    aside section#single .sliderWrap .slider .slideWrap .slide .imageWrap {
       width: 100%;
-      height: 100%;
-      background-position: center;
-      background-size: contain;
-      background-repeat: no-repeat;
-      opacity: 0; }
+      display: table; }
+      aside section#single .sliderWrap .slider .slideWrap .slide .imageWrap img {
+        opacity: 0;
+        vertical-align: bottom; }
+    aside section#single .sliderWrap .slider .slideWrap .slide .caption {
+      padding-top: 0.5em; }
 aside section#single .paragraphs {
   white-space: pre-line; }
 aside section#single .header {

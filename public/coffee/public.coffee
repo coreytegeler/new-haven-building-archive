@@ -29,10 +29,11 @@ $ ->
 		$body.on 'click', 'a.filter', clickFilter
 		$body.on 'click', '#closedHeader', openSide
 		$body.on 'click', '.close.tab', closeSide
+		$body.on 'click', '.slide', nextSlide
 
-		$buildingTiles.each () ->
-			$(this).imagesLoaded () ->
-				$(this.elements[0]).addClass('loaded')
+		$buildingTiles.imagesLoaded().progress (instance, image) ->
+    	status = if image.isLoaded then 'loaded' else 'broken'
+	    $(image.img).parents('.building').addClass(status)
 
 
 		filterQuery = {
@@ -257,23 +258,49 @@ $ ->
 		$slides = $('.slide')
 		sliderLength = $slides.length
 		sliderWidth = $slider.innerWidth()
-		slideWidth = sliderWidth/sliderLength
-		slideHeight = $slider.innerHeight()
+		sliderWidth = $slider.innerWidth()
+		sliderHeight = $slider.innerHeight()
+
+		$slideWrap.imagesLoaded().progress (instance, image) ->
+    	status = if image.isLoaded then 'loaded' else 'broken'
+	    $(image.img).parents('.slide').addClass(status)
+
 		$slides.each (i, slide) ->
-			$image = $(slide).find('.image')
+			$image = $(slide).find('img')
+			$imageWrap = $(slide).find('.imageWrap')
+			imageWidth = $image[0].naturalWidth || $image[0].width
+			imageHeight = $image[0].naturalHeight || $image[0].height
+			ratio = imageWidth/imageHeight
+			orientation = if ratio > 1 then 'landscape' else 'portait'
 			$caption = $(slide).find('.caption')
 			captionHeight = $caption.innerHeight()
 
-			$(slide).css({
-				width: slideWidth
-				height:	slideHeight
-			}).imagesLoaded () ->
-				$image = $(this.elements[0])
-				$image.addClass('loaded')
-
-			$image.css({
-				height: slideHeight - captionHeight
+			$imageWrap.css({
+				height: sliderHeight - captionHeight
 			})
+
+			$(slide).css({
+				width: sliderWidth
+				height:	sliderHeight
+			}).addClass(if i==0 then 'show' else '')
+
+			if(orientation == 'landscape')
+				$image.css({
+					width: sliderWidth - captionHeight
+				})
+			else if (orientation == 'portait')
+				$image.css({
+					height: sliderHeight - captionHeight
+				})
+
+	nextSlide = () ->
+		$slide = $(this)
+		$next = $slide.next('.slide')
+		if(!$next.length)
+			$next = $slide.siblings('.slide').eq(0)
+		if($next.length)
+			$slide.removeClass('show')
+			$next.addClass('show')
 
 	closeSide = () ->
 		matrix = $grid.css('transform')

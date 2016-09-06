@@ -246,7 +246,7 @@ module.exports = function(app) {
   app.post('/admin/image/quicky/:id', tools.isLoggedIn, function(req, res) {
     var data = req.body
     var id = req.params.id
-    Image.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, image) {
+    Image.findOneAndUpdate({_id: id}, data, {new: true, runValidators: true}, function(err, image) {
        if(!err) {
         console.log('Updated:')
         console.log(image)

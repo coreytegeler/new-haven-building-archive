@@ -12,7 +12,10 @@
 				.slideWrap
 					each image, index in object.images
 						.slide(data-index=index, data-id=image.id)
-							.image(style='background-image:url('+image.path+')')
+							.imageWrap
+								.vert
+									.horz
+										img(src=image.path)
 							.caption= image.caption
 
 	.group.mapWrap(data-group='map', class=(!object.images ? 'show' : ''))

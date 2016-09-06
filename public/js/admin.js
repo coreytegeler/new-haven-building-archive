@@ -189,36 +189,42 @@
   };
 
   addImage = function(object) {
-    var $clone, $cloneCaption, $cloneImg, $imagesInput, $imagesWrapper, imageObject, imagesInputVal;
+    var $clone, $cloneCaption, $cloneImg, $imagesInput, $imagesWrapper, i, imageObject, imagesInputVal, thisObject;
     $imagesWrapper = $('.images');
     $imagesInput = $imagesWrapper.find('input:text');
-    if ($imagesInput.val()) {
-      imagesInputVal = JSON.parse($imagesInput.val());
-    } else {
-      imagesInputVal = [];
-    }
-    if (($imagesWrapper.find('.image[data-id="' + object._id + '"]').length)) {
-      return;
-    }
-    $clone = $imagesWrapper.find('.sample').clone();
-    $cloneImg = $clone.find('img');
-    $cloneCaption = $clone.find('.caption');
-    $clone.removeClass('sample');
     imageObject = {
       id: object._id,
       path: object.path,
       caption: object.caption
     };
+    if ($imagesInput.val()) {
+      imagesInputVal = JSON.parse($imagesInput.val());
+    } else {
+      imagesInputVal = [];
+    }
     if (imagesInputVal) {
-      imagesInputVal.push(imageObject);
+      for (i in imagesInputVal) {
+        thisObject = imagesInputVal[i];
+        if (thisObject.id === imageObject.id) {
+          imagesInputVal[i] = imageObject;
+        } else {
+          imagesInputVal.push(imageObject);
+        }
+      }
     } else {
       imagesInputVal = imageObject;
     }
     $imagesInput.val(JSON.stringify(imagesInputVal));
-    $clone.attr('data-id', imageObject._id);
-    $cloneImg.attr('src', imageObject.path);
-    $cloneCaption.text(imageObject.caption);
-    return $imagesWrapper.append($clone);
+    if (!$imagesWrapper.find('.image[data-id="' + object._id + '"]').length) {
+      $clone = $imagesWrapper.find('.sample').clone();
+      $cloneImg = $clone.find('img');
+      $cloneCaption = $clone.find('.caption');
+      $clone.removeClass('sample');
+      $clone.attr('data-id', imageObject._id);
+      $cloneImg.attr('src', imageObject.path);
+      $cloneCaption.text(imageObject.caption);
+      return $imagesWrapper.append($clone);
+    }
   };
 
   updateTemplate = function(event) {
