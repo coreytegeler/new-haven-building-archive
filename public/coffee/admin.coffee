@@ -132,6 +132,7 @@ quickySave = (event) ->
   	data = $form.serializeArray()
   	contentType = 'application/x-www-form-urlencoded; charset=UTF-8'
   	processData = true
+
 	postUrl = $form.attr('action')
 	if(!data)
 		return
@@ -170,7 +171,7 @@ addImage = (object) ->
 		imagesInputVal = []
 
 	updating = false
-	if(imagesInputVal)
+	if(imagesInputVal.length)
 		for i, thisObject of imagesInputVal
 			if(thisObject.id == imageObject.id)
 				imagesInputVal[i] = imageObject
@@ -178,7 +179,7 @@ addImage = (object) ->
 		if(!updating)
 			imagesInputVal.push(imageObject)
 	else
-		imagesInputVal = imageObject
+		imagesInputVal = [imageObject]
 	$imagesInput.val(JSON.stringify(imagesInputVal))
 
 	if(!$imagesWrapper.find('.image[data-id="'+object._id+'"]').length)

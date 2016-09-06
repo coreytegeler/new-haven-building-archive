@@ -203,7 +203,7 @@
       imagesInputVal = [];
     }
     updating = false;
-    if (imagesInputVal) {
+    if (imagesInputVal.length) {
       for (i in imagesInputVal) {
         thisObject = imagesInputVal[i];
         if (thisObject.id === imageObject.id) {
@@ -215,7 +215,7 @@
         imagesInputVal.push(imageObject);
       }
     } else {
-      imagesInputVal = imageObject;
+      imagesInputVal = [imageObject];
     }
     $imagesInput.val(JSON.stringify(imagesInputVal));
     if (!$imagesWrapper.find('.image[data-id="' + object._id + '"]').length) {

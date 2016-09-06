@@ -217,6 +217,9 @@ aside {
 			opacity: 0;
 		}
 		&.loaded {
+			.image {
+				background: transparent;
+			}
 			.img, img {
 				opacity: 1;
 			}

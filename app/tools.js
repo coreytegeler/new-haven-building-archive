@@ -106,6 +106,17 @@ var getModel = function(type) {
   }
 }
 
+var getSideSection = function(type) {
+  type = singularize(type)
+  if(type == 'building') {
+    return 'archive'
+  } else if(type == 'tour' || type == 'neighborhood' || type == 'style') {
+    return 'filter'
+  } else if(type == 'term') {
+    return 'glossary'
+  }
+}
+
 var eras = ['1638-1860', '1860-1910', '1910-1950', '1950-1980', '1980-Today']
 
 var preSave = function(item) {
@@ -118,6 +129,7 @@ exports.alphaSort = alphaSort;
 exports.singularize = singularize;
 exports.pluralize = pluralize;
 exports.getModel = getModel;
+exports.getSideSection = getSideSection;
 exports.preSave = preSave;
 exports.eras = eras;
 exports.async = async;

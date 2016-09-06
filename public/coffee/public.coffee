@@ -97,21 +97,21 @@ $ ->
 			top: top
 		});
 
-	hoverBuilding = () -> 
+	hoverBuilding = (event) -> 
 		self = event.target
 		parent = $(self).parents('.building')[0]
 		slug = parent.dataset.slug
 		$building = $('.building[data-slug="'+slug+'"]')
 		return $building.addClass('hover');
 
-	unhoverBuilding = () -> 
+	unhoverBuilding = (event) -> 
 		self = event.target
 		parent = $(self).parents('.building')[0]
 		slug = parent.dataset.slug
 		$building = $('.building[data-slug="'+slug+'"]')
 		return $building.removeClass('hover');
 
-	clickBuilding = () ->
+	clickBuilding = (event) ->
 		event.preventDefault()
 		self = this
 		if($grid.is('.dragging'))

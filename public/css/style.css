@@ -594,6 +594,8 @@ aside section#single .buildings .building {
     width: 100%;
     display: block;
     opacity: 0; }
+  .grid .building.loaded .image {
+    background: transparent; }
   .grid .building.loaded .img, .grid .building.loaded img {
     opacity: 1; }
   .grid .building.selected {

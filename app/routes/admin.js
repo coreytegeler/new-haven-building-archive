@@ -18,9 +18,10 @@ module.exports = function(app) {
       var data = {}
       res.render('admin/index.pug', {
         errors: err,
-        loadedType: {s: 'home',p: 'home'},
+        loadedType: {s: 'home', p: 'home'},
         models: models,
-        user: req.user
+        user: req.user,
+        sideSection: 'filter'
       })
     }, req, res)
   })
@@ -28,18 +29,21 @@ module.exports = function(app) {
   app.get('/admin/:type', tools.isLoggedIn, function(req, res) {
     tools.async(function(results, err, models) {
       var type = req.params.type
-      if(type == 'user' || type == 'users')
+      if(type == 'user' || type == 'users') {
         var model = User
-      else
+      } else {
         var model = tools.getModel(type)
+      }
+
       res.render('admin/model.pug', {
         errors: err,
         loadedType: {
-          s: tools.singularize(type),
+          s: tools.pluralize(type),
           p: tools.pluralize(type)
         },
         models: models,
-        user: req.user
+        user: req.user,
+        sideSection: tools.getSideSection(type)
       })
     }, req, res)
   })
@@ -67,6 +71,9 @@ module.exports = function(app) {
     var data = req.body
     var type = tools.singularize(req.params.type)
     var errors
+    if(data.images) {
+      data.images = JSON.parse(data.images)
+    }
     switch(type) {
       case 'user':
         var object = new User(data)
@@ -100,7 +107,7 @@ module.exports = function(app) {
           action: 'create'
         })
       } else {
-        console.log('Updated:')
+        console.log('Created:')
         console.log(object)
         res.redirect('/admin/'+type+'/edit/'+object.slug)
       }
@@ -116,6 +123,7 @@ module.exports = function(app) {
         res.redirect('/admin/'+type+'/new')
       } else {
         model.findOne({slug: slug}, function(err, object) {
+          console.log(type)
           if (err)
             throw err
           var data = {
@@ -126,7 +134,8 @@ module.exports = function(app) {
               p: tools.pluralize(type)
             },
             models: models,
-            user: req.user
+            user: req.user,
+            sideSection: tools.getSideSection(type)
           }
           if(tools.singularize(type) == 'building')
             data['eras'] = tools.eras
@@ -229,11 +238,10 @@ module.exports = function(app) {
     var imageData = req.file
     var path = '/uploads/'+imageData.filename
     data['path'] = path
-    console.log(data)
     var image = new Image(data)
-    console.log(image)
     image.save(function(err) {
       if(!err) {
+        console.log('Added:')
         console.log(image)
         return res.json(image)
       } else {
@@ -253,6 +261,7 @@ module.exports = function(app) {
         res.json(image)
       } else {
         console.log('Failed:')
+        console.log(err)
         return res.json(err)
       }
     })
@@ -276,9 +285,15 @@ module.exports = function(app) {
         return
     }
     object.save(function(err) {
-      if(err)
+      if(!err) {
+        console.log('Updated:')
+        console.log(object)
+        return res.json(object)
+      } else {
+        console.log('Failed:')
+        console.log(err)
         return res.json(err)
-      return res.json(object)
+      }
     })
   })
 }

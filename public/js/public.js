@@ -103,7 +103,7 @@
         top: top
       });
     };
-    hoverBuilding = function() {
+    hoverBuilding = function(event) {
       var $building, parent, self, slug;
       self = event.target;
       parent = $(self).parents('.building')[0];
@@ -111,7 +111,7 @@
       $building = $('.building[data-slug="' + slug + '"]');
       return $building.addClass('hover');
     };
-    unhoverBuilding = function() {
+    unhoverBuilding = function(event) {
       var $building, parent, self, slug;
       self = event.target;
       parent = $(self).parents('.building')[0];
@@ -119,7 +119,7 @@
       $building = $('.building[data-slug="' + slug + '"]');
       return $building.removeClass('hover');
     };
-    clickBuilding = function() {
+    clickBuilding = function(event) {
       var building, id, self, url;
       event.preventDefault();
       self = this;
