@@ -15,7 +15,8 @@ module.exports = function(app, passport) {
 	        p: 'users'
 	      },
 	      action: 'create',
-	      models: models
+	      models: models,
+	      sideSection: 'profile'
 	    })
 		}, req, res)
 	})
@@ -65,7 +66,8 @@ module.exports = function(app, passport) {
 	        s: 'user',
 	        p: 'users'
 	      },
-				error: req.flash('error')
+				error: req.flash('error'),
+	      sideSection: 'profile'
 			})
 		}, req, res)
 	})
@@ -114,7 +116,8 @@ module.exports = function(app, passport) {
 	        p: tools.pluralize(type)
 	      },
 	      models: models,
-	      user: req.user
+	      user: req.user,
+	      sideSection: 'profile'
 	    })
 	  }, req, res)
   })

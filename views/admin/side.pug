@@ -1,10 +1,23 @@
 aside
 	header
 		.tabs
-			.tab.filter(data-section='filter')= 'Filter'
-			.tab.glossary(data-section='glossary')= 'Glossary'
-			.tab.archive(data-section='archive')= 'Archive'
-			.tab.profile(data-section='profile')= 'Profile'
+			.tab.filter(data-section='filter', class=(sideSection == 'filter' ? 'selected' : ''))= 'Filter'
+			.tab.glossary(data-section='glossary', class=(sideSection == 'glossary' ? 'selected' : ''))= 'Glossary'
+			.tab.archive(data-section='archive', class=(sideSection == 'archive' ? 'selected' : ''))= 'Archive'
+
+			.tabDown(class=(sideSection == 'profile' ? 'selected' : ''))
+				if(user)	
+					//- .tab= 'Profile'
+					.dropDown
+						a.tab.profile(href='/admin/users', class=(sideSection == 'profile' ? 'selected' : ''))
+							span= 'Users'
+						a.tab.profile(href='/admin/profile')
+							span= 'Profile'
+						a.tab.logout(href='/admin/logout')
+							span= 'Logout'
+				else
+					a.title(href='/admin/login/') Login
+
 			.tab.info.button(data-section='info')
 	.inner
 		section#glossary(class=(sideSection == 'glossary' ? 'show' : ''))
@@ -21,7 +34,7 @@ aside
 							.alpha= termAlpha
 						a.term(href='/admin/term/edit/'+term.slug)
 							.name= term.name
-							.definition= term.definition
+							//- .definition= term.definition
 		section#archive(class=(sideSection == 'archive' ? 'show' : ''))
 			ul.buildings
 				li.add
@@ -59,13 +72,4 @@ aside
 						for style in styles
 							li(class=style.slug)
 								a(href='/admin/style/edit/'+style.slug)= style.name
-			ul.group.account
-				if(user)
-					li
-						a.title(href='/admin/profile/') Profile
-					li
-						a.title(href='/admin/logout/') Logout
-				else
-					li
-						a.title(href='/admin/login/') Login
 				

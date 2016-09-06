@@ -28,9 +28,9 @@ $ ->
 		$body.on 'click', '.building a', clickBuilding
 		$body.on 'click', 'a.filter', clickFilter
 		$body.on 'click', '#closedHeader', openSide
-		$body.on 'click', '.close.tab', closeSide
 		$body.on 'click', '.slide', nextSlide
 		$body.on 'click', '.toggler', clickToggle
+
 
 		$buildingTiles.imagesLoaded().progress (instance, image) ->
     	status = if image.isLoaded then 'loaded' else 'broken'
@@ -302,25 +302,6 @@ $ ->
 			$slide.removeClass('show')
 			$next.addClass('show')
 		setUpSlider()
-
-	closeSide = () ->
-		matrix = $grid.css('transform')
-		matrixParse = matrix.split('(')[1].split(')')[0].split(',')
-		a = parseInt(matrixParse[0])
-		b = parseInt(matrixParse[1])
-		c = parseInt(matrixParse[2])
-		d = parseInt(matrixParse[3])
-		x = parseInt(matrixParse[4])
-		y = parseInt(matrixParse[5])
-		sideWidth = parseInt($side.innerWidth())
-		newX = x+sideWidth
-		newMatrix = [a,b,c,d,newX,y].join(',')
-		$grid.css({transform: 'matrix('+newMatrix+')'})
-		matrix = $grid.css('transform')
-		$body.addClass('full')
-		$main.attr('style', '')
-		resizeMap()
-		makeDraggable()
 
 	openSide = () ->
 		$body.removeClass('full')

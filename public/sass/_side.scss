@@ -8,6 +8,9 @@ aside {
   line-height: 1.2em;
 	clear: both;
 	background: $yellow;
+	&.noBG, &.noBG header {
+		background: transparent;
+	}
 	header {
 		z-index: 10;
 		width: calc(#{$sideWidth} - #{$sidePad}*2);
@@ -20,10 +23,18 @@ aside {
 			display: flex;
 			flex-direction: row;
 	    align-items: center;
-	    overflow: hidden;
-			.tab {
+			.tab, .tabDown {
 				float: left;
 				margin-right: 1em;
+				padding-left: 0.3em;
+				&:first-child {
+					padding-left: 0;
+					margin-left: 0;
+				}
+				&:last-child {
+					padding-right: 0;
+					margin-right: 0;
+				}
 				&:hover {
 					cursor: pointer;
 				}
@@ -37,6 +48,49 @@ aside {
 				}
 				&.glossary, &.index {
 					padding: 0.2em auto;
+				}
+			}
+			.tabDown {
+				width: 7em;
+				height: 1.6em;
+				position: relative;
+				border: none !important;
+				overflow: hidden;
+				.dropDown {
+					position: absolute;
+					left: 0;
+					top: 0;
+					.tab {
+						width: 100%;
+						padding: 0.2em;
+						border: 1px solid transparent;
+						&.selected {
+							span {
+								border-bottom: 2px solid black;
+							}
+						}
+						&:hover {
+							color: $yellow;
+							background-color: black;
+						}
+						&:not(:first-child) {
+							border-top: 0;
+						}
+					}
+				}
+				&:hover {
+					overflow: visible;
+					.dropDown {
+						.tab {
+							border-color: black;
+							&.selected {
+								span {
+									border-bottom: 0;
+									padding-bottom: 2px;
+								}
+							}
+						}
+					}
 				}
 			}
 			.buttons {
@@ -62,9 +116,6 @@ aside {
 				&.close {
 					background-image: url(/img/x.svg);
 				}
-			}
-			&:last-child {
-				padding-right: 0;
 			}
 			.search {
 				width: auto;

@@ -8,6 +8,8 @@ aside {
   line-height: 1.2em;
   clear: both;
   background: #fffed3; }
+  aside.noBG, aside.noBG header {
+    background: transparent; }
   aside header {
     z-index: 10;
     width: calc(calc(15em + 20vw) - 1em*2);
@@ -19,21 +21,55 @@ aside {
     aside header .tabs {
       display: flex;
       flex-direction: row;
-      align-items: center;
-      overflow: hidden; }
-      aside header .tabs .tab {
+      align-items: center; }
+      aside header .tabs .tab, aside header .tabs .tabDown {
         float: left;
-        margin-right: 1em; }
-        aside header .tabs .tab:hover {
+        margin-right: 1em;
+        padding-left: 0.3em; }
+        aside header .tabs .tab:first-child, aside header .tabs .tabDown:first-child {
+          padding-left: 0;
+          margin-left: 0; }
+        aside header .tabs .tab:last-child, aside header .tabs .tabDown:last-child {
+          padding-right: 0;
+          margin-right: 0; }
+        aside header .tabs .tab:hover, aside header .tabs .tabDown:hover {
           cursor: pointer; }
-        aside header .tabs .tab:not(.button) {
+        aside header .tabs .tab:not(.button), aside header .tabs .tabDown:not(.button) {
           padding-bottom: 2px;
           margin-bottom: -2px; }
-          aside header .tabs .tab:not(.button).selected {
+          aside header .tabs .tab:not(.button).selected, aside header .tabs .tabDown:not(.button).selected {
             padding-bottom: 0;
             border-bottom: 2px solid black; }
-        aside header .tabs .tab.glossary, aside header .tabs .tab.index {
+        aside header .tabs .tab.glossary, aside header .tabs .tab.index, aside header .tabs .tabDown.glossary, aside header .tabs .tabDown.index {
           padding: 0.2em auto; }
+      aside header .tabs .tabDown {
+        width: 7em;
+        height: 1.6em;
+        position: relative;
+        border: none !important;
+        overflow: hidden; }
+        aside header .tabs .tabDown .dropDown {
+          position: absolute;
+          left: 0;
+          top: 0; }
+          aside header .tabs .tabDown .dropDown .tab {
+            width: 100%;
+            padding: 0.2em;
+            border: 1px solid transparent; }
+            aside header .tabs .tabDown .dropDown .tab.selected span {
+              border-bottom: 2px solid black; }
+            aside header .tabs .tabDown .dropDown .tab:hover {
+              color: #fffed3;
+              background-color: black; }
+            aside header .tabs .tabDown .dropDown .tab:not(:first-child) {
+              border-top: 0; }
+        aside header .tabs .tabDown:hover {
+          overflow: visible; }
+          aside header .tabs .tabDown:hover .dropDown .tab {
+            border-color: black; }
+            aside header .tabs .tabDown:hover .dropDown .tab.selected span {
+              border-bottom: 0;
+              padding-bottom: 2px; }
       aside header .tabs .buttons {
         float: right;
         margin-right: 0;
@@ -53,8 +89,6 @@ aside {
           background-image: url(/img/i.svg); }
         aside header .tabs .button.close {
           background-image: url(/img/x.svg); }
-      aside header .tabs:last-child {
-        padding-right: 0; }
       aside header .tabs .search {
         width: auto; }
         aside header .tabs .search form {
