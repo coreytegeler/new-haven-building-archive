@@ -26,7 +26,7 @@ aside {
 			.tab, .tabDown {
 				float: left;
 				margin-right: 1em;
-				padding-left: 0.3em;
+				margin-left: 0.3em;
 				&:first-child {
 					padding-left: 0;
 					margin-left: 0;
@@ -34,6 +34,7 @@ aside {
 				&:last-child {
 					padding-right: 0;
 					margin-right: 0;
+			    margin-left: auto;
 				}
 				&:hover {
 					cursor: pointer;
@@ -63,6 +64,8 @@ aside {
 					.tab {
 						width: 100%;
 						padding: 0.2em;
+						margin-left: 0em;
+						padding-left: 0.5em;
 						border: 1px solid transparent;
 						&.selected {
 							span {
@@ -72,6 +75,9 @@ aside {
 						&:hover {
 							color: $yellow;
 							background-color: black;
+						}
+						&:first-child {
+							
 						}
 						&:not(:first-child) {
 							border-top: 0;

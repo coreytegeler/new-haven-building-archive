@@ -130,6 +130,7 @@ $ ->
 		id = $building.attr('data-id')
 		$('.building.selected').removeClass('selected')
 		$building.addClass('selected')
+		$singleSect.addClass('loading')
 		getContent(id, 'building', 'html')
 		if(url)
 			window.history.pushState('', document.title, url);
@@ -193,13 +194,13 @@ $ ->
 		$('section.show').removeClass('show')
 		$singleSect.parents('.inner').scrollTop(0)
 		$singleSect
-			.html(content)
 			.addClass('show')
-			.removeClass('loading')
+			.html(content)
 			.attr('data-id', id)
 		if($(content).find('.mapWrap').length)
 			panelMapSetUp($singleSect)
 			setUpSlider()
+		$singleSect.removeClass('loading')
 		openSide()
 
 	panelMapSetUp = (container) ->
@@ -286,11 +287,13 @@ $ ->
 
 			if(orientation == 'landscape')
 				$image.css({
-					width: sliderWidth - captionHeight
+					maxWidth: sliderWidth - captionHeight,
+					maxHeight: sliderHeight
 				})
 			else if (orientation == 'portait')
 				$image.css({
-					height: sliderHeight - captionHeight
+					maxHeight: sliderHeight - captionHeight,
+					maxWidth: sliderWidth
 				})
 
 	nextSlide = () ->

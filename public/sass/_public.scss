@@ -3,6 +3,9 @@ main {
 }
 aside {
 	section {
+		&.loading {
+			opacity: 0;
+		}
 		&#single {
 			.togglables {
 				width: 100%;

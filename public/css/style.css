@@ -25,13 +25,14 @@ aside {
       aside header .tabs .tab, aside header .tabs .tabDown {
         float: left;
         margin-right: 1em;
-        padding-left: 0.3em; }
+        margin-left: 0.3em; }
         aside header .tabs .tab:first-child, aside header .tabs .tabDown:first-child {
           padding-left: 0;
           margin-left: 0; }
         aside header .tabs .tab:last-child, aside header .tabs .tabDown:last-child {
           padding-right: 0;
-          margin-right: 0; }
+          margin-right: 0;
+          margin-left: auto; }
         aside header .tabs .tab:hover, aside header .tabs .tabDown:hover {
           cursor: pointer; }
         aside header .tabs .tab:not(.button), aside header .tabs .tabDown:not(.button) {
@@ -55,6 +56,8 @@ aside {
           aside header .tabs .tabDown .dropDown .tab {
             width: 100%;
             padding: 0.2em;
+            margin-left: 0em;
+            padding-left: 0.5em;
             border: 1px solid transparent; }
             aside header .tabs .tabDown .dropDown .tab.selected span {
               border-bottom: 2px solid black; }
@@ -473,6 +476,8 @@ main {
 main {
   position: relative; }
 
+aside section.loading {
+  opacity: 0; }
 aside section#single .togglables {
   width: 100%;
   height: 20em;
