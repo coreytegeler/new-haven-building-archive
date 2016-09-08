@@ -606,14 +606,18 @@ aside section#single .buildings .building {
   height: 100%;
   position: absolute !important;
   top: 0;
+  left: 0;
   display: inline-block;
   overflow: hidden; }
   .gridWrap .grid {
-    min-width: calc(100% - calc(15em + 20vw));
+    min-width: 100%;
     display: table;
     position: absolute;
     z-index: 9;
-    display: block; }
+    display: block;
+    padding-left: calc(15em + 20vw); }
+    .gridWrap .grid.show {
+      opacity: 1; }
 
 .grid .building {
   width: 300px;

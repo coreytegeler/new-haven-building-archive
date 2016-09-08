@@ -17,10 +17,10 @@ $ ->
 		$grid.masonry({
 			transitionDuration: 0
 		})
-		resizeMap()
+		resizeGrid()
 		makeDraggable()
 		$(window).resize () ->
-			resizeMap()
+			resizeGrid()
 			setUpSlider()
 		$(window).on 'popstate', popState
 		$body.on 'mouseenter', '.building a', hoverBuilding
@@ -28,6 +28,7 @@ $ ->
 		$body.on 'click', '.building a', clickBuilding
 		$body.on 'click', 'a.filter', clickFilter
 		$body.on 'click', '#closedHeader', openSide
+		$body.on 'click', '.close.tab', closeSide
 		$body.on 'click', '.slide', nextSlide
 		$body.on 'click', '.toggler', clickToggle
 
@@ -55,9 +56,8 @@ $ ->
 		else
 			$infoSect.addClass('show')
 
-
 	makeDraggable = () ->
-		Draggable.create $grid, {
+		grid = Draggable.create $grid, {
 			type: 'x,y',
 			edgeResistance: 0.95,
 			throwProps: true,
@@ -68,34 +68,6 @@ $ ->
 	  wDiff = $gridWrap.innerWidth() - $grid.innerWidth();
 	  hDiff = $gridWrap.innerHeight() - $grid.innerHeight();
 	  return [hDiff, 0, 0, wDiff]
-
-	resizeMap = () -> 
-		$window = $(window)
-		length = $buildingTiles.filter(':not(.hidden)').length
-		smaller = Math.floor(Math.sqrt(length))
-		larger = Math.round(Math.sqrt(length))
-		edge = $buildingTiles.eq(0).innerWidth()
-		gridWidth = larger * edge
-		gridHeight = smaller * edge
-		$grid.css({
-			width: gridWidth+'px',
-			height: gridHeight+'px'
-		}).masonry('layout')
-
-		if(!$grid.is('.dragged'))
-			centerMap()
-
-	centerMap = () ->
-		wrapWidth = $gridWrap.innerWidth()
-		wrapHeight = $gridWrap.innerHeight()
-		gridWidth = $grid.innerWidth()
-		gridHeight = $grid.innerHeight()
-		left = wrapWidth/2 - gridWidth/2
-		top = wrapHeight/2 - gridHeight/2
-		$grid.css({
-			left: left,
-			top: top
-		});
 
 	hoverBuilding = (event) -> 
 		self = event.target
@@ -168,7 +140,7 @@ $ ->
 				$(building).removeClass('hidden')
 			else
 				$(building).addClass('hidden')
-		resizeMap()
+		resizeGrid()
 
 	getContent = (id, type, format, filter) ->
 		url = '/api/?type='+type
@@ -306,9 +278,6 @@ $ ->
 			$next.addClass('show')
 		setUpSlider()
 
-	openSide = () ->
-		$body.removeClass('full')
-
 	clickToggle = () ->
 		group = this.dataset.group
 		$group = $('.togglable[data-group="'+group+'"]')
@@ -318,6 +287,56 @@ $ ->
 			$('.toggler.selected').removeClass('selected')
 			$(this).addClass('selected')
 
+	openSide = () ->
+		# $grid = $('.grid')
+		# matrix = $grid.css('transform')
+		# matrixParse = matrix.split('(')[1].split(')')[0].split(',')
+		# a = parseInt(matrixParse[0])
+		# b = parseInt(matrixParse[1])
+		# c = parseInt(matrixParse[2])
+		# d = parseInt(matrixParse[3])
+		# x = parseInt(matrixParse[4])
+		# y = parseInt(matrixParse[5])
+		# sideWidth = parseInt($side.innerWidth())
+		# newX = 0
+		# newMatrix = [a,b,c,d,newX,y].join(',')
+		# $grid.css({transform: 'matrix('+newMatrix+')'})
+		# matrix = $grid.css('transform')
+		$body.removeClass('full')
+		$main.attr('style', '')
+
+	closeSide = () ->
+		$body.addClass('full')
+		$main.attr('style', '')
+		resizeGrid()
+
+	resizeGrid = () -> 
+		$window = $(window)
+		length = $buildingTiles.filter(':not(.hidden)').length
+		smaller = Math.floor(Math.sqrt(length))
+		larger = Math.round(Math.sqrt(length))
+		edge = $buildingTiles.eq(0).innerWidth()
+		gridWidth = larger * edge
+		gridHeight = smaller * edge
+		if(gridWidth <= parseInt($window.innerWidth()))
+			gridWidth = parseInt($window.innerWidth())
+		if(gridHeight <= parseInt($window.innerHeight()))
+			gridHeight = parseInt($window.innerHeight())
+		$grid.css({
+			width: gridWidth+'px',
+			height: gridHeight+'px'
+		}).masonry('layout')
+
+	centerGrid = () ->
+		wrapWidth = $gridWrap.innerWidth()
+		wrapHeight = $gridWrap.innerHeight()
+		gridWidth = $grid.innerWidth()
+		gridHeight = $grid.innerHeight()
+		matrix = $grid.css('transform')	
+		centerX = wrapWidth/2 - gridWidth/2
+		centerY = wrapHeight/2 - gridHeight/2
+		centerMatrix = [1,0,0,1,centerX,centerY].join(',')
+		$grid.css({transform: 'matrix('+centerMatrix+')'}).addClass('show')
 
 	getQuery = (type) ->
   	query = window.location.search.substring(1)

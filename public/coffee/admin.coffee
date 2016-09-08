@@ -1,14 +1,15 @@
+$body = $('body')
 $main = $('main')
 $ ->
 	getData()
-	$('body').on('click',  'form .add', openQuicky)
-	$('body').on('click',  'form .images .edit', openQuicky)
-	$('body').on('click',  '.quicky .close', closeQuicky)
-	$('body').on('submit', '.quicky form', quickySave)
-	$('body').on('click',  'a.delete', deleteObject)		
-	$('.select .display').click(openSelect)
-	$('.select .options input').change(updateSelectValue)
-	$('.updateTemplate input').change(updateTemplate)
+	$body.on 'click',  'form .add', openQuicky
+	$body.on 'click',  'form .images .edit', openQuicky
+	$body.on 'click',  '.quicky .close', closeQuicky
+	$body.on 'submit', '.quicky form', quickySave
+	$body.on 'click',  'a.delete', deleteObject
+	$('.select .display').click openSelect
+	$('.select .options input').change updateSelectValue
+	$('.updateTemplate input').change updateTemplate
 	return
 
 getData = () ->

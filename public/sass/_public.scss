@@ -182,19 +182,28 @@ aside {
 	background-position: center;
 	background-repeat: no-repeat;
 }
+body:not(.full) .grid {
+
+}
 .gridWrap {
 	width: 100%;
 	height: 100%;
 	position: absolute !important;
 	top: 0;
+	left: 0;
 	display: inline-block;
 	overflow: hidden;
 	.grid {
-		min-width: calc(100% - #{$sideWidth});
+		min-width: 100%;
 		display: table;
 		position: absolute;
 		z-index: 9;
 		display: block;
+		// opacity: 0;
+		padding-left: $sideWidth;
+		&.show {
+			opacity: 1;
+		}
 	}
 }
 .grid {
