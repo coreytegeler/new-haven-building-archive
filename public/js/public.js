@@ -346,7 +346,9 @@
         return $(this).addClass('selected');
       }
     };
-    openSide = function() {};
+    openSide = function() {
+      return $body.removeClass('full');
+    };
     closeSide = function() {
       $body.addClass('full');
       $main.attr('style', '');

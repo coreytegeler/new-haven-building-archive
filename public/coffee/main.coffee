@@ -14,12 +14,12 @@ $ ->
 		windowWidth = $window.innerWidth()
 		sideWidth = $side.innerWidth()
 
-		if(!$body.is('.full'))
-			mainWidth = windowWidth - sideWidth
-			$main.css({
-				marginLeft: sideWidth+'px',
-				width: mainWidth+'px'
-			})
+		# if(!$body.is('.full'))
+		# 	mainWidth = windowWidth - sideWidth
+		# 	$main.css({
+		# 		marginLeft: sideWidth+'px',
+		# 		width: mainWidth+'px'
+		# 	})
 
 	openNestedNav = (event) ->
 		$title = $(this)

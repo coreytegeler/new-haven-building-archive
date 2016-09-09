@@ -616,7 +616,8 @@ aside section#single .buildings .building {
     position: absolute;
     z-index: 9;
     display: table;
-    margin: auto; }
+    margin: auto;
+    padding-left: calc(15em + 20vw); }
     .gridWrap .grid.show {
       opacity: 1; }
     .gridWrap .grid .building, .gridWrap .grid .sizer {

@@ -12,17 +12,10 @@
       return $body.on('click', 'aside .tab', switchSection);
     };
     resize = function() {
-      var $window, mainWidth, sideWidth, windowWidth;
+      var $window, sideWidth, windowWidth;
       $window = $(window);
       windowWidth = $window.innerWidth();
-      sideWidth = $side.innerWidth();
-      if (!$body.is('.full')) {
-        mainWidth = windowWidth - sideWidth;
-        return $main.css({
-          marginLeft: sideWidth + 'px',
-          width: mainWidth + 'px'
-        });
-      }
+      return sideWidth = $side.innerWidth();
     };
     openNestedNav = function(event) {
       var $childList, $parentList, $title, slug;
