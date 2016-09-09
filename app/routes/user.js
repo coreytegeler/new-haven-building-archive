@@ -107,18 +107,21 @@ module.exports = function(app, passport) {
 		tools.async(function(results, err, models) {
 			var type = 'user'
 			var user = req.user
-	    res.render('admin/edit.pug', {
-	      object: user,
-	      id: user._id,
-	      action: 'update',
-	      loadedType: {
-	        s: tools.singularize(type),
-	        p: tools.pluralize(type)
-	      },
-	      models: models,
-	      user: req.user,
-	      sideSection: 'profile'
-	    })
+			if(user)
+		    res.render('admin/edit.pug', {
+		      object: user,
+		      id: user._id,
+		      action: 'update',
+		      loadedType: {
+		        s: tools.singularize(type),
+		        p: tools.pluralize(type)
+		      },
+		      models: models,
+		      user: req.user,
+		      sideSection: 'profile'
+		    })
+		 else
+		 	redirect('/admin/login')
 	  }, req, res)
   })
 

@@ -41,6 +41,9 @@ var buildingSchema = mongoose.Schema({
 	tour: {
 		type: Mixed
 	},
+	style: {
+
+	},
 	originalUse: {
 		type: String
 	},

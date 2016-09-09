@@ -198,56 +198,55 @@ body:not(.full) .grid {
 		display: table;
 		position: absolute;
 		z-index: 9;
-		display: block;
+		display: table;
+		margin: auto;
 		// opacity: 0;
-		padding-left: $sideWidth;
+		// padding-left: $sideWidth;
 		&.show {
 			opacity: 1;
 		}
-	}
-}
-.grid {
-	.building {
-		width: 300px;
-		height: 300px;
-		padding: 2em;
-		display: table;
-		float: left;
-		a {
+		.building, .sizer {
+			width: 300px;
+			height: 300px;
+			padding: 2em;
 			display: table;
-			font-size: 1em;
-	    line-height: 1.1em;
-		}
-		.image {
-			margin-bottom: .5em;
-			border: 1px solid transparent;
-			@include loader;
-		}
-		.img, img {
-			width: 100%;
-			display: block;
-			opacity: 0;
-		}
-		&.loaded {
+			float: left;
+			a {
+				display: table;
+				font-size: 1em;
+		    line-height: 1.1em;
+			}
 			.image {
-				background: transparent;
+				margin-bottom: .5em;
+				border: 1px solid transparent;
+				@include loader;
 			}
 			.img, img {
-				opacity: 1;
-			}
-		}
-		&.selected {
-			background: transparent;
-			img, .img {
+				width: 100%;
+				display: block;
 				opacity: 0;
 			}
-			.image {
-				background: transparent !important;
-				border-color: black;
+			&.loaded {
+				.image {
+					background: transparent;
+				}
+				.img, img {
+					opacity: 1;
+				}
 			}
-		}
-		&.hidden {
-			display: none;
+			&.selected {
+				background: transparent;
+				img, .img {
+					opacity: 0;
+				}
+				.image {
+					background: transparent !important;
+					border-color: black;
+				}
+			}
+			&.hidden {
+				display: none;
+			}
 		}
 	}
 }

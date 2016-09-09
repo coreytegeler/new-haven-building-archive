@@ -12,10 +12,14 @@ $ ->
 	$searchSect = $('section#search')
 	$singleSect = $('section#single')
 	filterQuery = {}
+	urlQuery = {}
 
 	initPublic = () ->
 		$grid.masonry({
-			transitionDuration: 0
+			itemSelector: '.building',
+			columnWidth: '.sizer'
+			transitionDuration: 0,
+			fixedWidth: true
 		})
 		resizeGrid()
 		makeDraggable()
@@ -64,11 +68,6 @@ $ ->
 			bounds: $gridWrap
 		}
 
-	constrainArray = () ->
-	  wDiff = $gridWrap.innerWidth() - $grid.innerWidth();
-	  hDiff = $gridWrap.innerHeight() - $grid.innerHeight();
-	  return [hDiff, 0, 0, wDiff]
-
 	hoverBuilding = (event) -> 
 		self = event.target
 		parent = $(self).parents('.building')[0]
@@ -105,27 +104,29 @@ $ ->
 		$singleSect.addClass('loading')
 		getContent(id, 'building', 'html')
 		if(url)
-			window.history.pushState('', document.title, url);
+			window.history.pushState('', document.title, url)
 		openSide()
 
 	clickFilter = () ->
 		event.preventDefault()
 		id = this.dataset.id
 		type = this.dataset.type
+		slug = this.dataset.slug
 		url = this.href
 		$li = $(this).parent()
-		if(url)
-			window.history.pushState('', document.title, url);
 		if($(this).is('.selected'))
 			$(this).removeClass('selected')
-			filterQuery[type] = ''
+			filterQuery[type] = undefined
+			urlQuery[type] = undefined
 		else
 			$('#filter .'+type+' a.filter').removeClass('selected')
 			$(this).addClass('selected')
 			filterQuery[type] = id
-		filter()
+			urlQuery[type] = slug
+		filter(id, type, slug)
 
-	filter = (id, type) ->
+	filter = (id, type, slug) ->
+		filterUrl(id, type, slug)
 		$('.grid.buildings .building').each (i, building) ->
 			show = true
 			for key, value of filterQuery
@@ -134,13 +135,49 @@ $ ->
 					if(id)
 						value = id
 					buildingValue = $(building).data(key)
-					if(buildingValue != value)
+					
+					if(buildingValue)
+						if($.isArray(buildingValue))
+							if(!$.inArray(buildingValue, value))
+								show = false
+						else
+							if(buildingValue != value)
+								show = false
+					else
 						show = false
 			if(show)
 				$(building).removeClass('hidden')
 			else
 				$(building).addClass('hidden')
 		resizeGrid()
+
+	filterUrl = (key, value, slug) ->
+		console.log(urlQuery)
+		params = urlQuery
+		for key, value of params
+			if(!value)
+				delete params[key]
+
+		newUrlQuery = $.param(urlQuery)
+		if(newUrlQuery.length)
+			if(window.location.href.split('?') > 1)
+				newUrlQuery = '&' + newUrlQuery
+			else
+				newUrlQuery = '?' + newUrlQuery
+			newUrl = window.location.origin + window.location.pathname + newUrlQuery
+		else
+			newUrl = window.location.origin+window.location.pathname
+		console.log(newUrl)
+		window.history.pushState('', document.title, newUrl);
+		return
+
+	getQuery = (type) ->
+  	query = window.location.search.substring(1)
+  	strings = query.split('&')
+  	for string in strings
+  		pair = string.split('=')
+			if(pair[0] == type)
+				return pair[1]
 
 	getContent = (id, type, format, filter) ->
 		url = '/api/?type='+type
@@ -318,14 +355,14 @@ $ ->
 		edge = $buildingTiles.eq(0).innerWidth()
 		gridWidth = larger * edge
 		gridHeight = smaller * edge
-		if(gridWidth <= parseInt($window.innerWidth()))
-			gridWidth = parseInt($window.innerWidth())
-		if(gridHeight <= parseInt($window.innerHeight()))
-			gridHeight = parseInt($window.innerHeight())
+		# if(gridWidth < parseInt($window.innerWidth()))
+		# 	gridWidth = parseInt($window.innerWidth())
+		# if(gridHeight < parseInt($window.innerHeight()))
+		# 	gridHeight = parseInt($window.innerHeight())
 		$grid.css({
 			width: gridWidth+'px',
 			height: gridHeight+'px'
-		}).masonry('layout')
+		}).masonry()
 
 	centerGrid = () ->
 		wrapWidth = $gridWrap.innerWidth()
@@ -337,14 +374,6 @@ $ ->
 		centerY = wrapHeight/2 - gridHeight/2
 		centerMatrix = [1,0,0,1,centerX,centerY].join(',')
 		$grid.css({transform: 'matrix('+centerMatrix+')'}).addClass('show')
-
-	getQuery = (type) ->
-  	query = window.location.search.substring(1)
-  	strings = query.split('&')
-  	for string in strings
-  		pair = string.split('=')
-			if(pair[0] == type)
-				return pair[1]
 
 	popState = (e) ->
 		e.preventDefault()
