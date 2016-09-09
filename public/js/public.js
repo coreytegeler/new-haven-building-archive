@@ -177,7 +177,6 @@
     };
     filterUrl = function(key, value, slug) {
       var newUrl, newUrlQuery, params;
-      console.log(urlQuery);
       params = urlQuery;
       for (key in params) {
         value = params[key];
@@ -192,11 +191,10 @@
         } else {
           newUrlQuery = '?' + newUrlQuery;
         }
-        newUrl = window.location.origin + window.location.pathname + newUrlQuery;
+        newUrl = window.location.origin + newUrlQuery;
       } else {
         newUrl = window.location.origin + window.location.pathname;
       }
-      console.log(newUrl);
       window.history.pushState('', document.title, newUrl);
     };
     getQuery = function(type) {
@@ -348,10 +346,7 @@
         return $(this).addClass('selected');
       }
     };
-    openSide = function() {
-      $body.removeClass('full');
-      return $main.attr('style', '');
-    };
+    openSide = function() {};
     closeSide = function() {
       $body.addClass('full');
       $main.attr('style', '');

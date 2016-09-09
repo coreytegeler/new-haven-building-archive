@@ -152,7 +152,6 @@ $ ->
 		resizeGrid()
 
 	filterUrl = (key, value, slug) ->
-		console.log(urlQuery)
 		params = urlQuery
 		for key, value of params
 			if(!value)
@@ -164,10 +163,9 @@ $ ->
 				newUrlQuery = '&' + newUrlQuery
 			else
 				newUrlQuery = '?' + newUrlQuery
-			newUrl = window.location.origin + window.location.pathname + newUrlQuery
+			newUrl = window.location.origin + newUrlQuery
 		else
 			newUrl = window.location.origin+window.location.pathname
-		console.log(newUrl)
 		window.history.pushState('', document.title, newUrl);
 		return
 
@@ -339,8 +337,8 @@ $ ->
 		# newMatrix = [a,b,c,d,newX,y].join(',')
 		# $grid.css({transform: 'matrix('+newMatrix+')'})
 		# matrix = $grid.css('transform')
-		$body.removeClass('full')
-		$main.attr('style', '')
+		# $body.removeClass('full')
+		# $main.attr('style', '')
 
 	closeSide = () ->
 		$body.addClass('full')

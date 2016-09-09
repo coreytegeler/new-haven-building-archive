@@ -195,6 +195,7 @@ body:not(.full) .grid {
 	overflow: hidden;
 	.grid {
 		min-width: 100%;
+		min-height: 100%;
 		display: table;
 		position: absolute;
 		z-index: 9;
