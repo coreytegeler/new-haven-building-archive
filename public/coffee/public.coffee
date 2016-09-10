@@ -46,18 +46,9 @@ window.initPublic = ->
 	  		status = 'broken'
 	  		$(image.img).parents('.building').addClass(status)
 
-		filterQuery = {
-			'tour': getQuery('tour', true),
-			'neighborhood': getQuery('neighborhood', true),
-			'era': getQuery('era', true),
-			'style': getQuery('style', true)
-		}
-		urlQuery = {
-			'tour': getQuery('tour', false),
-			'neighborhood': getQuery('neighborhood', false),
-			'era': getQuery('era', false),
-			'style': getQuery('style', false)
-		}
+	  getParams()
+	  filter()
+
 		infoMapSetup()
 		if(loadedSlug && loadedType)
 			if(loadedType == 'building')
@@ -132,11 +123,10 @@ window.initPublic = ->
 				if(id == value)
 					filterQuery[type].splice(key, 1)
 		else
-			# $('#filter .'+type+' a.filter').removeClass('selected')
 			$(this).addClass('selected')
 			filterQuery[type].push(id)
 			urlQuery[type].push(slug)
-		filterUrl(id, type, slug)
+		filterUrl()
 		filter()
 
 	filter = () ->
@@ -145,24 +135,21 @@ window.initPublic = ->
 				if arr.length
 					show = false
 				for i, value of arr
-					buildingValue = $(building).data(key)					
+					buildingValue = $(building).data(key)
 					if(buildingValue)
 						if($.isArray(buildingValue))
 							if($.inArray(buildingValue, value))
 								show = true
 						else
 							if(buildingValue == value)
-								console.log(buildingValue, value)
 								show = true
-					# else
-					# 	show = false
 			if(show)
 				$(building).removeClass('hidden')
 			else
 				$(building).addClass('hidden')
 		resizeGrid()
 
-	filterUrl = (key, value, slug) ->
+	filterUrl = () ->
 		params = $.extend(true, {}, urlQuery)
 		$.each params, (i, param) -> 
 			if param.length > 1
@@ -183,13 +170,34 @@ window.initPublic = ->
 		window.history.pushState('', document.title, newUrl);
 		return
 
-	getQuery = (type) ->
+	getParams = () ->
+		urlQuery = {
+			'tour': getParam('tour', false),
+			'neighborhood': getParam('neighborhood', false),
+			'era': getParam('era', false),
+			'style': getParam('style', false)
+		}
+		filterQuery = {
+			'tour': [],
+			'neighborhood': [],
+			'era': [],
+			'style': []
+		}
+
+		$.each urlQuery, (key, param) -> 
+			for value, i in param
+				$filter = $('.'+key+' .filter[data-slug="'+value+'"]')
+				$filter.addClass('selected')
+				id = $filter.data('id')
+				filterQuery[key].push(id)
+
+	getParam = (type) ->
 		query = window.location.search.substring(1)
 		strings = query.split('&')
 		for string in strings
 			pair = string.split('=')
 			if(pair[0] == type)
-				return [pair[1]]
+				return pair[1].split('.')
 			else 
 				return []
 
