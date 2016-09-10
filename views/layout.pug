@@ -21,3 +21,6 @@ html(lang='en')
 		include ./side
 		main
 			block body
+
+	script(type='text/javascript').
+			var allBuildings = !{JSON.stringify((models ? models.buildings : []))}

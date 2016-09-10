@@ -37,7 +37,6 @@ $ ->
 		$body.on 'click', '.toggler', clickToggle
 		$body.on 'click', '.header .arrow', paginate
 
-
 		$buildingTiles.imagesLoaded().progress (instance, image) ->
     	status = if image.isLoaded then 'loaded' else 'broken'
 	    $(image.img).parents('.building').addClass(status)
@@ -56,6 +55,9 @@ $ ->
 			'style': getQuery('style', false)
 		}
 		filter()
+		setTimeout( ->
+			insertInfoMap()
+		1000)
 
 		if(loadedSlug && loadedType)
 			if(loadedType == 'building')
@@ -235,6 +237,31 @@ $ ->
 				# insertStreetView(container, coords)
 		return
 
+	insertInfoMap = () ->
+		geocoder = new google.maps.Geocoder()
+		$info = $('section#info');
+		$mapWrap = $info.find('.mapWrap')
+		$map = $mapWrap.find('.map')
+		geocoder.geocode {'address': 'New Haven, Connecticut'}, (results, status) ->
+			if(status == 'OK')
+				coords = results[0].geometry.location
+				console.log(coords)
+				mapObj = new google.maps.Map $map[0], {
+					scrollwheel: false,
+					center: coords,
+					zoom: 14
+				}
+				$(allBuildings).each (i, building) ->
+					geocoder.geocode {'address': building.address}, (results, status) ->
+						if(status == 'OK')
+							coords = results[0].geometry.location
+							marker = new google.maps.Marker
+					      map: mapObj,
+					      position: coords,
+					      id: building._id
+					    marker.addListener 'click', clickMarker
+				$mapWrap.addClass('loaded')
+
 	insertMap = (container, coords) ->
 		$(container).find('show').removeClass('show');
 		address = $(container).find('.address').text() + ', New Haven, CT 06510'
@@ -272,6 +299,11 @@ $ ->
  #        }
 	# 		return
 	# 	return
+
+	clickMarker = () ->
+		marker = this
+		id = marker.id
+		selectBuilding('id', id)
 
 	setUpSlider = () ->
 		$slider = $('.slider')
