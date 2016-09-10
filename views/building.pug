@@ -1,6 +1,11 @@
+include  ./mixins
 .buildingWrap(data-tour=object.tour, data-address=object.address)
 	.group.header
-		h1.name= object.name
+		h1.name
+			span= object.name
+			.arrows
+				.arrow(data-direction='left')
+				.arrow(data-direction='right')
 
 	.group.toggle
 		if(object.images)
@@ -67,10 +72,8 @@
 						-i++
 						li.building(data-slug=building.slug, data-id=building.id)
 							a(href='/building/'+building.slug)
-								.index
-									.circle= i
 								.image
-									.img
+									+thumb(building)
 								.meta
 									.name= building.name
 									.address= building.address

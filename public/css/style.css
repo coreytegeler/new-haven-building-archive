@@ -213,33 +213,36 @@ aside {
         background-color: black;
         color: #fffed3; }
 
-form {
+body.admin main {
+  width: calc(100% - calc(15em + 20vw));
+  padding-left: calc(15em + 20vw); }
+body.admin form {
   width: calc(100% - 2em);
   max-width: 600px;
   padding: 1em;
   margin: auto;
   display: table; }
-  form label {
+  body.admin form label {
     font-size: 1em;
     line-height: 1.5em;
     display: table; }
-  form input, form textarea, form select {
+  body.admin form input, body.admin form textarea, body.admin form select {
     font-size: 1em;
     line-height: 1.1em;
     font-weight: 700; }
-    form input:-webkit-autofill, form textarea:-webkit-autofill, form select:-webkit-autofill {
+    body.admin form input:-webkit-autofill, body.admin form textarea:-webkit-autofill, body.admin form select:-webkit-autofill {
       background: none; }
-  form input {
+  body.admin form input {
     -webkit-appearance: none;
     border: 1px solid black;
     outline: none;
     font-family: Arial;
     background: transparent; }
-    form input[type="text"], form input[type="email"], form input[type="password"], form input[type="file"] {
+    body.admin form input[type="text"], body.admin form input[type="email"], body.admin form input[type="password"], body.admin form input[type="file"] {
       background: white;
       width: calc(100% - 1em - 2px);
       padding: 0.5em; }
-  form textarea {
+  body.admin form textarea {
     width: calc(100% - 1em - 2px);
     padding: 0.5em;
     line-height: 1.5em;
@@ -248,27 +251,27 @@ form {
     outline: none;
     background: white;
     vertical-align: bottom; }
-  form .group {
+  body.admin form .group {
     padding: 0 0 20px 0; }
-  form .sample {
+  body.admin form .sample {
     display: none; }
-  form .row {
+  body.admin form .row {
     width: 100%;
     display: table;
     margin: 0 0 1em 0;
     clear: both;
     position: relative; }
-    form .row .cell {
+    body.admin form .row .cell {
       float: left; }
-      form .row .cell:first-child {
+      body.admin form .row .cell:first-child {
         margin-right: 1em; }
-    form .row.two .cell {
+    body.admin form .row.two .cell {
       width: calc(50% - .5em); }
-    form .row .button {
+    body.admin form .row .button {
       margin-top: 0.5em; }
-  form [data-template] {
+  body.admin form [data-template] {
     display: none; }
-  form .button {
+  body.admin form .button {
     display: block;
     padding: 0.5em;
     margin: 0 1em 0 0;
@@ -283,40 +286,38 @@ form {
     border: 0;
     border: 1px solid black;
     background: white; }
-    form .button:hover {
+    body.admin form .button:hover {
       cursor: pointer;
       background: black;
       color: white; }
-    form .button:last-child {
+    body.admin form .button:last-child {
       margin-right: 0; }
-
-.checkboxes, .options {
+body.admin .checkboxes, body.admin .options {
   overflow: auto;
   font-size: 1em;
   line-height: 1em;
   border: 1px solid black;
   background: white; }
-  .checkboxes.populate .item, .options.populate .item {
+  body.admin .checkboxes.populate .item, body.admin .options.populate .item {
     opacity: 0; }
-  .checkboxes.populate.loaded .item, .options.populate.loaded .item {
+  body.admin .checkboxes.populate.loaded .item, body.admin .options.populate.loaded .item {
     opacity: 1; }
-  .checkboxes .checkbox label, .options .checkbox label {
+  body.admin .checkboxes .checkbox label, body.admin .options .checkbox label {
     font-family: inherit;
     font-size: inherit;
     line-height: 1.1em;
     display: table;
     padding: 5px 0; }
-    .checkboxes .checkbox label:active, .checkboxes .checkbox label:hover, .options .checkbox label:active, .options .checkbox label:hover {
+    body.admin .checkboxes .checkbox label:active, body.admin .checkboxes .checkbox label:hover, body.admin .options .checkbox label:active, body.admin .options .checkbox label:hover {
       cursor: pointer; }
-  .checkboxes .checkbox input[type="checkbox"], .checkboxes .checkbox input[type="radio"], .options .checkbox input[type="checkbox"], .options .checkbox input[type="radio"] {
+  body.admin .checkboxes .checkbox input[type="checkbox"], body.admin .checkboxes .checkbox input[type="radio"], body.admin .options .checkbox input[type="checkbox"], body.admin .options .checkbox input[type="radio"] {
     display: none; }
-    .checkboxes .checkbox input[type="checkbox"]:checked ~ label::before, .checkboxes .checkbox input[type="radio"]:checked ~ label::before, .options .checkbox input[type="checkbox"]:checked ~ label::before, .options .checkbox input[type="radio"]:checked ~ label::before {
+    body.admin .checkboxes .checkbox input[type="checkbox"]:checked ~ label::before, body.admin .checkboxes .checkbox input[type="radio"]:checked ~ label::before, body.admin .options .checkbox input[type="checkbox"]:checked ~ label::before, body.admin .options .checkbox input[type="radio"]:checked ~ label::before {
       background: black; }
-
-.checkboxes {
+body.admin .checkboxes {
   max-height: 8em;
   padding: 0.2em 0.5em; }
-  .checkboxes .checkbox label::before {
+  body.admin .checkboxes .checkbox label::before {
     width: 0.55em;
     height: 0.55em;
     margin-right: 0.5em;
@@ -325,56 +326,52 @@ form {
     font-size: inherit;
     display: inline-block;
     content: ''; }
-
-.selects {
+body.admin .selects {
   display: flex;
   border-bottom: solid black 0.1em;
   padding: 0.15em 0; }
-  .selects .select {
+  body.admin .selects .select {
     background: transparent;
     position: relative; }
-    .selects .select .display {
+    body.admin .selects .select .display {
       display: inline-block;
       padding: 0 1.1em 0 0.6em;
       cursor: pointer; }
-    .selects .select .options {
+    body.admin .selects .select .options {
       max-height: calc(1.8em * 10);
       position: absolute;
       left: 0;
       top: calc(100% + 0.15em);
       padding: 0 0.5em;
       display: none; }
-      .selects .select .options.open {
+      body.admin .selects .select .options.open {
         display: block; }
-
-.selects.date .select {
+body.admin .selects.date .select {
   position: relative; }
-  .selects.date .select.month .display {
+  body.admin .selects.date .select.month .display {
     width: 6em; }
-  .selects.date .select.day .display {
+  body.admin .selects.date .select.day .display {
     width: 1.5em; }
-  .selects.date .select.year .display {
+  body.admin .selects.date .select.year .display {
     width: 2.5em; }
-  .selects.date .select:not(:last-child) .display:after {
+  body.admin .selects.date .select:not(:last-child) .display:after {
     content: '/';
     position: absolute;
     right: 0;
     top: 0; }
-
-form .images {
+body.admin form .images {
   display: block;
   clear: both; }
-  form .images input[type="text"] {
+  body.admin form .images input[type="text"] {
     display: none; }
-  form .images .image {
+  body.admin form .images .image {
     width: 100px;
     display: inline-block; }
-    form .images .image.sample {
+    body.admin form .images .image.sample {
       display: none; }
-    form .images .image img {
+    body.admin form .images .image img {
       width: 100%; }
-
-.quicky {
+body.admin .quicky {
   width: calc(100% - calc(15em + 20vw));
   height: 100%;
   padding: 0;
@@ -384,21 +381,21 @@ form .images {
   overflow: auto;
   display: none;
   background: rgba(255, 255, 255, 0.95); }
-  .quicky .inner {
+  body.admin .quicky .inner {
     width: calc(100% - 6em);
     max-width: 900px;
     padding: 3em;
     margin: auto;
     display: table; }
-    .quicky .inner form {
+    body.admin .quicky .inner form {
       padding: 0; }
-      .quicky .inner form img {
+      body.admin .quicky .inner form img {
         max-width: 100%;
         display: table;
         margin: auto; }
-  .quicky.open {
+  body.admin .quicky.open {
     display: block; }
-  .quicky .close {
+  body.admin .quicky .close {
     width: 1.5em;
     height: 1.5em;
     padding: 1px;
@@ -409,7 +406,7 @@ form .images {
     background-repeat: no-repeat;
     background-size: contain;
     background-image: url(/img/x.svg); }
-    .quicky .close:hover {
+    body.admin .quicky .close:hover {
       cursor: pointer; }
 
 html {
@@ -555,6 +552,24 @@ aside section#single .header {
   margin-bottom: 0.3em; }
   aside section#single .header h1 {
     margin-bottom: 0; }
+    aside section#single .header h1 span {
+      padding-right: 0.5em; }
+    aside section#single .header h1 .arrows {
+      display: inline-block; }
+      aside section#single .header h1 .arrows .arrow {
+        height: 1em;
+        width: 50px;
+        margin-right: 0.3em;
+        display: inline-block;
+        vertical-align: bottom;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        cursor: pointer; }
+        aside section#single .header h1 .arrows .arrow[data-direction='left'] {
+          background-image: url(/img/longArrowLeft.svg); }
+        aside section#single .header h1 .arrows .arrow[data-direction='right'] {
+          background-image: url(/img/longArrowRight.svg); }
 aside section#single .tour h4 {
   margin-bottom: 1.5em; }
   aside section#single .tour h4 a {
@@ -578,10 +593,17 @@ aside section#single .buildings .building {
       line-height: 1;
       text-align: center; }
   aside section#single .buildings .building .image {
-    height: 140px;
-    margin-right: 0.5em;
-    background: rgba(255, 0, 0, 0.3);
-    flex-grow: 1; }
+    width: 160px;
+    margin-right: 0.5em; }
+    aside section#single .buildings .building .image img, aside section#single .buildings .building .image .img {
+      max-width: 100%;
+      max-height: 100%;
+      display: table;
+      margin: auto; }
+    aside section#single .buildings .building .image .img {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.06); }
   aside section#single .buildings .building .meta {
     width: 50%;
     font-size: inherit;
@@ -621,8 +643,8 @@ aside section#single .buildings .building {
     .gridWrap .grid.show {
       opacity: 1; }
     .gridWrap .grid .building, .gridWrap .grid .sizer {
-      width: 300px;
-      height: 300px;
+      width: 200px;
+      height: 200px;
       padding: 2em;
       display: table;
       float: left; }
@@ -638,6 +660,9 @@ aside section#single .buildings .building {
         width: 100%;
         display: block;
         opacity: 0; }
+      .gridWrap .grid .building .img, .gridWrap .grid .sizer .img {
+        width: calc(200px - 2em);
+        height: calc(200px - 2em); }
       .gridWrap .grid .building.loaded .image, .gridWrap .grid .sizer.loaded .image {
         background: transparent; }
       .gridWrap .grid .building.loaded .img, .gridWrap .grid .building.loaded img, .gridWrap .grid .sizer.loaded .img, .gridWrap .grid .sizer.loaded img {

@@ -35,6 +35,7 @@ $ ->
 		$body.on 'click', '.close.tab', closeSide
 		$body.on 'click', '.slide', nextSlide
 		$body.on 'click', '.toggler', clickToggle
+		$body.on 'click', '.header .arrow', paginate
 
 
 		$buildingTiles.imagesLoaded().progress (instance, image) ->
@@ -43,10 +44,16 @@ $ ->
 
 
 		filterQuery = {
-			'tour': getQuery('tour'),
-			'neighborhood': getQuery('neighborhood'),
-			'era': getQuery('era'),
-			'style': getQuery('style')
+			'tour': getQuery('tour', true),
+			'neighborhood': getQuery('neighborhood', true),
+			'era': getQuery('era', true),
+			'style': getQuery('style', true)
+		}
+		urlQuery = {
+			'tour': getQuery('tour', false),
+			'neighborhood': getQuery('neighborhood', false),
+			'era': getQuery('era', false),
+			'style': getQuery('style', false)
 		}
 		filter()
 
@@ -114,28 +121,32 @@ $ ->
 		slug = this.dataset.slug
 		url = this.href
 		$li = $(this).parent()
+		# console.log(filterQuery)
+		# console.log(urlQuery)
 		if($(this).is('.selected'))
 			$(this).removeClass('selected')
 			filterQuery[type] = undefined
 			urlQuery[type] = undefined
 		else
-			$('#filter .'+type+' a.filter').removeClass('selected')
+			# $('#filter .'+type+' a.filter').removeClass('selected')
 			$(this).addClass('selected')
-			filterQuery[type] = id
-			urlQuery[type] = slug
+			filterQuery[type].push(id)
+			urlQuery[type].push(slug)
+		filterUrl(id, type, slug)
 		filter(id, type, slug)
 
 	filter = (id, type, slug) ->
-		filterUrl(id, type, slug)
 		$('.grid.buildings .building').each (i, building) ->
 			show = true
 			for key, value of filterQuery
-				if(value)
+				if(value.length)
+					# console.log(value)
+					# value = encodeURI(value)
+					# console.log(value)
 					id = $('#filter a.filter[data-slug="'+value+'"]').data('id')
 					if(id)
 						value = id
-					buildingValue = $(building).data(key)
-					
+					buildingValue = $(building).data(key)					
 					if(buildingValue)
 						if($.isArray(buildingValue))
 							if(!$.inArray(buildingValue, value))
@@ -156,8 +167,9 @@ $ ->
 		for key, value of params
 			if(!value)
 				delete params[key]
-
+		# console.log(urlQuery)
 		newUrlQuery = $.param(urlQuery)
+		# console.log(newUrlQuery)
 		if(newUrlQuery.length)
 			if(window.location.href.split('?') > 1)
 				newUrlQuery = '&' + newUrlQuery
@@ -171,11 +183,14 @@ $ ->
 
 	getQuery = (type) ->
   	query = window.location.search.substring(1)
+  	# console.log(query)
   	strings = query.split('&')
   	for string in strings
   		pair = string.split('=')
 			if(pair[0] == type)
-				return pair[1]
+				return [pair[1]]
+			else 
+				return []
 
 	getContent = (id, type, format, filter) ->
 		url = '/api/?type='+type
@@ -357,6 +372,23 @@ $ ->
 		centerY = wrapHeight/2 - gridHeight/2
 		centerMatrix = [1,0,0,1,centerX,centerY].join(',')
 		$grid.css({transform: 'matrix('+centerMatrix+')'}).addClass('show')
+
+	paginate = () ->
+		id = $(this).parents('section')[0].dataset.id
+		direction = $(this).data('direction')
+		$building = $('.grid .building[data-id="'+id+'"]')
+		if(direction == 'left')
+			$nextBuilding = $building.prev('.building')
+			if(!$nextBuilding.length)			
+				$nextBuilding = $('.grid .building').last()
+		else if(direction == 'right')
+			$nextBuilding = $building.next('.building')
+			if(!$nextBuilding.length)
+				$nextBuilding = $('.grid .building').first()
+		console.log($nextBuilding)
+		id = $nextBuilding[0].dataset.id
+		selectBuilding('id', id, '')
+
 
 	popState = (e) ->
 		e.preventDefault()

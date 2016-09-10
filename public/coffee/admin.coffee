@@ -50,7 +50,6 @@ $ ->
 		$label = $clone.find('label')
 		$input = $clone.find('input')
 		value = object._id
-		
 		$input.attr('value', value).attr('id', object.slug+'Checkbox')
 		$label.text(object.name).attr('for', object.slug+'Checkbox')
 		model = $(container).data('model')
