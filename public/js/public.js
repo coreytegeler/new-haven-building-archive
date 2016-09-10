@@ -223,31 +223,41 @@
         'era': [],
         'style': []
       };
+      console.log(urlQuery);
       return $.each(urlQuery, function(key, param) {
-        var $filter, i, id, j, len, results1, value;
+        var $filter, $filterList, $filterTitle, i, id, j, len, results1, value;
         results1 = [];
         for (i = j = 0, len = param.length; j < len; i = ++j) {
           value = param[i];
           $filter = $('.' + key + ' .filter[data-slug="' + value + '"]');
-          $filter.addClass('selected');
+          $filterList = $('.filters ul.' + key + 's');
+          $filterTitle = $('.filters .title[data-slug="' + key + 's"]');
           id = $filter.data('id');
+          $filter.addClass('selected');
+          $filterList.addClass('open');
+          $filterTitle.addClass('toggled');
           results1.push(filterQuery[key].push(id));
         }
         return results1;
       });
     };
     getParam = function(type) {
-      var j, len, pair, query, string, strings;
+      var j, len, pair, query, response, string, strings;
       query = window.location.search.substring(1);
       strings = query.split('&');
       for (j = 0, len = strings.length; j < len; j++) {
         string = strings[j];
         pair = string.split('=');
         if (pair[0] === type) {
-          return pair[1].split('.');
-        } else {
-          return [];
+          if (pair[1]) {
+            response = pair[1].split('.');
+          }
         }
+      }
+      if (response) {
+        return response;
+      } else {
+        return [];
       }
     };
     getContent = function(id, type, format, filter) {

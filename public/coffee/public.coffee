@@ -183,12 +183,18 @@ window.initPublic = ->
 			'era': [],
 			'style': []
 		}
+		console.log(urlQuery)
 
 		$.each urlQuery, (key, param) -> 
 			for value, i in param
 				$filter = $('.'+key+' .filter[data-slug="'+value+'"]')
-				$filter.addClass('selected')
+				$filterList = $('.filters ul.'+key+'s')
+				$filterTitle = $('.filters .title[data-slug="'+key+'s"]')
 				id = $filter.data('id')
+
+				$filter.addClass('selected')
+				$filterList.addClass('open')
+				$filterTitle.addClass('toggled')
 				filterQuery[key].push(id)
 
 	getParam = (type) ->
@@ -197,9 +203,13 @@ window.initPublic = ->
 		for string in strings
 			pair = string.split('=')
 			if(pair[0] == type)
-				return pair[1].split('.')
-			else 
-				return []
+				if(pair[1])
+					response = pair[1].split('.')
+		if(response)
+			return response
+		else
+			return []
+
 
 	getContent = (id, type, format, filter) ->
 		url = '/api/?type='+type
