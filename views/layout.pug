@@ -15,7 +15,7 @@ html(lang='en')
 			var loadedType = '#{(loadedType ? loadedType.s : undefined)}'
 		script(type='text/javascript' src='/js/main.js')
 		script(type='text/javascript' src='/js/public.js')
-		script(type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDlRpU-AULr-wX_Gafw-m2GfWgbFE-pQpY' async defer)
+		script(type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDlRpU-AULr-wX_Gafw-m2GfWgbFE-pQpY&callback=initPublic' async defer)
 		link(rel='stylesheet' href='/css/style.css')
 	body
 		include ./side

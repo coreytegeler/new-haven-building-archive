@@ -1,4 +1,4 @@
-$ ->
+window.initPublic = ->
 	$body = $('body')
 	$main = $('main')
 	$side = $('aside')
@@ -13,8 +13,8 @@ $ ->
 	$singleSect = $('section#single')
 	filterQuery = {}
 	urlQuery = {}
-
-	initPublic = () ->
+	
+	setUp = () ->
 		$grid.masonry({
 			itemSelector: '.building',
 			columnWidth: '.sizer'
@@ -23,6 +23,7 @@ $ ->
 		})
 		resizeGrid()
 		makeDraggable()
+
 		$(window).resize () ->
 			resizeGrid()
 			setUpSlider()
@@ -38,9 +39,12 @@ $ ->
 		$body.on 'click', '.header .arrow', paginate
 
 		$buildingTiles.imagesLoaded().progress (instance, image) ->
-    	status = if image.isLoaded then 'loaded' else 'broken'
-	    $(image.img).parents('.building').addClass(status)
-
+	  	if(image.isLoaded)
+	  		status = 'loaded'
+	  		$(image.img).parents('.building').addClass(status)
+	  	else
+	  		status = 'broken'
+	  		$(image.img).parents('.building').addClass(status)
 
 		filterQuery = {
 			'tour': getQuery('tour', true),
@@ -54,11 +58,7 @@ $ ->
 			'era': getQuery('era', false),
 			'style': getQuery('style', false)
 		}
-		filter()
-		setTimeout( ->
-			insertInfoMap()
-		1000)
-
+		infoMapSetup()
 		if(loadedSlug && loadedType)
 			if(loadedType == 'building')
 				selectBuilding('slug', loadedSlug)
@@ -123,41 +123,39 @@ $ ->
 		slug = this.dataset.slug
 		url = this.href
 		$li = $(this).parent()
-		# console.log(filterQuery)
-		# console.log(urlQuery)
 		if($(this).is('.selected'))
 			$(this).removeClass('selected')
-			filterQuery[type] = undefined
-			urlQuery[type] = undefined
+			for key, value of urlQuery[type]
+				if(slug == value)
+					urlQuery[type].splice(key, 1)
+			for key, value of filterQuery[type]
+				if(id == value)
+					filterQuery[type].splice(key, 1)
 		else
 			# $('#filter .'+type+' a.filter').removeClass('selected')
 			$(this).addClass('selected')
 			filterQuery[type].push(id)
 			urlQuery[type].push(slug)
 		filterUrl(id, type, slug)
-		filter(id, type, slug)
+		filter()
 
-	filter = (id, type, slug) ->
+	filter = () ->
 		$('.grid.buildings .building').each (i, building) ->
-			show = true
-			for key, value of filterQuery
-				if(value.length)
-					# console.log(value)
-					# value = encodeURI(value)
-					# console.log(value)
-					id = $('#filter a.filter[data-slug="'+value+'"]').data('id')
-					if(id)
-						value = id
+			for key, arr of filterQuery
+				if arr.length
+					show = false
+				for i, value of arr
 					buildingValue = $(building).data(key)					
 					if(buildingValue)
 						if($.isArray(buildingValue))
-							if(!$.inArray(buildingValue, value))
-								show = false
+							if($.inArray(buildingValue, value))
+								show = true
 						else
-							if(buildingValue != value)
-								show = false
-					else
-						show = false
+							if(buildingValue == value)
+								console.log(buildingValue, value)
+								show = true
+					# else
+					# 	show = false
 			if(show)
 				$(building).removeClass('hidden')
 			else
@@ -165,13 +163,15 @@ $ ->
 		resizeGrid()
 
 	filterUrl = (key, value, slug) ->
-		params = urlQuery
-		for key, value of params
-			if(!value)
-				delete params[key]
-		# console.log(urlQuery)
-		newUrlQuery = $.param(urlQuery)
-		# console.log(newUrlQuery)
+		params = $.extend(true, {}, urlQuery)
+		$.each params, (i, param) -> 
+			if param.length > 1
+				params[i] = param.join('.')
+			else if param.length
+				params[i] = param[0]
+			else
+				delete params[i]
+		newUrlQuery = $.param(params)
 		if(newUrlQuery.length)
 			if(window.location.href.split('?') > 1)
 				newUrlQuery = '&' + newUrlQuery
@@ -179,16 +179,15 @@ $ ->
 				newUrlQuery = '?' + newUrlQuery
 			newUrl = window.location.origin + newUrlQuery
 		else
-			newUrl = window.location.origin+window.location.pathname
+			newUrl = window.location.origin + window.location.pathname
 		window.history.pushState('', document.title, newUrl);
 		return
 
 	getQuery = (type) ->
-  	query = window.location.search.substring(1)
-  	# console.log(query)
-  	strings = query.split('&')
-  	for string in strings
-  		pair = string.split('=')
+		query = window.location.search.substring(1)
+		strings = query.split('&')
+		for string in strings
+			pair = string.split('=')
 			if(pair[0] == type)
 				return [pair[1]]
 			else 
@@ -208,10 +207,13 @@ $ ->
 			success: (response, status, jqXHR) ->
 				if(type=='building'&&format=='html'&&filter=='tour')
 					$singleSect.find('.group.tour').html(response)
+					tourMapSetup(response)
 				else if(type=='building'&&format=='html')
 					updateSingleSect(response, id)
 				else if(type=='tour'&&format=='html')
 					updateSingleSect(response, id)
+					$singleSect.find('.group.tour').html(response)
+					tourMapSetup(response)
 		return
 
 	updateSingleSect = (content, id) ->
@@ -222,12 +224,12 @@ $ ->
 			.html(content)
 			.attr('data-id', id)
 		if($(content).find('.mapWrap').length)
-			panelMapSetUp($singleSect)
+			buildingMapSetup($singleSect)
 			setUpSlider()
 		$singleSect.removeClass('loading')
 		openSide()
 
-	panelMapSetUp = (container) ->
+	buildingMapSetup = (container) ->
 		address = $(container).find('.buildingWrap').data('address') + ', New Haven, CT 06510'
 		geocoder = new google.maps.Geocoder()
 		geocoder.geocode {'address': address}, (results, status) ->
@@ -237,7 +239,7 @@ $ ->
 				# insertStreetView(container, coords)
 		return
 
-	insertInfoMap = () ->
+	infoMapSetup = () ->
 		geocoder = new google.maps.Geocoder()
 		$info = $('section#info');
 		$mapWrap = $info.find('.mapWrap')
@@ -245,13 +247,36 @@ $ ->
 		geocoder.geocode {'address': 'New Haven, Connecticut'}, (results, status) ->
 			if(status == 'OK')
 				coords = results[0].geometry.location
-				console.log(coords)
 				mapObj = new google.maps.Map $map[0], {
 					scrollwheel: false,
 					center: coords,
 					zoom: 14
 				}
 				$(allBuildings).each (i, building) ->
+					geocoder.geocode {'address': building.address}, (results, status) ->
+						if(status == 'OK')
+							coords = results[0].geometry.location
+							marker = new google.maps.Marker
+					      map: mapObj,
+					      position: coords,
+					      id: building._id
+					    marker.addListener 'click', clickMarker
+				$mapWrap.addClass('loaded')
+
+	tourMapSetup = () ->
+		geocoder = new google.maps.Geocoder()
+		$section = $('section#single');
+		$mapWrap = $section.find('.mapWrap')
+		$map = $mapWrap.find('.map')
+		geocoder.geocode {'address': 'New Haven, Connecticut'}, (results, status) ->
+			if(status == 'OK')
+				coords = results[0].geometry.location
+				mapObj = new google.maps.Map $map[0], {
+					scrollwheel: false,
+					center: coords,
+					zoom: 14
+				}
+				$(buildingsInTour).each (i, building) ->
 					geocoder.geocode {'address': building.address}, (results, status) ->
 						if(status == 'OK')
 							coords = results[0].geometry.location
@@ -273,8 +298,8 @@ $ ->
 			zoom: 16
 		}
 		marker = new google.maps.Marker
-      map: mapObj,
-      position: coords
+	    map: mapObj,
+	    position: coords
 		$mapWrap.addClass('loaded')
 
 	# insertStreetView = (container, coords) ->
@@ -294,9 +319,9 @@ $ ->
 	# 			streetViewObj.setPov(pov)
 	# 			$streetViewWrap.addClass('show')
 	# 			marker = new google.maps.Marker {
- #          grid: streetViewObj,
- #          position: coords
- #        }
+	#          grid: streetViewObj,
+	#          position: coords
+	#        }
 	# 		return
 	# 	return
 
@@ -314,8 +339,12 @@ $ ->
 		sliderHeight = $slider.innerHeight()
 
 		$slideWrap.imagesLoaded().progress (instance, image) ->
-    	status = if image.isLoaded then 'loaded' else 'broken'
-	    $(image.img).parents('.slide').addClass(status)
+			if(image.isLoaded) 
+				status = 'loaded'
+			else
+				status =  'broken'
+			if(image)
+				$(image.img).parents('.slide').addClass(status)
 
 	  if($slides.length > 1)
 	  	$slider.addClass('slippery')
@@ -417,7 +446,6 @@ $ ->
 			$nextBuilding = $building.next('.building')
 			if(!$nextBuilding.length)
 				$nextBuilding = $('.grid .building').first()
-		console.log($nextBuilding)
 		id = $nextBuilding[0].dataset.id
 		selectBuilding('id', id, '')
 
@@ -436,5 +464,4 @@ $ ->
 		if (type == 'building')
 			selectBuilding('slug', slug)
 
-		
-	initPublic()
+	setUp()

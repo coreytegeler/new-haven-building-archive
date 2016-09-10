@@ -1,10 +1,18 @@
 include  ./mixins
 if(tour)
+	script(type='text/javascript').
+		buildingsInTour = []
 	h1= tour.name
 	.group.brief= tour.brief
+	.group.mapGroup
+		.mapWrap.show
+			.map
+			.loader
 	ul.buildings.group
 		-var i = 0
 		for building in buildings
+			script(type='text/javascript').
+				buildingsInTour[!{JSON.stringify(i)}] = !{JSON.stringify(building)}
 			-i++
 			li.building(data-slug=building.slug, data-id=building.id)
 				a(href='/building/'+building.slug)
