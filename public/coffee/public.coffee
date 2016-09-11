@@ -56,7 +56,7 @@ window.initPublic = ->
 			else if(loadedType == 'tour')
 				id = $('#filter .tour[data-slug="'+loadedSlug+'"]').data('id')
 				getContent(id, loadedType, 'html')
-				filter(id, loadedType)
+				filter()
 		else
 			$infoSect.addClass('show')
 

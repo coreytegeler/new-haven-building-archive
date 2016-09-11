@@ -18,11 +18,12 @@
 .row
 	label= 'Era'
 	.module.checkboxes(data-type='checkboxes', data-model=type, class=type, data-checked=(object ? object[type] : ''))
-		+checkbox('era', '1638-1860', '1638-1860', false, (object.era == '1638-1860' ? true : false))
-		+checkbox('era', '1860-1910', '1860-1910', false, (object.era == '1860-1910' ? true : false))
-		+checkbox('era', '1910-1950', '1910-1950', false, (object.era == '1910-1950' ? true : false))
-		+checkbox('era', '1950-1980', '1950-1980', false, (object.era == '1950-1980' ? true : false))
-		+checkbox('era', '1980-Today', '1980-Today', false, (object.era == '1980-Today' ? true : false))
+
+		+checkbox('era', '1638-1860', '1638-1860', false, (object && object.era == '1638-1860' ? true : false))
+		+checkbox('era', '1860-1910', '1860-1910', false, (object && object.era == '1860-1910' ? true : false))
+		+checkbox('era', '1910-1950', '1910-1950', false, (object && object.era == '1910-1950' ? true : false))
+		+checkbox('era', '1950-1980', '1950-1980', false, (object && object.era == '1950-1980' ? true : false))
+		+checkbox('era', '1980-Today', '1980-Today', false, (object && object.era == '1980-Today' ? true : false))
 .row
 	+checkboxes('tour', 'Tour(s)', true, true)
 .row

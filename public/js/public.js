@@ -59,7 +59,7 @@
         } else if (loadedType === 'tour') {
           id = $('#filter .tour[data-slug="' + loadedSlug + '"]').data('id');
           getContent(id, loadedType, 'html');
-          return filter(id, loadedType);
+          return filter();
         }
       } else {
         return $infoSect.addClass('show');
