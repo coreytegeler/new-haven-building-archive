@@ -33,6 +33,7 @@
     "passport-local-mongoose": "^1.0.0",
     "pug": "2.0.0-beta3",
     "slug": "0.9.1",
-    "multer": "1.2.0"
+    "multer": "1.2.0",
+    "medium-editor": "5.22.0"
   }
 }

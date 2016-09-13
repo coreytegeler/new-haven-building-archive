@@ -13,6 +13,20 @@ $ ->
 		$('.select .options input').change updateSelectValue
 		$('.updateTemplate input').change updateTemplate
 
+		editor = new MediumEditor('textarea', {
+			buttons: ['italic', 'underline'],
+			placeholder: false,
+			autoLink: true,
+			imageDragging: false,
+			disableDoubleReturn: false,
+			paste: {
+				cleanPastedHTML: true,
+				cleanAttrs: ['style']
+			}
+		})
+		$(editor.elements).each () ->
+			$(this).addClass('editable')
+
 
 	getData = () ->
 		if($('form .images').length)

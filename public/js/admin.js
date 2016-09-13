@@ -5,6 +5,7 @@
     $body = $('body');
     $main = $('main');
     initAdmin = function() {
+      var editor;
       getData();
       $body.on('click', 'form .add', openQuicky);
       $body.on('click', 'form .images .edit', openQuicky);
@@ -13,7 +14,21 @@
       $body.on('click', 'a.delete', deleteObject);
       $('.select .display').click(openSelect);
       $('.select .options input').change(updateSelectValue);
-      return $('.updateTemplate input').change(updateTemplate);
+      $('.updateTemplate input').change(updateTemplate);
+      editor = new MediumEditor('textarea', {
+        buttons: ['italic', 'underline'],
+        placeholder: false,
+        autoLink: true,
+        imageDragging: false,
+        disableDoubleReturn: false,
+        paste: {
+          cleanPastedHTML: true,
+          cleanAttrs: ['style']
+        }
+      });
+      return $(editor.elements).each(function() {
+        return $(this).addClass('editable');
+      });
     };
     getData = function() {
       if (($('form .images').length)) {

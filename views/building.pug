@@ -68,7 +68,7 @@ include  ./mixins
 				li.neighborhood
 					span.label= 'Neighborhood: '
 					span.value= object.neighborhood.name
-	.group.paragraphs #{object.research}
+	.group.paragraphs !{object.research}
 	if(tourBuildings)
 		if(tourBuildings.length)
 			.group.tour

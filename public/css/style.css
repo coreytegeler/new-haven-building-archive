@@ -242,7 +242,7 @@ body.admin form {
       background: white;
       width: calc(100% - 1em - 2px);
       padding: 0.5em; }
-  body.admin form textarea {
+  body.admin form textarea, body.admin form .editable {
     width: calc(100% - 1em - 2px);
     padding: 0.5em;
     line-height: 1.5em;
@@ -251,6 +251,8 @@ body.admin form {
     outline: none;
     background: white;
     vertical-align: bottom; }
+    body.admin form textarea p, body.admin form .editable p {
+      margin-top: 0; }
   body.admin form .group {
     padding: 0 0 20px 0; }
   body.admin form .sample {
