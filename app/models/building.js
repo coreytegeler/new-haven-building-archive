@@ -36,13 +36,13 @@ var buildingSchema = mongoose.Schema({
 		type: String
 	},
 	neighborhood: {
-		type: String
+		type: Mixed
 	},
 	tour: {
-		type: String
+		type: Mixed
 	},
 	style: {
-		type: String
+		type: Mixed
 	},
 	originalUse: {
 		type: String

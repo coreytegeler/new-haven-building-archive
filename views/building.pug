@@ -35,12 +35,15 @@ include  ./mixins
 				li.address
 					span.label= 'Address: '
 					span.value= object.address
-			if(styles)
+			if(object.style)
 				li.style
 					span.label= 'Style: '
-					span.value
-						for style, i in styles
-							| #{style.name+(i != styles.length - 1 ? ', ' : '')}
+					if(object.style.length)
+						span.style
+							for style, i in object.style
+								| #{style.name+(i != object.style.length - 1 ? ', ' : '')}
+					else
+						span.style= object.style.name
 			if(object.dateConstructed)	
 				li.dateConstructed
 					span.label= 'Constructed: '
@@ -57,21 +60,21 @@ include  ./mixins
 				li.research
 					span.label= 'Researched by: '
 					span.value= object.researchBy+(object.researchYear ? ', '+object.researchYear : '')
-			if(tour)	
+			if(object.tour)	
 				li.tour
 					span.label= 'Tour: '
-					span.value= tour.name
-			if(neighborhood)	
+					span.value= object.tour.name
+			if(object.neighborhood)	
 				li.neighborhood
 					span.label= 'Neighborhood: '
-					span.value= neighborhood.name
+					span.value= object.neighborhood.name
 	.group.paragraphs #{object.research}
 	if(tourBuildings)
 		if(tourBuildings.length)
 			.group.tour
 				h4
 					span= 'Other Buildings on '
-					a.tour(href='/tour/'+tour.slug, data-slug=tour.slug, data-id=tour.id, data-type='tour')= tour.name+' Tour'
+					a.tour(href='/tour/'+object.tour.slug, data-slug=object.tour.slug, data-id=object.tour.id, data-type='tour')= object.tour.name+' Tour'
 				ul.buildings
 					-var i = 0
 					for building in tourBuildings
@@ -83,6 +86,11 @@ include  ./mixins
 								.meta
 									.name= building.name
 									.address= building.address
-									.style= building.style
+									if(building.style.length)
+										.style
+											for style, i in building.style
+												| #{style.name+(i != building.style.length - 1 ? ', ' : '')}
+									else
+										.style= building.style.name
 									.era= building.era
 									.researchBy= 'Contributed by ' + building.researchBy

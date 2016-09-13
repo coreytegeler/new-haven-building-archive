@@ -36,47 +36,22 @@ module.exports = function(app) {
       function(building, callback) {
         if(!building.tour)
           return callback(null, building, null)
-        Tour.findOne({_id: building.tour}, function(err, tour) {
-          return callback(null, building, tour)
-        })
-      },
-      function(building, tour, callback) {
-        if(!building.neighborhood)
-          return callback(null, building, tour, null)
-        Neighborhood.findOne(building.neighborhood, function(err, neighborhood) {
-          return callback(null, building, tour, neighborhood)
-        })
-      },
-      function(building, tour, neighborhood, callback) {
-        if(!tour)
-          return callback(null, building, tour, neighborhood, null)
-        Building.find({tour: tour.id}, function(err, tourBuildings) {
+        Building.find({'tour.id': building.tour.id}, function(err, tourBuildings) {
           for(var i = 0; i < tourBuildings.length; i++) {
-            if(tourBuildings[i]._id == id) {
+            if(tourBuildings[i]._id == building.id) {
               tourBuildings.splice(i, 1)
               break
             }
           }
-          return callback(null, building, tour, neighborhood, tourBuildings)
+          return callback(null, building, tourBuildings)
         })
-      },
-      function(building, tour, neighborhood, tourBuildings, callback) {
-        if(!building.style)
-          return callback(null, building, tour, neighborhood, tourBuildings, null)
-        Style.find(building.style.id, function(err, styles) {
-          console.log(styles)
-          return callback(null, building, tour, neighborhood, tourBuildings, styles)
-        })
-      },
-    ], function (err, building, tour, neighborhood, tourBuildings, styles) {
+      }
+    ], function (err, building, tourBuildings) {
       if(err)
         return err
       data = {
         object: building,
-        tour: tour,
-        neighborhood: neighborhood,
-        tourBuildings: tourBuildings,
-        styles: styles
+        tourBuildings: tourBuildings
       }
       if(format == 'json') {
         return res.json(data)

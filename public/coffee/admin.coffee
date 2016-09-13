@@ -49,14 +49,21 @@ $ ->
 		$clone = $(container).find('.sample').clone().removeClass('sample')
 		$label = $clone.find('label')
 		$input = $clone.find('input')
-		value = object._id
+		if !object
+			return
+		valueObject = {name: object.name, slug: object.slug, id: object._id}
+		value = JSON.stringify(valueObject)
 		$input.attr('value', value).attr('id', object.slug+'Checkbox')
 		$label.text(object.name).attr('for', object.slug+'Checkbox')
 		model = $(container).data('model')
-		if(!checked)
+		if !checked
 			checked = $(container).data('checked')
-		if(checked)
-			if(value == checked || checked.indexOf(value) > -1)
+		if checked
+			if $.isArray(checked)
+				for checkedValue in checked
+					if valueObject.id == checkedValue.id
+						$input.attr('checked', true)
+			if valueObject.id == checked.id
 				$input.attr('checked', true)
 		$clone
 			.attr('data-slug', object.slug)

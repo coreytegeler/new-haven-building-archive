@@ -74,9 +74,10 @@ module.exports = function(app) {
     var data = req.body
     var type = tools.singularize(req.params.type)
     var errors
-    if(data.images) {
-      data.images = JSON.parse(data.images)
-    }
+    if(data.images) { data.images = JSON.parse(data.images) }
+    if(data.tour) { data.tour = JSON.parse(data.tour) }
+    if(data.neighborhood) { data.neighborhood = JSON.parse(data.neighborhood) }
+    if(data.style) { data.style = JSON.parse(data.style) }
     switch(type) {
       case 'user':
         var object = new User(data)
@@ -126,7 +127,6 @@ module.exports = function(app) {
         res.redirect('/admin/'+type+'/new')
       } else {
         model.findOne({slug: slug}, function(err, object) {
-          console.log(type)
           if (err)
             throw err
           var data = {
@@ -158,10 +158,19 @@ module.exports = function(app) {
       var slug = slugify(data.name, {lower: true})
       data.slug = slug
     }
-    if(data.images) {
-      data.images = JSON.parse(data.images)
+    if(data.images) { data.images = JSON.parse(data.images) }
+    if(data.tour) { data.tour = JSON.parse(data.tour) }
+    if(data.neighborhood) { data.neighborhood = JSON.parse(data.neighborhood) }
+    if(data.style) {
+      if(Array.isArray(data.style)) {
+        for(var i = 0; i < data.style.length; i++) {
+          data.style[i] = JSON.parse(data.style[i])
+        }
+      } else {
+        data.style = JSON.parse(data.style)
+      }
     }
-    model.findOneAndUpdate({_id: id}, data, {runValidators: true}, function(err, object) {
+    model.findOneAndUpdate({_id: id}, data, {new: true, runValidators: true}, function(err, object) {
       if(!err) {
         console.log('Updated:')
         console.log(object)

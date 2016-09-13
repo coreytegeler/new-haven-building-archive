@@ -7,12 +7,13 @@ window.initPublic = ->
 	$buildingTiles = $grid.find('.building')
 	$buildings = $('.building')
 	$infoSect = $('section#info')
-	$indexSect = $('section#index')
+	$filterSect = $('section#filter')
 	$glossarySect = $('section#glossary')
 	$searchSect = $('section#search')
 	$singleSect = $('section#single')
 	filterQuery = {}
 	urlQuery = {}
+	filterIsOn = false
 	
 	setUp = () ->
 		$body.on 'mouseenter', '.building a', hoverBuilding
@@ -50,13 +51,15 @@ window.initPublic = ->
 	  		$(image.img).parents('.building').addClass(status)
 
 		
-		if(loadedSlug && loadedType)
+		if loadedSlug && loadedType
 			if(loadedType == 'building')
 				selectBuilding('slug', loadedSlug)
 			else if(loadedType == 'tour')
 				id = $('#filter .tour[data-slug="'+loadedSlug+'"]').data('id')
 				getContent(id, loadedType, 'html')
 				filter()
+		else if filterIsOn
+			$filterSect.addClass('show')
 		else
 			$infoSect.addClass('show')
 
@@ -136,6 +139,8 @@ window.initPublic = ->
 				if(arr.length)
 					buildingValue = building.dataset[key]
 					if(buildingValue)
+						try
+							buildingValue = JSON.parse(buildingValue).id
 						for index, value of arr
 							if(arr.length == 1)
 								if(value != buildingValue)
@@ -148,6 +153,7 @@ window.initPublic = ->
 					else
 						show = false
 			if(show == true)
+				filterIsOn = true
 				$(building).removeClass('hidden')
 			else
 				$(building).addClass('hidden')

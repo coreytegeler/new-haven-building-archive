@@ -55,11 +55,19 @@
       });
     };
     addCheckbox = function(container, object, checked) {
-      var $clone, $input, $label, model, value;
+      var $clone, $input, $label, checkedValue, j, len, model, value, valueObject;
       $clone = $(container).find('.sample').clone().removeClass('sample');
       $label = $clone.find('label');
       $input = $clone.find('input');
-      value = object._id;
+      if (!object) {
+        return;
+      }
+      valueObject = {
+        name: object.name,
+        slug: object.slug,
+        id: object._id
+      };
+      value = JSON.stringify(valueObject);
       $input.attr('value', value).attr('id', object.slug + 'Checkbox');
       $label.text(object.name).attr('for', object.slug + 'Checkbox');
       model = $(container).data('model');
@@ -67,7 +75,15 @@
         checked = $(container).data('checked');
       }
       if (checked) {
-        if (value === checked || checked.indexOf(value) > -1) {
+        if ($.isArray(checked)) {
+          for (j = 0, len = checked.length; j < len; j++) {
+            checkedValue = checked[j];
+            if (valueObject.id === checkedValue.id) {
+              $input.attr('checked', true);
+            }
+          }
+        }
+        if (valueObject.id === checked.id) {
           $input.attr('checked', true);
         }
       }

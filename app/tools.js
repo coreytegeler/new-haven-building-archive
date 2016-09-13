@@ -87,11 +87,17 @@ var alphaSort = function(object) {
 }
 
 var singularize = function(string) {
-  return string.replace(/s$/, '');
+  if(string)
+    return string.replace(/s$/, '');
+  else
+    return string
 }
 
 var pluralize = function(string) {
-  return singularize(string) + 's';
+  if(string)
+    return singularize(string) + 's';
+  else
+    return string
 }
 
 var getModel = function(type) {
