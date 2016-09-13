@@ -67,6 +67,16 @@ var isLoggedIn = function(req, res, next) {
   res.redirect('/admin/login');
 }
 
+var isAdmin = function(req, res, next) {
+  if(req.isAuthenticated())
+    if(req.user && req.user.admin) {
+      return next()
+    } else {
+      return res.redirect('/admin/')
+    }
+  res.redirect('/admin/login')
+}
+
 var alphaSort = function(object) {
   object.sort(function(a, b) {
     var textA = a.name.toUpperCase();
@@ -125,6 +135,7 @@ var preSave = function(item) {
 }
 exports.slugify = slugify;
 exports.isLoggedIn = isLoggedIn;
+exports.isAdmin = isAdmin;
 exports.alphaSort = alphaSort;
 exports.singularize = singularize;
 exports.pluralize = pluralize;

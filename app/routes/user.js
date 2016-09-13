@@ -5,24 +5,8 @@ var User = require('../models/user');
 var slugify = require('slug')
 
 module.exports = function(app, passport) {
-	app.get('/admin/signup', function(req, res) {
-		tools.async(function(results, err, models) {
-			if(req.user)
-				return res.redirect('/admin/profile')
-			res.render('admin/edit.pug', {
-	      loadedType: {
-	        s: 'user',
-	        p: 'users'
-	      },
-	      action: 'create',
-	      models: models,
-	      sideSection: 'profile'
-	    })
-		}, req, res)
-	})
 	
-
-	app.post('/admin/user/create', function(req, res) {
+	app.post('/admin/user/create', tools.isAdmin, function(req, res) {
 		var data = req.body
 		if(data.password != data.confirmPassword) {
 			console.log('Passwords do not match')
@@ -74,7 +58,7 @@ module.exports = function(app, passport) {
 
 	app.post('/admin/login', function(req, res, next) {
 	  passport.authenticate('local', function(err, user, info) {
-	  	console.log('Logging in', err, user, info)
+	  	console.log('Logging in', user, info)
 	    if (err) {
 	    	console.log('Error on login (authenticate)', err)
 	    	return next(err)

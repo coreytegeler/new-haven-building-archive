@@ -14,6 +14,7 @@ var userSchema = mongoose.Schema({
 	lastName: {
 		type: String
 	},
+	admin: String,
 	name: String,
 	slug: String,
 	password: String,
@@ -25,6 +26,7 @@ var userSchema = mongoose.Schema({
 userSchema.pre('save', function(next) {
 	this.username = this.email
 	this.name = this.firstName + ' ' + this.lastName
+	this.admin = 0
   tools.preSave(this)
   next();
 });

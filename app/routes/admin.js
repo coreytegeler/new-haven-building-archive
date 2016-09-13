@@ -29,12 +29,15 @@ module.exports = function(app) {
   app.get('/admin/:type', tools.isLoggedIn, function(req, res) {
     tools.async(function(results, err, models) {
       var type = req.params.type
-      if(type == 'user' || type == 'users') {
-        var model = User
-      } else {
-        var model = tools.getModel(type)
+      var model = tools.getModel(type)
+      if(err) {
+        console.log('Failed:')
+        console.log(err)
+        return res.redirect('/admin/')
       }
-
+      if(tools.singularize(type) == 'user' && req.user.admin != 1) {
+        return res.redirect('/admin/')
+      }
       res.render('admin/model.pug', {
         errors: err,
         loadedType: {
