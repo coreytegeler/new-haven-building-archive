@@ -32,19 +32,12 @@ aside
 											a.filter(href='/?'+item.type+'='+item.slug, data-slug=item.slug, data-id=item.id, data-type=item.type) #{item.name}
 
 				li(class='eras')
+					-var eras = ['1638-1860', '1860-1910', '1910-1950', '1950-1980', '1980-Today']
 					.title(data-slug='eras')= 'Eras'
 					ul(class='eras')
 						for era in eras
 							li(class='era')
-								a.filter(href='/?era='+era, data-slug=era, data-type='era') #{era.name}
-			//- ul.group.admin
-			//- 	ul.account
-			//- 		if user
-			//- 			li
-			//- 				a(href='/admin/') Edit
-			//- 		else
-			//- 			li
-			//- 				a(href='/admin/login/') Login
+								a.filter(href='/?era='+era, data-slug=era, data-id=era, data-type='era') #{era}
 		section#glossary
 			-var currentAlpha
 			each term in models['glossary']

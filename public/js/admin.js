@@ -128,7 +128,6 @@
     };
     openQuicky = function() {
       var $button, $module, $quicky, id, type;
-      console.log('!$!');
       $button = $(this);
       id = $button.data('id');
       type = $button.data('model');

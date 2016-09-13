@@ -104,7 +104,6 @@ $ ->
 		return
 
 	openQuicky = () ->
-		console.log('!$!')
 		$button = $(this)
 		id = $button.data('id')
 		type = $button.data('model')

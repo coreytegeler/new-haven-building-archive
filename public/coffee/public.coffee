@@ -135,6 +135,7 @@ window.initPublic = ->
 	filter = () ->
 		$('.grid.buildings .building').each (i, building) ->
 			show = true
+			console.log(filterQuery)
 			for key, arr of filterQuery
 				if(arr.length)
 					buildingValue = building.dataset[key]
@@ -143,6 +144,7 @@ window.initPublic = ->
 							buildingValue = JSON.parse(buildingValue).id
 						for index, value of arr
 							if(arr.length == 1)
+								console.log(value, buildingValue)
 								if(value != buildingValue)
 									show = false
 							else
@@ -199,13 +201,12 @@ window.initPublic = ->
 			for value, i in param
 				$filter = $('.'+key+' .filter[data-slug="'+value+'"]')
 				$filterList = $('.filters ul.'+key+'s')
+				value = $filter.data('id')
 				$filterTitle = $('.filters .title[data-slug="'+key+'s"]')
-				id = $filter.data('id')
-
 				$filter.addClass('selected')
 				$filterList.addClass('open')
 				$filterTitle.addClass('toggled')
-				filterQuery[key].push(id)
+				filterQuery[key].push(value)
 
 	getParam = (type) ->
 		query = window.location.search.substring(1)

@@ -160,6 +160,7 @@
       $('.grid.buildings .building').each(function(i, building) {
         var arr, buildingValue, index, jndex, key, show, value, walue;
         show = true;
+        console.log(filterQuery);
         for (key in filterQuery) {
           arr = filterQuery[key];
           if (arr.length) {
@@ -171,6 +172,7 @@
               for (index in arr) {
                 value = arr[index];
                 if (arr.length === 1) {
+                  console.log(value, buildingValue);
                   if (value !== buildingValue) {
                     show = false;
                   }
@@ -237,18 +239,18 @@
         'style': []
       };
       return $.each(urlQuery, function(key, param) {
-        var $filter, $filterList, $filterTitle, i, id, j, len, results1, value;
+        var $filter, $filterList, $filterTitle, i, j, len, results1, value;
         results1 = [];
         for (i = j = 0, len = param.length; j < len; i = ++j) {
           value = param[i];
           $filter = $('.' + key + ' .filter[data-slug="' + value + '"]');
           $filterList = $('.filters ul.' + key + 's');
+          value = $filter.data('id');
           $filterTitle = $('.filters .title[data-slug="' + key + 's"]');
-          id = $filter.data('id');
           $filter.addClass('selected');
           $filterList.addClass('open');
           $filterTitle.addClass('toggled');
-          results1.push(filterQuery[key].push(id));
+          results1.push(filterQuery[key].push(value));
         }
         return results1;
       });
