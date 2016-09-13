@@ -18,19 +18,6 @@
     urlQuery = {};
     setUp = function() {
       var id;
-      $grid.masonry({
-        itemSelector: '.building',
-        columnWidth: '.sizer',
-        transitionDuration: 0,
-        fixedWidth: true
-      });
-      resizeGrid();
-      makeDraggable();
-      $(window).resize(function() {
-        resizeGrid();
-        return setUpSlider();
-      });
-      $(window).on('popstate', popState);
       $body.on('mouseenter', '.building a', hoverBuilding);
       $body.on('mouseleave', '.building a', unhoverBuilding);
       $body.on('click', '.building a', clickBuilding);
@@ -40,6 +27,22 @@
       $body.on('click', '.slide', nextSlide);
       $body.on('click', '.toggler', clickToggle);
       $body.on('click', '.header .arrow', paginate);
+      $grid.masonry({
+        itemSelector: '.building',
+        columnWidth: '.sizer',
+        transitionDuration: 0,
+        fixedWidth: true
+      });
+      $(window).resize(function() {
+        resizeGrid();
+        return setUpSlider();
+      });
+      $(window).on('popstate', popState);
+      resizeGrid();
+      makeDraggable();
+      getParams();
+      filter();
+      infoMapSetup();
       $buildingTiles.imagesLoaded().progress(function(instance, image) {
         var status;
         if (image.isLoaded) {
@@ -50,9 +53,6 @@
           return $(image.img).parents('.building').addClass(status);
         }
       });
-      getParams();
-      filter();
-      infoMapSetup();
       if (loadedSlug && loadedType) {
         if (loadedType === 'building') {
           return selectBuilding('slug', loadedSlug);
@@ -155,29 +155,35 @@
     };
     filter = function() {
       $('.grid.buildings .building').each(function(i, building) {
-        var arr, buildingValue, key, show, value;
+        var arr, buildingValue, index, jndex, key, show, value, walue;
+        show = true;
         for (key in filterQuery) {
           arr = filterQuery[key];
           if (arr.length) {
-            show = false;
-          }
-          for (i in arr) {
-            value = arr[i];
-            buildingValue = $(building).data(key);
+            buildingValue = building.dataset[key];
             if (buildingValue) {
-              if ($.isArray(buildingValue)) {
-                if ($.inArray(buildingValue, value)) {
-                  show = true;
-                }
-              } else {
-                if (buildingValue === value) {
-                  show = true;
+              for (index in arr) {
+                value = arr[index];
+                if (arr.length === 1) {
+                  if (value !== buildingValue) {
+                    show = false;
+                  }
+                } else {
+                  show = false;
+                  for (jndex in arr) {
+                    walue = arr[jndex];
+                    if (walue === buildingValue) {
+                      show = true;
+                    }
+                  }
                 }
               }
+            } else {
+              show = false;
             }
           }
         }
-        if (show) {
+        if (show === true) {
           return $(building).removeClass('hidden');
         } else {
           return $(building).addClass('hidden');
@@ -223,7 +229,6 @@
         'era': [],
         'style': []
       };
-      console.log(urlQuery);
       return $.each(urlQuery, function(key, param) {
         var $filter, $filterList, $filterTitle, i, id, j, len, results1, value;
         results1 = [];

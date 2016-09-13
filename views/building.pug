@@ -31,10 +31,16 @@ include  ./mixins
 
 	.group.meta
 		ul
-			if(style)
+			if(object.address)
+				li.address
+					span.label= 'Address: '
+					span.value= object.address
+			if(styles)
 				li.style
 					span.label= 'Style: '
-					span.value= object.style
+					span.value
+						for style, i in styles
+							| #{style.name+(i != styles.length - 1 ? ', ' : '')}
 			if(object.dateConstructed)	
 				li.dateConstructed
 					span.label= 'Constructed: '

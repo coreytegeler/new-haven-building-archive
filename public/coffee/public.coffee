@@ -15,19 +15,6 @@ window.initPublic = ->
 	urlQuery = {}
 	
 	setUp = () ->
-		$grid.masonry({
-			itemSelector: '.building',
-			columnWidth: '.sizer'
-			transitionDuration: 0,
-			fixedWidth: true
-		})
-		resizeGrid()
-		makeDraggable()
-
-		$(window).resize () ->
-			resizeGrid()
-			setUpSlider()
-		$(window).on 'popstate', popState
 		$body.on 'mouseenter', '.building a', hoverBuilding
 		$body.on 'mouseleave', '.building a', unhoverBuilding
 		$body.on 'click', '.building a', clickBuilding
@@ -37,6 +24,22 @@ window.initPublic = ->
 		$body.on 'click', '.slide', nextSlide
 		$body.on 'click', '.toggler', clickToggle
 		$body.on 'click', '.header .arrow', paginate
+		$grid.masonry({
+			itemSelector: '.building',
+			columnWidth: '.sizer'
+			transitionDuration: 0,
+			fixedWidth: true
+		})
+		$(window).resize () ->
+			resizeGrid()
+			setUpSlider()
+
+		$(window).on 'popstate', popState
+		resizeGrid()
+		makeDraggable()
+		getParams()
+		filter()
+		infoMapSetup()
 
 		$buildingTiles.imagesLoaded().progress (instance, image) ->
 	  	if(image.isLoaded)
@@ -46,10 +49,7 @@ window.initPublic = ->
 	  		status = 'broken'
 	  		$(image.img).parents('.building').addClass(status)
 
-	  getParams()
-	  filter()
-
-		infoMapSetup()
+		
 		if(loadedSlug && loadedType)
 			if(loadedType == 'building')
 				selectBuilding('slug', loadedSlug)
@@ -131,22 +131,27 @@ window.initPublic = ->
 
 	filter = () ->
 		$('.grid.buildings .building').each (i, building) ->
+			show = true
 			for key, arr of filterQuery
-				if arr.length
-					show = false
-				for i, value of arr
-					buildingValue = $(building).data(key)
+				if(arr.length)
+					buildingValue = building.dataset[key]
 					if(buildingValue)
-						if($.isArray(buildingValue))
-							if($.inArray(buildingValue, value))
-								show = true
-						else
-							if(buildingValue == value)
-								show = true
-			if(show)
+						for index, value of arr
+							if(arr.length == 1)
+								if(value != buildingValue)
+									show = false
+							else
+								show = false
+								for jndex, walue of arr
+									if(walue == buildingValue)
+										show = true
+					else
+						show = false
+			if(show == true)
 				$(building).removeClass('hidden')
 			else
 				$(building).addClass('hidden')
+				
 		resizeGrid()
 
 	filterUrl = () ->
@@ -183,7 +188,6 @@ window.initPublic = ->
 			'era': [],
 			'style': []
 		}
-		console.log(urlQuery)
 
 		$.each urlQuery, (key, param) -> 
 			for value, i in param

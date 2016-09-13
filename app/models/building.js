@@ -39,10 +39,10 @@ var buildingSchema = mongoose.Schema({
 		type: String
 	},
 	tour: {
-		type: Mixed
+		type: String
 	},
 	style: {
-
+		type: String
 	},
 	originalUse: {
 		type: String

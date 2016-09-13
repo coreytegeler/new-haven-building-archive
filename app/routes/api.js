@@ -3,6 +3,7 @@ var tools = require('../tools')
 var Building = tools.getModel('building')
 var Tour = tools.getModel('tour')
 var Neighborhood = tools.getModel('neighborhood')
+var Style = tools.getModel('style')
 querystring = require('querystring');
 module.exports = function(app) {
 
@@ -59,14 +60,23 @@ module.exports = function(app) {
           return callback(null, building, tour, neighborhood, tourBuildings)
         })
       },
-    ], function (err, building, tour, neighborhood, tourBuildings) {
+      function(building, tour, neighborhood, tourBuildings, callback) {
+        if(!building.style)
+          return callback(null, building, tour, neighborhood, tourBuildings, null)
+        Style.find(building.style.id, function(err, styles) {
+          console.log(styles)
+          return callback(null, building, tour, neighborhood, tourBuildings, styles)
+        })
+      },
+    ], function (err, building, tour, neighborhood, tourBuildings, styles) {
       if(err)
         return err
       data = {
         object: building,
         tour: tour,
         neighborhood: neighborhood,
-        tourBuildings: tourBuildings
+        tourBuildings: tourBuildings,
+        styles: styles
       }
       if(format == 'json') {
         return res.json(data)

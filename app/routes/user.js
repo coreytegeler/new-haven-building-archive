@@ -58,7 +58,7 @@ module.exports = function(app, passport) {
 	app.get('/admin/login', function(req, res) {
 		tools.async(function(results, err, models) {
 			if(req.user)
-				return res.redirect('/admin/profile')
+			  return res.redirect('/admin/profile')
 			res.render('admin/login', {
 				user: req.user,
 				models: models,
@@ -67,7 +67,7 @@ module.exports = function(app, passport) {
 	        p: 'users'
 	      },
 				error: req.flash('error'),
-	      sideSection: 'profile'
+	      sideSection: 'profile',
 			})
 		}, req, res)
 	})
@@ -88,7 +88,7 @@ module.exports = function(app, passport) {
 	      	console.log('Error on login', err)
 	      	return next(err)
 	      }
-	      return res.redirect('/admin/profile')
+	      return res.redirect('back')
 	    });
 	  })(req, res, next)
 	})
