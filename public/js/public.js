@@ -48,11 +48,12 @@
         var status;
         if (image.isLoaded) {
           status = 'loaded';
-          return $(image.img).parents('.building').addClass(status);
+          $(image.img).parents('.building').addClass(status);
         } else {
           status = 'broken';
-          return $(image.img).parents('.building').addClass(status);
+          $(image.img).parents('.building').addClass(status);
         }
+        return $grid.masonry();
       });
       if (loadedSlug && loadedType) {
         if (loadedType === 'building') {

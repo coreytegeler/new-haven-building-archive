@@ -49,7 +49,7 @@ window.initPublic = ->
 	  	else
 	  		status = 'broken'
 	  		$(image.img).parents('.building').addClass(status)
-
+	  	$grid.masonry()
 		
 		if loadedSlug && loadedType
 			if(loadedType == 'building')
