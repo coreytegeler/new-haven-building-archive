@@ -55,7 +55,8 @@ var async = function(func, req, res) {
       'tours': results[2],
       'styles': results[3],
       'terms': results[4],
-      'glossary': glossary
+      'glossary': glossary,
+      'users': results[5]
     }
     func(results, err, models)
   });

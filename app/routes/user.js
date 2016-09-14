@@ -1,7 +1,7 @@
-var express = require('express');
-var passport = require('passport');
-var tools = require('../tools');
-var User = require('../models/user');
+var express = require('express')
+var passport = require('passport')
+var tools = require('../tools')
+var User = require('../models/user')
 var slugify = require('slug')
 
 module.exports = function(app, passport) {
