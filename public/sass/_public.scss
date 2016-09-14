@@ -243,8 +243,8 @@ body:not(.full) .grid {
 			opacity: 1;
 		}
 		.building, .sizer {
-			width: 200px;
-			height: 200px;
+			width: calc(200px + 4em);
+			height: calc(200px + 4em);
 			padding: 2em;
 			display: table;
 			float: left;

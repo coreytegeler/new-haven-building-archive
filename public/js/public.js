@@ -160,7 +160,6 @@
       $('.grid.buildings .building').each(function(i, building) {
         var arr, buildingValue, index, jndex, key, show, value, walue;
         show = true;
-        console.log(filterQuery);
         for (key in filterQuery) {
           arr = filterQuery[key];
           if (arr.length) {
@@ -172,7 +171,6 @@
               for (index in arr) {
                 value = arr[index];
                 if (arr.length === 1) {
-                  console.log(value, buildingValue);
                   if (value !== buildingValue) {
                     show = false;
                   }
@@ -286,7 +284,7 @@
       $.ajax({
         url: url,
         error: function(jqXHR, status, error) {
-          console.log(jqXHR, status, error);
+          console.error(jqXHR, status, error);
         },
         success: function(response, status, jqXHR) {
           if (type === 'building' && format === 'html' && filter === 'tour') {

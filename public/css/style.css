@@ -10,6 +10,19 @@ aside {
   background: #fffed3; }
   aside.noBG, aside.noBG header {
     background: transparent; }
+  aside h1, aside h2, aside h3 {
+    padding: 0;
+    margin: 0;
+    line-height: 1.15em; }
+  aside h1 {
+    margin-bottom: 0.5em; }
+  aside h3 {
+    margin: 0;
+    clear: both; }
+    aside h3 span::before {
+      content: ' '; }
+  aside p {
+    margin-top: 0; }
   aside header {
     z-index: 10;
     width: calc(calc(15em + 20vw) - 1em*2);
@@ -99,9 +112,23 @@ aside {
           margin: 0;
           padding: 0; }
           aside header .tabs .search form input {
-            width: calc(100% - 0.4em);
+            font-size: inherit;
+            font-weight: inherit;
+            width: calc(100% - 1em - 2px);
             padding: 0.2em;
-            background: #fffed3; }
+            -webkit-appearance: none;
+            border: 1px solid black;
+            outline: none;
+            font-family: Arial;
+            background: transparent; }
+            aside header .tabs .search form input::-webkit-input-placeholder {
+              color: black; }
+            aside header .tabs .search form input:-moz-placeholder {
+              color: black; }
+            aside header .tabs .search form input::-moz-placeholder {
+              color: black; }
+            aside header .tabs .search form input:-ms-input-placeholder {
+              color: black; }
   aside .inner {
     width: calc(100% - 1em*2);
     height: calc(100% - (1em*2 + 2.1em));
@@ -117,19 +144,6 @@ aside {
       aside .inner section.show {
         display: block;
         pointer-events: all; }
-      aside .inner section h1, aside .inner section h2, aside .inner section h3 {
-        padding: 0;
-        margin: 0;
-        line-height: 1.15em; }
-      aside .inner section h1 {
-        margin-bottom: 0.5em; }
-      aside .inner section h3 span::before {
-        content: ' '; }
-      aside .inner section p {
-        margin-top: 0; }
-  aside h3 {
-    margin: 0;
-    clear: both; }
   aside ul li.add {
     opacity: 0.25;
     text-transform: capitalize; }
@@ -194,8 +208,6 @@ aside {
       display: table;
       pointer-events: all; }
   aside #closedHeader {
-    font-size: 1.5em;
-    line-height: 1.1em;
     display: none; }
     aside #closedHeader:hover {
       cursor: pointer; }
@@ -648,8 +660,8 @@ aside .mapWrap {
     .gridWrap .grid.show {
       opacity: 1; }
     .gridWrap .grid .building, .gridWrap .grid .sizer {
-      width: 200px;
-      height: 200px;
+      width: calc(200px + 4em);
+      height: calc(200px + 4em);
       padding: 2em;
       display: table;
       float: left; }

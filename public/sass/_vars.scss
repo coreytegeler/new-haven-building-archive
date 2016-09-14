@@ -23,3 +23,18 @@ $sidePad: 1em;
 	// background-size: 30px;
 	background-color: rgba(0,0,0,0.06);
 }
+
+@mixin placeholder($color) {
+	&::-webkit-input-placeholder {
+		color: $color;
+	}
+	&:-moz-placeholder {
+		color: $color;  
+	}
+	&::-moz-placeholder {
+		color: $color;
+	}
+	&:-ms-input-placeholder {  
+		color: $color;  
+	}
+}

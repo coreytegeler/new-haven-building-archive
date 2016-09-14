@@ -135,7 +135,6 @@ window.initPublic = ->
 	filter = () ->
 		$('.grid.buildings .building').each (i, building) ->
 			show = true
-			console.log(filterQuery)
 			for key, arr of filterQuery
 				if(arr.length)
 					buildingValue = building.dataset[key]
@@ -144,7 +143,6 @@ window.initPublic = ->
 							buildingValue = JSON.parse(buildingValue).id
 						for index, value of arr
 							if(arr.length == 1)
-								console.log(value, buildingValue)
 								if(value != buildingValue)
 									show = false
 							else
@@ -231,15 +229,15 @@ window.initPublic = ->
 		$.ajax
 			url: url,
 			error:  (jqXHR, status, error) ->
-				console.log jqXHR, status, error
+				console.error jqXHR, status, error
 				return
 			success: (response, status, jqXHR) ->
-				if(type=='building'&&format=='html'&&filter=='tour')
+				if(type=='building' && format=='html' && filter=='tour')
 					$singleSect.find('.group.tour').html(response)
 					tourMapSetup(response)
-				else if(type=='building'&&format=='html')
+				else if(type=='building' && format=='html')
 					updateSingleSect(response, id)
-				else if(type=='tour'&&format=='html')
+				else if(type=='tour' && format=='html')
 					updateSingleSect(response, id)
 					$singleSect.find('.group.tour').html(response)
 					tourMapSetup(response)
@@ -265,7 +263,6 @@ window.initPublic = ->
 			if(status == 'OK')
 				coords = results[0].geometry.location
 				insertMap(container, coords)
-				# insertStreetView(container, coords)
 		return
 
 	infoMapSetup = () ->

@@ -11,6 +11,24 @@ aside {
 	&.noBG, &.noBG header {
 		background: transparent;
 	}
+	h1, h2, h3 {
+		padding: 0;
+		margin: 0;
+		line-height: 1.15em;
+	}
+	h1 {
+		margin-bottom: 0.5em;
+	}
+	h3 {
+		margin: 0;
+		clear: both;
+		span::before {
+			content: ' ';
+		}
+	}
+	p {
+		margin-top: 0;
+	}
 	header {
 		z-index: 10;
 		width: calc(#{$sideWidth} - #{$sidePad}*2);
@@ -125,15 +143,21 @@ aside {
 			}
 			.search {
 				width: auto;
-				// flex-grow: 1;
 				form {
 					width: 100%;
 					margin: 0;
 					padding: 0;
 					input {
-						width: calc(100% - 0.4em);
+						font-size: inherit;
+						font-weight: inherit;
+						width: calc(100% - 1em - 2px);
 						padding: 0.2em;
-						background: $yellow;
+						-webkit-appearance: none;
+						border: 1px solid black;
+						outline: none;
+						font-family: Arial;
+						background: transparent;
+						@include placeholder(black);
 					}
 				}
 			}
@@ -155,29 +179,7 @@ aside {
 				display: block;
 				pointer-events: all;
 			}
-			h1, h2, h3 {
-				padding: 0;
-				margin: 0;
-				line-height: 1.15em;
-			}
-			h1 {
-				margin-bottom: 0.5em;
-			}
-			h3 {
-				span {
-					&::before {
-						content: ' ';
-					}
-				}
-			}
-			p {
-				margin-top: 0;
-			}
 		}
-	}
-	h3 {
-		margin: 0;
-		clear: both;
 	}
 	ul {
 		li.add {
@@ -264,8 +266,6 @@ aside {
 		}
 	}
 	#closedHeader {
-		font-size: $xlargeFont;
-		line-height: 1.1em;
 		display: none;
 		&:hover {
 			cursor: pointer;
