@@ -660,8 +660,8 @@ aside .mapWrap {
     .gridWrap .grid.show {
       opacity: 1; }
     .gridWrap .grid .building, .gridWrap .grid .sizer {
-      width: calc(200px + 4em);
-      height: calc(200px + 4em);
+      width: calc(150px + 4em);
+      height: calc(150px + 4em);
       padding: 2em;
       display: table;
       float: left; }

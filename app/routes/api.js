@@ -34,7 +34,7 @@ module.exports = function(app) {
         })
       },
       function(building, callback) {
-        if(!building.tour)
+        if(!building || !building.tour)
           return callback(null, building, null)
         Building.find({'tour.id': building.tour.id}, function(err, tourBuildings) {
           for(var i = 0; i < tourBuildings.length; i++) {
