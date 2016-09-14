@@ -11,6 +11,8 @@ html(lang='en')
 		script(type='text/javascript' src='/js/masonry.pkgd.min.js')
 		script(type='text/javascript' src='/js/jquery.transit.min.js')
 		script(type='text/javascript').
+			var allBuildings = !{JSON.stringify((models ? models.buildings : []))}
+		script(type='text/javascript').
 			var loadedSlug = '#{(loadedSlug ? loadedSlug : undefined)}'
 			var loadedType = '#{(loadedType ? loadedType.s : undefined)}'
 		script(type='text/javascript' src='/js/main.js')
@@ -21,6 +23,3 @@ html(lang='en')
 		include ./side
 		main
 			block body
-
-	script(type='text/javascript').
-			var allBuildings = !{JSON.stringify((models ? models.buildings : []))}

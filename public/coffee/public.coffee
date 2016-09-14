@@ -278,6 +278,7 @@ window.initPublic = ->
 					center: coords,
 					zoom: 14
 				}
+				# DONT DO IT THIS WAY, LOAD DATA DYNAMICALLY
 				$(allBuildings).each (i, building) ->
 					geocoder.geocode {'address': building.address}, (results, status) ->
 						if(status == 'OK')
