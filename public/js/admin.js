@@ -82,6 +82,9 @@
         slug: object.slug,
         id: object._id
       };
+      if (object.color) {
+        valueObject['color'] = object.color;
+      }
       value = JSON.stringify(valueObject);
       $input.attr('value', value).attr('id', object.slug + 'Checkbox');
       $label.text(object.name).attr('for', object.slug + 'Checkbox');

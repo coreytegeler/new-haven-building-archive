@@ -1,18 +1,17 @@
 include  ./mixins
 if(tour)
 	script(type='text/javascript').
-		buildingsInTour = []
+		buildingsInTour = !{JSON.stringify(buildings)}
+		tourColor = '!{tour.color}'
 	h1= tour.name
 	.group.brief= tour.brief
 	.group.mapGroup
-		.mapWrap.show
+		.mapWrap.show(data-color=tour.color)
 			.map
 			.loader
 	ul.buildings.group
 		-var i = 0
 		for building in buildings
-			script(type='text/javascript').
-				buildingsInTour[!{JSON.stringify(i)}] = !{JSON.stringify(building)}
 			-i++
 			li.building(data-slug=building.slug, data-id=building.id)
 				a(href='/building/'+building.slug)
@@ -21,8 +20,9 @@ if(tour)
 					.image
 						+thumb(building)
 					.meta
-						.name= building.name
+						if(building.name != building.address)
+							.name= building.name
 						.address= building.address
-						.style= building.style
+						.style= building.style.name
 						.era= building.era
 						.researchBy= 'Contributed by ' + building.researchBy

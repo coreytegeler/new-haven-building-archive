@@ -10,14 +10,13 @@ module.exports = function(app) {
 	app.get('/api/*', function(req, res) {
     var type = req.query.type
     var id = req.query.id
-    var slug = req.query.slug
     var format = req.query.format
     var model = tools.getModel(type)
     var query = {}
     if(type == 'tour' && format == 'html')
-      getTourSection(slug, id, format, res) 
+      getTourSection(id, format, res) 
     else if(type == 'building' && format == 'html')
-      getBuildingSection(slug, id, format, res)  
+      getBuildingSection(id, format, res)  
     else
       model.find(query, function(err, response) {
         if(err)
@@ -26,7 +25,7 @@ module.exports = function(app) {
     })
   })
 
-  var getBuildingSection = function(slug, id, format, res)  {
+  var getBuildingSection = function(id, format, res)  {
     Async.waterfall([
       function(callback) {
         Building.findOne({_id:id}, function(err, building) {
@@ -61,17 +60,17 @@ module.exports = function(app) {
     })
   }
 
-  var getTourSection = function(slug, id, format, res)  {
+  var getTourSection = function(id, format, res)  {
     Async.parallel([
       function(callback) {
-        Tour.findOne(id, function(err, tour) {
+        Tour.findOne({_id:id}, function(err, tour) {
           if(err)
             callback(err)
           callback(null, tour);
         })
       },
       function(callback) {
-        Building.find({'tour': id}, function(err, buildings) {
+        Building.find({'tour.id': id}, function(err, buildings) {
           if(err)
             callback(err)
           callback(null, buildings);

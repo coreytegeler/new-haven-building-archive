@@ -16,45 +16,45 @@ var async = function(func, req, res) {
         if(err)
           callback(err)
         callback(null, data)
-      })
+      }).sort({'name':1})
     },
     function(callback) {
       Neighborhood.find({}, function(err, data) {
         if(err)
           callback(err)
         callback(null, data)
-      })
+      }).sort({'name':1})
     },
     function(callback) {
       Tour.find({}, function(err, data) {
         if(err)
           callback(err)
         callback(null, data)
-      })
+      }).sort({'name':1})
     },
     function(callback) {
       Style.find({}, function(err, data) {
         if(err)
           callback(err)
         callback(null, data)
-      })
+      }).sort({'name':1})
     },
     function(callback) {
       Term.find({}, function(err, data) {
         if(err)
           callback(err)
         callback(null, data)
-      })
+      }).sort({'name':1})
     }
   ],
   function(err, results) { 
     var glossary = alphaSort(results[3].concat(results[4]))
     var models = {
       'buildings': results[0],
-      'neighborhoods': results[1],
-      'tours': results[2],
-      'styles': results[3],
-      'terms': results[4],
+      'neighborhood': results[1],
+      'tour': results[2],
+      'style': results[3],
+      'term': results[4],
       'glossary': glossary
     }
     func(results, err, models)

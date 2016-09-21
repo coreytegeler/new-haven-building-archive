@@ -7,7 +7,7 @@ aside {
   z-index: 2000;
   line-height: 1.2em;
   clear: both;
-  background: #fffed3; }
+  background: #ffffe6; }
   aside.noBG, aside.noBG header {
     background: transparent; }
   aside h1, aside h2, aside h3 {
@@ -23,6 +23,9 @@ aside {
       content: ' '; }
   aside p {
     margin-top: 0; }
+  aside a.selected {
+    display: table;
+    border-bottom: 2px dashed black; }
   aside header {
     z-index: 10;
     width: calc(calc(15em + 20vw) - 1em*2);
@@ -30,7 +33,7 @@ aside {
     left: 0;
     top: 0;
     padding: 1em;
-    background: #fffed3; }
+    background: #ffffe6; }
     aside header .tabs {
       display: flex;
       flex-direction: row;
@@ -49,13 +52,10 @@ aside {
         aside header .tabs .tab:hover, aside header .tabs .tabDown:hover {
           cursor: pointer; }
         aside header .tabs .tab:not(.button), aside header .tabs .tabDown:not(.button) {
-          padding-bottom: 2px;
-          margin-bottom: -2px; }
+          padding-bottom: 2px; }
           aside header .tabs .tab:not(.button).selected, aside header .tabs .tabDown:not(.button).selected {
-            padding-bottom: 0;
-            border-bottom: 2px solid black; }
-        aside header .tabs .tab.glossary, aside header .tabs .tab.index, aside header .tabs .tabDown.glossary, aside header .tabs .tabDown.index {
-          padding: 0.2em auto; }
+            border-bottom: 2px dashed black;
+            padding-bottom: 0; }
       aside header .tabs .tabDown {
         width: 7em;
         height: 1.6em;
@@ -75,7 +75,7 @@ aside {
             aside header .tabs .tabDown .dropDown .tab.selected span {
               border-bottom: 2px solid black; }
             aside header .tabs .tabDown .dropDown .tab:hover {
-              color: #fffed3;
+              color: #ffffe6;
               background-color: black; }
             aside header .tabs .tabDown .dropDown .tab:not(:first-child) {
               border-top: 0; }
@@ -103,8 +103,6 @@ aside {
           margin-right: 0; }
         aside header .tabs .button.info {
           background-image: url(/img/i.svg); }
-        aside header .tabs .button.close {
-          background-image: url(/img/x.svg); }
       aside header .tabs .search {
         width: auto; }
         aside header .tabs .search form {
@@ -129,20 +127,32 @@ aside {
               color: black; }
             aside header .tabs .search form input:-ms-input-placeholder {
               color: black; }
+  aside .shadow {
+    width: 100%;
+    height: 100%;
+    display: table;
+    overflow: hidden;
+    box-shadow: 0 0 25px 2px rgba(0, 0, 0, 0.07); }
   aside .inner {
-    width: calc(100% - 1em*2);
+    width: 100%;
     height: calc(100% - (1em*2 + 2.1em));
-    padding: 0 1em;
     margin: 4em 0;
-    overflow: auto; }
+    overflow: hidden;
+    position: relative; }
     aside .inner section {
-      width: 100%;
+      width: calc(100% - 1em*2);
       height: 100%;
-      background: #fffed3;
-      display: none;
-      pointer-events: none; }
+      padding: 0 1em;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #ffffe6;
+      pointer-events: none;
+      overflow: auto;
+      opacity: 0; }
       aside .inner section.show {
-        display: block;
+        z-index: 100;
+        opacity: 1;
         pointer-events: all; }
   aside ul li.add {
     opacity: 0.25;
@@ -151,9 +161,12 @@ aside {
     width: 100%;
     display: table;
     margin-bottom: 2em; }
+    aside .group.paragraphs {
+      line-height: 1.5em; }
   aside #filter, aside #index {
     font-size: 1.5em;
-    line-height: 1.1em; }
+    line-height: 1.1em;
+    position: relative; }
     aside #filter ul.nested, aside #index ul.nested {
       width: 100%;
       margin: 0;
@@ -168,14 +181,12 @@ aside {
         aside #filter ul.nested li a, aside #index ul.nested li a {
           color: black;
           text-decoration: none; }
-          aside #filter ul.nested li a.selected, aside #index ul.nested li a.selected {
-            border-bottom: 2px solid black; }
         aside #filter ul.nested li .title, aside #index ul.nested li .title {
           line-height: 1.1em;
-          padding-left: 1.4em;
+          padding-left: 1em;
           display: table;
           background-image: url(/img/arrow_right.svg);
-          background-size: 1.2em auto;
+          background-size: 1em auto;
           background-repeat: no-repeat;
           background-position: 0 center; }
           aside #filter ul.nested li .title::after, aside #index ul.nested li .title::after {
@@ -188,42 +199,48 @@ aside {
             cursor: pointer; }
         aside #filter ul.nested li ul, aside #index ul.nested li ul {
           display: none;
-          padding: 0.1em 0 0.1em 2.4em; }
+          padding: 0.1em 0 0.1em 2em; }
+          aside #filter ul.nested li ul li, aside #index ul.nested li ul li {
+            padding-left: 1em;
+            text-indent: -1em; }
+            aside #filter ul.nested li ul li a, aside #index ul.nested li ul li a {
+              display: inline; }
           aside #filter ul.nested li ul.open, aside #index ul.nested li ul.open {
             display: block; }
+    aside #filter .clear, aside #index .clear {
+      position: absolute;
+      right: 1em;
+      top: 0;
+      width: 1em;
+      height: 1em;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-image: url(/img/x.svg);
+      display: none; }
+      aside #filter .clear.show, aside #index .clear.show {
+        display: block; }
   aside #archive {
     font-size: 1.5em;
     line-height: 1.25em; }
-  aside #glossary .add, aside #glossary .alpha, aside #glossary .term, aside #glossary .name, aside #glossary .definition {
+  aside #glossary .add, aside #glossary .alpha, aside #glossary .term {
     margin-bottom: 1em; }
+  aside #glossary .definition {
+    margin-bottom: 2em; }
   aside #glossary .alpha, aside #glossary .add {
     font-size: 1.5em;
     line-height: 1.25em; }
   .full aside {
-    background: transparent;
-    pointer-events: none; }
-    .full aside section, .full aside header {
-      display: none !important; }
-    .full aside #closedHeader {
-      display: table;
-      pointer-events: all; }
-  aside #closedHeader {
-    display: none; }
-    aside #closedHeader:hover {
-      cursor: pointer; }
+    left: calc(-15em - 20vw); }
   aside .toggle {
     margin-bottom: 1em; }
     aside .toggle .toggler {
-      padding: 0.5em 1em;
-      border: 1px solid black;
       display: table;
-      float: left; }
-      aside .toggle .toggler:not(:last-child) {
-        border-right: 0; }
-      aside .toggle .toggler:hover, aside .toggle .toggler.selected {
-        cursor: pointer;
-        background-color: black;
-        color: #fffed3; }
+      float: right; }
+      aside .toggle .toggler.selected {
+        border-bottom: 2px dashed black; }
+      aside .toggle .toggler:hover {
+        cursor: pointer; }
 
 body.admin main {
   width: calc(100% - calc(15em + 20vw));
@@ -231,7 +248,7 @@ body.admin main {
 body.admin form {
   width: calc(100% - 2em);
   max-width: 600px;
-  padding: 1em;
+  padding: 0 1em 1em 1em;
   margin: auto;
   display: table; }
   body.admin form label {
@@ -239,7 +256,7 @@ body.admin form {
     line-height: 1.5em;
     display: table; }
   body.admin form input, body.admin form textarea, body.admin form select {
-    font-size: 1em;
+    font-size: 0.85em;
     line-height: 1.1em;
     font-weight: 700; }
     body.admin form input:-webkit-autofill, body.admin form textarea:-webkit-autofill, body.admin form select:-webkit-autofill {
@@ -249,6 +266,7 @@ body.admin form {
     border: 1px solid black;
     outline: none;
     font-family: Arial;
+    font-weight: 400;
     background: transparent; }
     body.admin form input[type="text"], body.admin form input[type="email"], body.admin form input[type="password"], body.admin form input[type="file"] {
       background: white;
@@ -262,9 +280,14 @@ body.admin form {
     resize: none;
     outline: none;
     background: white;
-    vertical-align: bottom; }
+    vertical-align: bottom;
+    min-height: 3.4em;
+    font-size: 0.85em;
+    font-weight: 400; }
     body.admin form textarea p, body.admin form .editable p {
       margin-top: 0; }
+  body.admin form .research .editable {
+    min-height: 11em; }
   body.admin form .group {
     padding: 0 0 20px 0; }
   body.admin form .sample {
@@ -287,19 +310,19 @@ body.admin form {
     display: none; }
   body.admin form .button {
     display: block;
-    padding: 0.5em;
+    padding: 0.3em 0.35em;
     margin: 0 1em 0 0;
     float: left;
     vertical-align: middle;
     font-size: 0.8em;
     font-weight: bold;
-    line-height: 1.1em;
-    text-transform: uppercase;
+    line-height: 1em;
     color: black;
     text-decoration: none;
     border: 0;
     border: 1px solid black;
-    background: white; }
+    background: transparent;
+    text-transform: capitalize; }
     body.admin form .button:hover {
       cursor: pointer;
       background: black;
@@ -317,11 +340,12 @@ body.admin .checkboxes, body.admin .options {
   body.admin .checkboxes.populate.loaded .item, body.admin .options.populate.loaded .item {
     opacity: 1; }
   body.admin .checkboxes .checkbox label, body.admin .options .checkbox label {
+    width: calc(100% - 1em);
     font-family: inherit;
     font-size: inherit;
     line-height: 1.1em;
     display: table;
-    padding: 5px 0; }
+    padding: 0.5em; }
     body.admin .checkboxes .checkbox label:active, body.admin .checkboxes .checkbox label:hover, body.admin .options .checkbox label:active, body.admin .options .checkbox label:hover {
       cursor: pointer; }
   body.admin .checkboxes .checkbox input[type="checkbox"], body.admin .checkboxes .checkbox input[type="radio"], body.admin .options .checkbox input[type="checkbox"], body.admin .options .checkbox input[type="radio"] {
@@ -329,8 +353,7 @@ body.admin .checkboxes, body.admin .options {
     body.admin .checkboxes .checkbox input[type="checkbox"]:checked ~ label::before, body.admin .checkboxes .checkbox input[type="radio"]:checked ~ label::before, body.admin .options .checkbox input[type="checkbox"]:checked ~ label::before, body.admin .options .checkbox input[type="radio"]:checked ~ label::before {
       background: black; }
 body.admin .checkboxes {
-  max-height: 8em;
-  padding: 0.2em 0.5em; }
+  max-height: 8em; }
   body.admin .checkboxes .checkbox label::before {
     width: 0.55em;
     height: 0.55em;
@@ -380,7 +403,9 @@ body.admin form .images {
     display: none; }
   body.admin form .images .image {
     width: 100px;
-    display: inline-block; }
+    display: inline-block;
+    margin-right: 0.2em;
+    cursor: pointer; }
     body.admin form .images .image.sample {
       display: none; }
     body.admin form .images .image img {
@@ -398,7 +423,6 @@ body.admin .quicky {
   body.admin .quicky .inner {
     width: calc(100% - 6em);
     max-width: 900px;
-    padding: 3em;
     margin: auto;
     display: table; }
     body.admin .quicky .inner form {
@@ -428,7 +452,11 @@ html {
   height: 100%;
   margin: 0;
   background: white;
-  overflow: hidden; }
+  overflow: hidden;
+  font-family: Arial;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1.8em; }
   html * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -438,10 +466,7 @@ html {
     height: 100%;
     overflow: auto;
     margin: 0;
-    font-family: Arial;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 1.8em; }
+    font-size: 0.85em; }
 
 h1 {
   font-size: 1.5em;
@@ -521,7 +546,8 @@ aside section#single .sliderWrap .slider .slideWrap {
         opacity: 0;
         vertical-align: bottom; }
     aside section#single .sliderWrap .slider .slideWrap .slide .caption {
-      padding-top: 0.5em; }
+      padding-top: 0.5em;
+      font-size: 0.8em; }
 aside section#single .paragraphs {
   white-space: pre-line; }
 aside section#single .header {
@@ -534,7 +560,7 @@ aside section#single .header {
       display: inline-block; }
       aside section#single .header h1 .arrows .arrow {
         height: 1em;
-        width: 50px;
+        width: 23px;
         margin-right: 0.3em;
         display: inline-block;
         vertical-align: bottom;
@@ -660,26 +686,30 @@ aside .mapWrap {
     .gridWrap .grid.show {
       opacity: 1; }
     .gridWrap .grid .building, .gridWrap .grid .sizer {
-      width: calc(150px + 4em);
-      height: calc(150px + 4em);
+      width: calc(160px + 4em);
+      height: calc(160px + 4em);
       padding: 2em;
       display: table;
       float: left; }
       .gridWrap .grid .building a, .gridWrap .grid .sizer a {
+        width: 100%;
         display: table;
         font-size: 1em;
-        line-height: 1.1em; }
+        line-height: 1.1em;
+        text-align: center; }
       .gridWrap .grid .building .image, .gridWrap .grid .sizer .image {
         margin-bottom: .5em;
         border: 1px solid transparent;
         background-color: rgba(0, 0, 0, 0.06); }
       .gridWrap .grid .building .img, .gridWrap .grid .building img, .gridWrap .grid .sizer .img, .gridWrap .grid .sizer img {
-        width: 100%;
-        display: block;
+        max-width: 160px;
+        max-height: 160px;
+        display: table;
+        margin: auto;
         opacity: 0; }
       .gridWrap .grid .building .img, .gridWrap .grid .sizer .img {
-        width: calc(200px - 2em);
-        height: calc(200px - 2em); }
+        width: calc(160px - 2em);
+        height: calc(160px - 2em); }
       .gridWrap .grid .building.loaded .image, .gridWrap .grid .sizer.loaded .image {
         background: transparent; }
       .gridWrap .grid .building.loaded .img, .gridWrap .grid .building.loaded img, .gridWrap .grid .sizer.loaded .img, .gridWrap .grid .sizer.loaded img {

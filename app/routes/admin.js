@@ -137,6 +137,7 @@ module.exports = function(app) {
               s: tools.singularize(type),
               p: tools.pluralize(type)
             },
+            loadedSlug: slug,
             models: models,
             user: req.user,
             sideSection: tools.getSideSection(type)
@@ -162,15 +163,16 @@ module.exports = function(app) {
     if(data.images) { data.images = JSON.parse(data.images) }
     if(data.tour) { data.tour = JSON.parse(data.tour) }
     if(data.neighborhood) { data.neighborhood = JSON.parse(data.neighborhood) }
-    if(data.style) {
-      if(Array.isArray(data.style)) {
-        for(var i = 0; i < data.style.length; i++) {
-          data.style[i] = JSON.parse(data.style[i])
-        }
-      } else {
-        data.style = JSON.parse(data.style)
-      }
-    }
+    if(data.style) { data.style = JSON.parse(data.style) }
+    // if(data.style) {
+    //   if(Array.isArray(data.style)) {
+    //     for(var i = 0; i < data.style.length; i++) {
+    //       data.style[i] = JSON.parse(data.style[i])
+    //     }
+    //   } else {
+    //     data.style = JSON.parse(data.style)
+    //   }
+    // }
     model.findOneAndUpdate({_id: id}, data, {new: true, runValidators: true}, function(err, object) {
       if(!err) {
         console.log('Updated:')

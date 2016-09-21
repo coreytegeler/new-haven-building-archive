@@ -1,24 +1,30 @@
 .row
 	+input('address', 'Street Address', 'text', (object ? object.address : ''), true)
 .row
-	+input('name', 'Name', 'text', (object ? object.name : ''))
+	+input('name', 'Name', 'text', (object ? object.name : ''), true)
 .row
 	+images('images', (object ? object.images : ''), false)
 .row.two
 	.cell
-		+input('researchBy', 'Researched By', 'text', (object ? object.researchBy : ''))
+		+input('researchBy', 'Researched By', 'text', (object ? object.researchBy : ''), true)
 	.cell
-		+input('researchYear', 'Research Year', 'text', (object ? object.researchYear : ''))
+		+input('researchYear', 'Research Year', 'text', (object ? object.researchYear : ''), true)
 .row
-	+input('architect', 'Architect', 'text', (object ? object.architect : ''))
+	+input('architect', 'Architect', 'text', (object ? object.architect : ''), true)
 .row
-	+input('client', 'Client', 'text', (object ? object.client : ''))
+	+input('client', 'Client', 'text', (object ? object.client : ''), true)
 .row
-	+input('dateConstructed', 'Date Constructed', 'text', (object ? object.dateConstructed : ''))
+	+input('dateConstructed', 'Date Constructed', 'text', (object ? object.dateConstructed : ''), true)
+.row.two
+	.cell
+		+input('originalUse', 'Original Use', 'text', (object ? object.originalUse : ''), true)
+	.cell
+		+input('use', 'Current Use', 'text', (object ? object.use : ''), true)
+.row
+	+textarea('currentTenant', 'Current Tenant', (object ? object.currentTenant : ''))
 .row
 	label= 'Era'
-	.module.checkboxes(data-type='checkboxes', data-model=type, class=type, data-checked=(object ? object[type] : ''))
-
+	.module.checkboxes(data-type='checkboxes', data-model='era', class='era', data-checked=(object ? object.era : ''))
 		+checkbox('era', '1638-1860', '1638-1860', false, (object && object.era == '1638-1860' ? true : false))
 		+checkbox('era', '1860-1910', '1860-1910', false, (object && object.era == '1860-1910' ? true : false))
 		+checkbox('era', '1910-1950', '1910-1950', false, (object && object.era == '1910-1950' ? true : false))
@@ -29,13 +35,8 @@
 .row
 	+checkboxes('neighborhood', 'Neighborhood', false, true)
 .row
-	+checkboxes('style', 'Style', true, true)
-.row.two
-	.cell
-		+input('originalUse', 'Original Use', 'text', (object ? object.originalUse : ''))
-	.cell
-		+input('use', 'Current Use', 'text', (object ? object.use : ''))
-.row
-	+input('currentTenant', 'Current Tenant', 'text', (object ? object.currentTenant : ''))
-.row
-	+textarea('research', 'Research', (object ? object.research : ''))
+	+checkboxes('style', 'Style', false, true)
+.row.research
+	+textarea('research', 'Research', (object ? object.research : ''), true)
+.row.citations
+	+textarea('citations', 'Citations', (object ? object.citations : ''), true)

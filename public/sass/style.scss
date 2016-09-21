@@ -1,7 +1,7 @@
 @import 'fonts';
 @import 'vars';
 @import 'side';
-@import 'forms';
+@import 'admin';
 
 html {
 	width: 100%;
@@ -9,6 +9,12 @@ html {
 	margin: 0;
 	background: white;
 	overflow: hidden;
+	font: {
+		family: Arial;
+		weight: bold;
+		size: 18px;
+	}
+	line-height: 1.8em;
 	* {
 		-webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -19,12 +25,7 @@ html {
 		height: 100%;
     overflow: auto;
 		margin: 0;
-		font: {
-			family: Arial;
-			weight: bold;
-			size: 18px;
-		}
-		line-height: 1.8em;
+		font-size: $mediumFont;
 	}
 }
 h1 {

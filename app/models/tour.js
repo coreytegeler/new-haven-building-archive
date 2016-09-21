@@ -8,10 +8,9 @@ var tourSchema = mongoose.Schema({
 		required: true
 	},
 	slug: String,
-	brief: {
-		type: String
-	},
+	brief: String,
 	buildings: Mixed,
+	color: String,
 	type: String
 }, { 
 	timestamps: true

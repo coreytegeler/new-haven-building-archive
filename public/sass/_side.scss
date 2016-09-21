@@ -29,6 +29,10 @@ aside {
 	p {
 		margin-top: 0;
 	}
+	a.selected {
+		display: table;
+		border-bottom: 2px dashed black;
+	}
 	header {
 		z-index: 10;
 		width: calc(#{$sideWidth} - #{$sidePad}*2);
@@ -58,15 +62,11 @@ aside {
 					cursor: pointer;
 				}
 				&:not(.button) {
-					padding-bottom: 2px;
-					margin-bottom: -2px;
+					padding-bottom: 2px; 
 					&.selected {
+						border-bottom: 2px dashed black;
 						padding-bottom: 0;
-						border-bottom: 2px solid black;
 					}
-				}
-				&.glossary, &.index {
-					padding: 0.2em auto;
 				}
 			}
 			.tabDown {
@@ -137,9 +137,6 @@ aside {
 				&.info {
 					background-image: url(/img/i.svg);
 				}
-				&.close {
-					background-image: url(/img/x.svg);
-				}
 			}
 			.search {
 				width: auto;
@@ -163,20 +160,33 @@ aside {
 			}
 		}
 	}
+	.shadow {
+		width: 100%;
+		height: 100%;
+		display: table;
+    overflow: hidden;
+		box-shadow: 0 0 25px 2px rgba(0, 0, 0, 0.07);
+	}
 	.inner {
-		width: calc(100% - #{$sidePad}*2);
+		width: 100%;
 		height: calc(100% - (#{$sidePad}*2 + 2.1em));
-		padding: 0 $sidePad;
 		margin: $sidePad*4 0;
-		overflow: auto;
+		overflow: hidden;
+		position: relative;
 		section {
-			width: 100%;
+			width: calc(100% - #{$sidePad}*2);
 			height: 100%;
+			padding: 0 $sidePad;
+			position: absolute;
+			left: 0;
+			top: 0;
 			background: $yellow;
-			display: none;
 			pointer-events: none;
+			overflow: auto;
+			opacity: 0;
 			&.show {
-				display: block;
+				z-index: 100;
+				opacity: 1;
 				pointer-events: all;
 			}
 		}
@@ -191,10 +201,14 @@ aside {
 		width: 100%;
 		display: table;
 		margin-bottom: 2em;
+		&.paragraphs {
+			line-height: 1.5em;
+		}
 	}
 	#filter, #index {
 		font-size: $xlargeFont;
 		line-height: 1.1em;
+		position: relative;
 		ul.nested {
 			width: 100%;
 			margin: 0;
@@ -206,14 +220,11 @@ aside {
 				a {
 					color: black;
 					text-decoration: none;
-					&.selected {
-						border-bottom: 2px solid black;
-					}
 				}
-				$arrowSize: 1.2em;
+				$arrowSize: 1em;
 				.title {
 					line-height: 1.1em;
-					padding-left: $arrowSize + 0.2em;
+					padding-left: $arrowSize;
 					display: table;
 					background-image: url(/img/arrow_right.svg);
 					background-size: $arrowSize auto;
@@ -234,10 +245,32 @@ aside {
 				ul {
 					display: none;
 					padding: 0.1em 0 0.1em ($arrowSize*2);
+					li {
+						padding-left: 1em;
+						text-indent: -1em;
+						a {
+							display: inline;
+						}
+					}
 					&.open {
 						display: block;
 					}
 				}
+			}
+		}
+		.clear {
+			position: absolute;
+			right: $sidePad;
+			top: 0;
+			width: 1em;
+			height: 1em;
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-image: url(/img/x.svg);
+			display: none;
+			&.show {
+				display: block;
 			}
 		}
 	}
@@ -246,8 +279,11 @@ aside {
 		line-height: 1.25em;
 	}
 	#glossary {
-		.add, .alpha, .term, .name, .definition {
+		.add, .alpha, .term {
 			margin-bottom: 1em;
+		}
+		.definition {
+			margin-bottom: 2em;
 		}
 		.alpha, .add {
 			font-size: 1.5em;
@@ -255,36 +291,18 @@ aside {
 		}
 	}
 	.full & {
-		background: transparent;
-		pointer-events: none;
-		section, header {
-			display: none !important;
-		}
-		#closedHeader {
-			display: table;
-			pointer-events: all;
-		}
-	}
-	#closedHeader {
-		display: none;
-		&:hover {
-			cursor: pointer;
-		}
+		left: calc(-15em - 20vw);
 	}
 	.toggle {
 		margin-bottom: 1em;
 		.toggler {
-			padding: 0.5em 1em;
-			border: 1px solid black;
 			display: table;
-			float: left;
-			&:not(:last-child) {
-				border-right: 0;
+			float: right;
+			&.selected {
+				border-bottom: 2px dashed black;
 			}
-			&:hover, &.selected {
+			&:hover {
 				cursor: pointer;
-				background-color: black;
-				color: $yellow;
 			}
 		}
 	}

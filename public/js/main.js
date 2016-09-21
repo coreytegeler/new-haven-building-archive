@@ -36,6 +36,7 @@
         $side.find('.tab.selected').removeClass('selected');
         $tab.addClass('selected');
         if ($section.length) {
+          $('.building.selected').removeClass('selected');
           $section.addClass('show');
           return event.preventDefault();
         } else {

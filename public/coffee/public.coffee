@@ -20,6 +20,7 @@ window.initPublic = ->
 		$body.on 'mouseleave', '.building a', unhoverBuilding
 		$body.on 'click', '.building a', clickBuilding
 		$body.on 'click', 'a.filter', clickFilter
+		$body.on 'click', '#filter .clear', clearFilter
 		$body.on 'click', '#closedHeader', openSide
 		$body.on 'click', '.close.tab', closeSide
 		$body.on 'click', '.slide', nextSlide
@@ -29,7 +30,8 @@ window.initPublic = ->
 			itemSelector: '.building',
 			columnWidth: '.sizer'
 			transitionDuration: 0,
-			fixedWidth: true
+			fixedWidth: true,
+			isFitWidth: true
 		})
 		$(window).resize () ->
 			resizeGrid()
@@ -44,8 +46,12 @@ window.initPublic = ->
 
 		$buildingTiles.imagesLoaded().progress (instance, image) ->
 	  	if(image.isLoaded)
+	  		if(image.img.naturalWidth >= image.img.naturalHeight)
+	  			orientation = 'landscape'
+	  		else
+	  			orientation = 'portait'
 	  		status = 'loaded'
-	  		$(image.img).parents('.building').addClass(status)
+	  		$(image.img).parents('.building').addClass(status).addClass(orientation)
 	  	else
 	  		status = 'broken'
 	  		$(image.img).parents('.building').addClass(status)
@@ -55,7 +61,7 @@ window.initPublic = ->
 			if(loadedType == 'building')
 				selectBuilding('slug', loadedSlug)
 			else if(loadedType == 'tour')
-				id = $('#filter .tour[data-slug="'+loadedSlug+'"]').data('id')
+				id = $('#filter .tour a[data-slug="'+loadedSlug+'"]').data('id')
 				getContent(id, loadedType, 'html')
 				filter()
 		else if filterIsOn
@@ -117,6 +123,7 @@ window.initPublic = ->
 		slug = this.dataset.slug
 		url = this.href
 		$li = $(this).parent()
+		$('#filter .clear').addClass('show')
 		if($(this).is('.selected'))
 			$(this).removeClass('selected')
 			for key, value of urlQuery[type]
@@ -135,8 +142,10 @@ window.initPublic = ->
 	filter = () ->
 		$('.grid.buildings .building').each (i, building) ->
 			show = true
+			empty = 0
 			for key, arr of filterQuery
 				if(arr.length)
+					$('#filter .clear').addClass('show')
 					buildingValue = building.dataset[key]
 					if(buildingValue)
 						try
@@ -152,12 +161,18 @@ window.initPublic = ->
 										show = true
 					else
 						show = false
+				else
+					empty++
+
 			if(show == true)
-				filterIsOn = true
 				$(building).removeClass('hidden')
 			else
 				$(building).addClass('hidden')
-				
+
+			if(empty==Object.keys(filterQuery).length)
+				$('#filter .clear').removeClass('show')
+			else
+				filterIsOn = true
 		resizeGrid()
 
 	filterUrl = () ->
@@ -181,6 +196,15 @@ window.initPublic = ->
 		window.history.pushState('', document.title, newUrl);
 		return
 
+	clearFilter = () ->
+		for key, arr of filterQuery
+			filterQuery[key] = []
+		for key, arr of urlQuery
+			urlQuery[key] = []
+		$('.filter.selected').removeClass('selected')
+		filter()
+		filterUrl()
+
 	getParams = () ->
 		urlQuery = {
 			'tour': getParam('tour', false),
@@ -198,13 +222,14 @@ window.initPublic = ->
 		$.each urlQuery, (key, param) -> 
 			for value, i in param
 				$filter = $('.'+key+' .filter[data-slug="'+value+'"]')
-				$filterList = $('.filters ul.'+key+'s')
+				$filterList = $('.filters ul.'+key)
 				value = $filter.data('id')
 				$filterTitle = $('.filters .title[data-slug="'+key+'s"]')
 				$filter.addClass('selected')
 				$filterList.addClass('open')
 				$filterTitle.addClass('toggled')
 				filterQuery[key].push(value)
+
 
 	getParam = (type) ->
 		query = window.location.search.substring(1)
@@ -232,27 +257,29 @@ window.initPublic = ->
 				console.error jqXHR, status, error
 				return
 			success: (response, status, jqXHR) ->
+				$('.tab.selected').removeClass('selected')
 				if(type=='building' && format=='html' && filter=='tour')
 					$singleSect.find('.group.tour').html(response)
-					tourMapSetup(response)
+					tourMapSetup()
 				else if(type=='building' && format=='html')
-					updateSingleSect(response, id)
+					updateSingleSect(response, id, 'building')
 				else if(type=='tour' && format=='html')
-					updateSingleSect(response, id)
-					$singleSect.find('.group.tour').html(response)
-					tourMapSetup(response)
+					updateSingleSect(response, id, 'tour')
+					# $singleSect.find('.group.tour').html(response)
 		return
 
-	updateSingleSect = (content, id) ->
+	updateSingleSect = (content, id, type) ->
 		$('section.show').removeClass('show')
 		$singleSect.parents('.inner').scrollTop(0)
 		$singleSect
 			.addClass('show')
 			.html(content)
 			.attr('data-id', id)
-		if($(content).find('.mapWrap').length)
+		if(type == 'building')
 			buildingMapSetup($singleSect)
 			setUpSlider()
+		else if(type == 'tour')
+			tourMapSetup($singleSect)
 		$singleSect.removeClass('loading')
 		openSide()
 
@@ -276,42 +303,65 @@ window.initPublic = ->
 				mapObj = new google.maps.Map $map[0], {
 					scrollwheel: false,
 					center: coords,
-					zoom: 14
+					zoom: 12
 				}
+				bounds = new google.maps.LatLngBounds()
 				# DONT DO IT THIS WAY, LOAD DATA DYNAMICALLY
 				$(allBuildings).each (i, building) ->
-					geocoder.geocode {'address': building.address}, (results, status) ->
+					geocoder.geocode {'address': building.address + ', New Haven, CT 06510'}, (results, status) ->
 						if(status == 'OK')
 							coords = results[0].geometry.location
 							marker = new google.maps.Marker
-					      map: mapObj,
-					      position: coords,
-					      id: building._id
-					    marker.addListener 'click', clickMarker
-				$mapWrap.addClass('loaded')
+								map: mapObj,
+								position: coords,
+								id: building._id,
+								icon: {
+			            path: google.maps.SymbolPath.CIRCLE,
+			            fillColor: building.tour.color,
+			            fillOpacity: 1,
+			            # strokeColor: '#fff',
+			            strokeWeight: 0,
+			            scale: 8
+			          }
+							bounds.extend(coords)
+							marker.addListener 'click', clickMarker
+				google.maps.event.addListenerOnce mapObj, 'idle', () ->
+					mapObj.fitBounds(bounds)
+					mapObj.setCenter(bounds.getCenter())
+					$mapWrap.addClass('loaded')
 
 	tourMapSetup = () ->
 		geocoder = new google.maps.Geocoder()
 		$section = $('section#single');
 		$mapWrap = $section.find('.mapWrap')
 		$map = $mapWrap.find('.map')
-		geocoder.geocode {'address': 'New Haven, Connecticut'}, (results, status) ->
-			if(status == 'OK')
-				coords = results[0].geometry.location
-				mapObj = new google.maps.Map $map[0], {
-					scrollwheel: false,
-					center: coords,
-					zoom: 14
-				}
-				$(buildingsInTour).each (i, building) ->
-					geocoder.geocode {'address': building.address}, (results, status) ->
-						if(status == 'OK')
-							coords = results[0].geometry.location
-							marker = new google.maps.Marker
-					      map: mapObj,
-					      position: coords,
-					      id: building._id
-					    marker.addListener 'click', clickMarker
+		color = $mapWrap.data('color')
+		mapObj = new google.maps.Map $map[0], {
+			scrollwheel: false,
+			zoom: 12
+		}
+		bounds = new google.maps.LatLngBounds()
+		$(buildingsInTour).each (i, building) ->
+			geocoder.geocode {'address': building.address + ', New Haven, CT 06510'}, (results, status) ->
+				console.log(results, status)
+				if(status == 'OK')
+					coords = results[0].geometry.location
+					marker = new google.maps.Marker
+						map: mapObj,
+						position: coords,
+						id: building._id,
+						icon: {
+	            path: google.maps.SymbolPath.CIRCLE,
+	            fillColor: tourColor,
+	            fillOpacity: 1,
+	            strokeWeight: 0,
+	            scale: 8
+	          }
+					bounds.extend(coords)
+					marker.addListener 'click', clickMarker
+			google.maps.event.addListenerOnce mapObj, 'idle', () ->
+				mapObj.fitBounds(bounds)
+				mapObj.setCenter(bounds.getCenter())
 				$mapWrap.addClass('loaded')
 
 	insertMap = (container, coords) ->
@@ -329,32 +379,10 @@ window.initPublic = ->
 	    position: coords
 		$mapWrap.addClass('loaded')
 
-	# insertStreetView = (container, coords) ->
-	# 	address = $(container).find('.address').text() + ', New Haven, CT 06510'
-	# 	$streetViewWrap = $(container).find('.streetViewWrap')
-	# 	$streetView = $streetViewWrap.find('.streetView')
-	# 	streetViewObj = new  google.maps.StreetViewPanorama $streetView[0], {
-	# 		position: coords
-	# 	}
-	# 	streetViewService = new google.maps.StreetViewService
-	# 	streetViewService.getPanoramaByLocation streetViewObj.getPosition(), 50, (data) ->
-	# 		if (data != null)
-	# 			center = data.location.latLng
-	# 			heading = google.maps.geometry.spherical.computeHeading(center, coords)
-	# 			pov = streetViewObj.getPov()
-	# 			pov.heading = heading
-	# 			streetViewObj.setPov(pov)
-	# 			$streetViewWrap.addClass('show')
-	# 			marker = new google.maps.Marker {
-	#          grid: streetViewObj,
-	#          position: coords
-	#        }
-	# 		return
-	# 	return
-
 	clickMarker = () ->
 		marker = this
 		id = marker.id
+		console.log(id)
 		selectBuilding('id', id)
 
 	setUpSlider = () ->

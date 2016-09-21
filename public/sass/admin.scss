@@ -6,7 +6,7 @@ body.admin {
 	form {
 		width: calc(100% - 2em);
 		max-width: 600px;
-		padding: 1em;
+		padding: 0 1em 1em 1em;
 		margin: auto;
 		display: table;
 		label {
@@ -15,7 +15,7 @@ body.admin {
 			display: table;
 		}
 		input, textarea, select {
-			font-size: 1em;
+			font-size: $mediumFont;
 			line-height: 1.1em;
 			font-weight: 700;
 			&:-webkit-autofill {
@@ -27,6 +27,7 @@ body.admin {
 			border: 1px solid black;
 			outline: none;
 			font-family: Arial;
+			font-weight: 400;
 			background: transparent;
 			&[type="text"],
 			&[type="email"], 
@@ -46,9 +47,15 @@ body.admin {
 			outline: none;
 			background: white;
 			vertical-align: bottom;
+			min-height: 3.4em;
+			font-size: $mediumFont;
+			font-weight: 400;
 			p {
 				margin-top: 0;
 			}
+		}
+		.research .editable {
+			min-height: 11em;
 		}
 		.group {
 			padding: 0 0 20px 0;
@@ -85,7 +92,7 @@ body.admin {
 		}
 		.button {
 			display: block;
-			padding: 0.5em;
+			padding: 0.3em 0.35em;
 			margin: 0 1em 0 0;
 			float: left;
 			vertical-align: middle;
@@ -93,13 +100,13 @@ body.admin {
 				size: 0.8em;
 				weight: bold;
 			}
-			line-height: 1.1em;
-			text-transform: uppercase;
+			line-height: 1em;
 			color: black;
 			text-decoration: none;
 			border: 0;
 			border: 1px solid black;
-			background: white;
+			background: transparent;
+			text-transform: capitalize;
 			&:hover {
 				cursor: pointer;
 				background: black;
@@ -127,11 +134,12 @@ body.admin {
 		}
 		.checkbox {
 			label {
+				width: calc(100% - 1em);
 				font-family: inherit;
 				font-size: inherit;
 				line-height: 1.1em;
 				display: table;
-				padding: 5px 0;
+				padding: 0.5em;
 				&:active, &:hover {
 					cursor: pointer;
 				}
@@ -149,7 +157,6 @@ body.admin {
 
 	.checkboxes {
 		max-height: 8em;
-		padding: 0.2em 0.5em;
 		.checkbox {
 			label::before {
 				width: 0.55em;
@@ -160,6 +167,12 @@ body.admin {
 				font-size: inherit;
 				display: inline-block;
 				content: '';
+			}
+			&:first-child {
+				// padding-top: .2em;
+			}
+			&:last-child {
+				// padding-bottom: .2em;
 			}
 		}
 	}
@@ -226,6 +239,8 @@ body.admin {
 		.image {
 			width: 100px;
 			display: inline-block;
+			margin-right: 0.2em;
+			cursor: pointer;
 			&.sample {
 				display: none;
 			}
@@ -248,7 +263,6 @@ body.admin {
 		.inner {
 			width: calc(100% - 6em);
 			max-width: 900px;
-			padding: 3em;
 	    margin: auto;
 	    display: table;
 	    form {

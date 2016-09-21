@@ -58,6 +58,7 @@ aside {
 							// }
 							.caption {
 								padding-top: 0.5em;
+								font-size: 0.8em;
 							}
 						}
 					}
@@ -76,7 +77,7 @@ aside {
 						display: inline-block;
 						.arrow {
 							height: 1em;
-							width: 50px;
+							width: 23px;
 							margin-right: 0.3em;
 							display: inline-block;
 							vertical-align: bottom;
@@ -242,16 +243,27 @@ body:not(.full) .grid {
 		&.show {
 			opacity: 1;
 		}
+		$gridCell: 160px;
 		.building, .sizer {
-			width: calc(150px + 4em);
-			height: calc(150px + 4em);
+			width: calc(#{$gridCell} + 4em);
+			height: calc(#{$gridCell} + 4em);
 			padding: 2em;
 			display: table;
 			float: left;
+			&:nth-child(odd) {
+				// width: calc(#{$gridCell} + 8em);
+				// padding-left: 2em;
+				// padding-right: 0em;
+			}
+			&:nth-child(even) {
+				// padding-left: 2em;
+			}
 			a {
+				width: 100%;
 				display: table;
 				font-size: 1em;
 		    line-height: 1.1em;
+		    text-align: center;
 			}
 			.image {
 				margin-bottom: .5em;
@@ -259,13 +271,15 @@ body:not(.full) .grid {
 				@include loader;
 			}
 			.img, img {
-				width: 100%;
-				display: block;
+				max-width: $gridCell;
+				max-height: $gridCell;
+				display: table;
+				margin: auto;
 				opacity: 0;
 			}
 			.img {
-				width: calc(200px - 2em);
-				height: calc(200px - 2em);
+				width: calc(#{$gridCell} - 2em);
+				height: calc(#{$gridCell} - 2em);
 			}
 			&.loaded {
 				.image {
