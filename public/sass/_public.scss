@@ -219,8 +219,30 @@ aside {
 	background-position: center;
 	background-repeat: no-repeat;
 }
-body:not(.full) .grid {
-
+.apologies {
+	width: calc(100% - #{$sideWidth});
+	height: 100%;
+	position: absolute;
+	left: $sideWidth;
+	top: 0;
+	display: none;
+	opacity: .25;
+	.horz {
+		height: 100%;
+		font-size: 2em;
+	}
+}
+.empty {
+	.apologies {
+		display: block;
+	}
+	.grid {
+		pointer-events: none;
+	}
+	.close {
+		opacity: 0;
+		pointer-events: none;
+	}
 }
 .gridWrap {
 	width: 100%;

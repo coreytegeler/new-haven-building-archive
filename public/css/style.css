@@ -669,6 +669,26 @@ aside .mapWrap {
   background-position: center;
   background-repeat: no-repeat; }
 
+.apologies {
+  width: calc(100% - calc(15em + 20vw));
+  height: 100%;
+  position: absolute;
+  left: calc(15em + 20vw);
+  top: 0;
+  display: none;
+  opacity: .25; }
+  .apologies .horz {
+    height: 100%;
+    font-size: 2em; }
+
+.empty .apologies {
+  display: block; }
+.empty .grid {
+  pointer-events: none; }
+.empty .close {
+  opacity: 0;
+  pointer-events: none; }
+
 .gridWrap {
   width: 100%;
   height: 100%;

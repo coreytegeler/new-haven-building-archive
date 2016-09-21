@@ -166,10 +166,13 @@
       return filter();
     };
     filter = function() {
+      var hiddenBuildings;
+      $buildings = $('.grid.buildings .building');
+      hiddenBuildings = 0;
       $('.grid.buildings .building').each(function(i, building) {
-        var arr, buildingValue, empty, index, jndex, key, show, value, walue;
+        var arr, buildingValue, emptyParams, index, jndex, key, show, value, walue;
         show = true;
-        empty = 0;
+        emptyParams = 0;
         for (key in filterQuery) {
           arr = filterQuery[key];
           if (arr.length) {
@@ -199,18 +202,25 @@
               show = false;
             }
           } else {
-            empty++;
+            emptyParams++;
           }
         }
         if (show === true) {
           $(building).removeClass('hidden');
         } else {
+          hiddenBuildings++;
           $(building).addClass('hidden');
         }
-        if (empty === Object.keys(filterQuery).length) {
-          return $('#filter .clear').removeClass('show');
+        if (emptyParams === Object.keys(filterQuery).length) {
+          $('#filter .clear').removeClass('show');
         } else {
-          return filterIsOn = true;
+          filterIsOn = true;
+        }
+        if (hiddenBuildings === $buildings.length) {
+          $body.removeClass('full');
+          return $body.addClass('empty');
+        } else {
+          return $body.removeClass('empty');
         }
       });
       return resizeGrid();

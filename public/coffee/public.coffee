@@ -140,9 +140,11 @@ window.initPublic = ->
 		filter()
 
 	filter = () ->
+		$buildings = $('.grid.buildings .building')
+		hiddenBuildings = 0
 		$('.grid.buildings .building').each (i, building) ->
 			show = true
-			empty = 0
+			emptyParams = 0
 			for key, arr of filterQuery
 				if(arr.length)
 					$('#filter .clear').addClass('show')
@@ -162,17 +164,25 @@ window.initPublic = ->
 					else
 						show = false
 				else
-					empty++
+					emptyParams++
 
 			if(show == true)
 				$(building).removeClass('hidden')
 			else
+				hiddenBuildings++
 				$(building).addClass('hidden')
 
-			if(empty==Object.keys(filterQuery).length)
+			if(emptyParams == Object.keys(filterQuery).length)
 				$('#filter .clear').removeClass('show')
 			else
 				filterIsOn = true
+
+			if(hiddenBuildings == $buildings.length)
+				$body.removeClass('full')
+				$body.addClass('empty')
+			else
+				$body.removeClass('empty')
+
 		resizeGrid()
 
 	filterUrl = () ->
