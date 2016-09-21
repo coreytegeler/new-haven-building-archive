@@ -392,22 +392,29 @@
       });
       bounds = new google.maps.LatLngBounds();
       $(allBuildings).each(function(i, building) {
-        var coords, marker;
+        var color, coords, marker;
         coords = building.coords;
-        marker = new google.maps.Marker({
-          map: mapObj,
-          position: coords,
-          id: building._id,
-          icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: building.tour.color,
-            fillOpacity: 1,
-            strokeWeight: 0,
-            scale: 10
-          }
-        });
-        bounds.extend(coords);
-        return marker.addListener('click', clickMarker);
+        if (building.tour && building.tour.color) {
+          color = building.tour.color;
+        } else {
+          color = 'black';
+        }
+        if (typeof coords === 'object') {
+          marker = new google.maps.Marker({
+            map: mapObj,
+            position: coords,
+            id: building._id,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: color,
+              fillOpacity: 1,
+              strokeWeight: 0,
+              scale: 10
+            }
+          });
+          bounds.extend(marker.getPosition());
+          return marker.addListener('click', clickMarker);
+        }
       });
       return google.maps.event.addListenerOnce(mapObj, 'idle', function() {
         mapObj.fitBounds(bounds);

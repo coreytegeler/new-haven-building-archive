@@ -332,20 +332,25 @@ window.initPublic = ->
 		# DONT DO IT THIS WAY, LOAD DATA DYNAMICALLY
 		$(allBuildings).each (i, building) ->
 			coords = building.coords
-			marker = new google.maps.Marker
-				map: mapObj,
-				position: coords,
-				id: building._id,
-				icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          fillColor: building.tour.color,
-          fillOpacity: 1,
-          # strokeColor: '#fff',
-          strokeWeight: 0,
-          scale: 10
-        }
-			bounds.extend(coords)
-			marker.addListener 'click', clickMarker
+			if(building.tour && building.tour.color)
+				color = building.tour.color
+			else
+				color = 'black'
+			if(typeof coords == 'object')
+				marker = new google.maps.Marker
+					map: mapObj,
+					position: coords,
+					id: building._id,
+					icon: {
+	          path: google.maps.SymbolPath.CIRCLE,
+	          fillColor: color,
+	          fillOpacity: 1,
+	          # strokeColor: '#fff',
+	          strokeWeight: 0,
+	          scale: 10
+	        }
+				bounds.extend(marker.getPosition())
+				marker.addListener 'click', clickMarker
 		google.maps.event.addListenerOnce mapObj, 'idle', () ->
 			mapObj.fitBounds(bounds)
 			mapObj.setCenter(bounds.getCenter())
