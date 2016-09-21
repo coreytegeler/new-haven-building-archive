@@ -356,11 +356,16 @@
       return openSide();
     };
     buildingMapSetup = function(container) {
-      var $buildingWrap, $map, $mapWrap, color, coords, mapObj, marker;
+      var $buildingWrap, $map, $mapWrap, color, coords, mapObj, marker, tour;
       $buildingWrap = $(container).find('.buildingWrap');
-      color = $buildingWrap.data('tour').color;
+      tour = $buildingWrap.data('tour');
+      if (tour) {
+        color = tour.color;
+      }
+      if (!color) {
+        color = 'black';
+      }
       coords = $buildingWrap.data('coords');
-      console.log(coords);
       $(container).find('show').removeClass('show');
       $mapWrap = $(container).find('.mapWrap');
       $map = $mapWrap.find('.map');

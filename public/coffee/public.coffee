@@ -297,9 +297,12 @@ window.initPublic = ->
 
 	buildingMapSetup = (container) ->
 		$buildingWrap = $(container).find('.buildingWrap')
-		color = $buildingWrap.data('tour').color
+		tour = $buildingWrap.data('tour')
+		if(tour)
+			color = tour.color
+		if(!color)
+			color = 'black'
 		coords = $buildingWrap.data('coords')
-		console.log(coords)
 		$(container).find('show').removeClass('show')
 		$mapWrap = $(container).find('.mapWrap')
 		$map = $mapWrap.find('.map')
