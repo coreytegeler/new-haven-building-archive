@@ -4,6 +4,7 @@ var Building = require('./models/building')
 var Neighborhood = require('./models/neighborhood')
 var Tour = require('./models/tour')
 var Style = require('./models/style')
+var Use = require('./models/use')
 var Term = require('./models/term')
 var Image = require('./models/image')
 var slugify = require('slug')
@@ -40,6 +41,13 @@ var async = function(func, req, res) {
       }).sort({'name':1})
     },
     function(callback) {
+      Use.find({}, function(err, data) {
+        if(err)
+          callback(err)
+        callback(null, data)
+      }).sort({'name':1})
+    },
+    function(callback) {
       Term.find({}, function(err, data) {
         if(err)
           callback(err)
@@ -48,13 +56,14 @@ var async = function(func, req, res) {
     }
   ],
   function(err, results) { 
-    var glossary = alphaSort(results[3].concat(results[4]))
+    var glossary = alphaSort(results[3].concat(results[5]))
     var models = {
       'buildings': results[0],
       'neighborhood': results[1],
       'tour': results[2],
       'style': results[3],
-      'term': results[4],
+      'use': results[4],
+      'term': results[5],
       'glossary': glossary
     }
     func(results, err, models)
@@ -115,6 +124,8 @@ var getModel = function(type) {
       return Neighborhood
     case 'style':
       return Style
+    case 'use':
+      return Use
     case 'term':
       return Term
     case 'image':

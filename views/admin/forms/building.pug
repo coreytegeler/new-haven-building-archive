@@ -15,11 +15,10 @@
 	+input('client', 'Client', 'text', (object ? object.client : ''), true)
 .row
 	+input('dateConstructed', 'Date Constructed', 'text', (object ? object.dateConstructed : ''), true)
-.row.two
-	.cell
-		+input('originalUse', 'Original Use', 'text', (object ? object.originalUse : ''), true)
-	.cell
-		+input('use', 'Current Use', 'text', (object ? object.use : ''), true)
+.row
+	+checkboxes('use', 'Current Use', false, true)
+.row
+	+input('originalUse', 'Original Use', 'text', (object ? object.originalUse : ''), true)
 .row
 	+textarea('currentTenant', 'Current Tenant', (object ? object.currentTenant : ''))
 .row

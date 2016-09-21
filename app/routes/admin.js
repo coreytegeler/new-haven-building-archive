@@ -4,14 +4,22 @@ var Building = require('../models/building')
 var Tour = require('../models/tour')
 var Neighborhood = require('../models/neighborhood')
 var Style = require('../models/style')
-var User = require('../models/user')
+var Use = require('../models/use')
 var Term = require('../models/term')
 var Image = require('../models/image')
+var User = require('../models/user')
 var tools = require('../tools')
 var slugify = require('slug')
 var path  = require('path')
 var fs  = require('fs')
 var multer  = require('multer')
+var NodeGeocoder = require('node-geocoder');
+var geocoder = NodeGeocoder({
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: 'AIzaSyBjRpM-uioJEx7ptDKiieLgyiFmXIXNoqs',
+  formatter: null
+})
 
 module.exports = function(app) {
   app.get('/admin', tools.isLoggedIn, function(req, res) {
@@ -79,6 +87,7 @@ module.exports = function(app) {
     if(data.tour) { data.tour = JSON.parse(data.tour) }
     if(data.neighborhood) { data.neighborhood = JSON.parse(data.neighborhood) }
     if(data.style) { data.style = JSON.parse(data.style) }
+    if(data.use) { data.use = JSON.parse(data.use) }
     switch(type) {
       case 'user':
         var object = new User(data)
@@ -95,10 +104,32 @@ module.exports = function(app) {
       case 'style':
         var object = new Style(data)
         break 
+      case 'use':
+        var object = new Use(data)
+        break 
       case 'term':
         var object = new Term(data)
         break 
     }
+    if(type == 'building') {
+      geocoder.geocode(data.address+', New Haven, CT 06510', function(err, location) {
+        if(err) {
+          console.log('Failed:')
+          console.log(err)
+        } else {
+          console.log('Geocoded address:')
+          console.log(res)
+          object.coords = { lat:location[0].latitude, lng: location[0].longitude }
+          console.log(object)
+          saveNewObject(object, type)
+        }
+      })
+    } else {
+      saveNewObject(object, type, res)
+    }
+  })
+
+  var saveNewObject = function(object, type, res) {
     object.save(function(err) {
       if(err) {
         console.log('Failed:')
@@ -117,7 +148,7 @@ module.exports = function(app) {
         res.redirect('/admin/'+type+'/edit/'+object.slug)
       }
     })
-  })
+  }
 
   app.get('/admin/:type/edit/:slug', tools.isLoggedIn, function(req, res) {
     tools.async(function(results, err, models) {
@@ -164,15 +195,28 @@ module.exports = function(app) {
     if(data.tour) { data.tour = JSON.parse(data.tour) }
     if(data.neighborhood) { data.neighborhood = JSON.parse(data.neighborhood) }
     if(data.style) { data.style = JSON.parse(data.style) }
-    // if(data.style) {
-    //   if(Array.isArray(data.style)) {
-    //     for(var i = 0; i < data.style.length; i++) {
-    //       data.style[i] = JSON.parse(data.style[i])
-    //     }
-    //   } else {
-    //     data.style = JSON.parse(data.style)
-    //   }
-    // }
+    if(data.use) { data.use = JSON.parse(data.use) }
+    if(type == 'building') {
+      geocoder.geocode(data.address+', New Haven, CT 06510', function(err, location) {
+        if(err) {
+          console.log('Failed:')
+          console.log(err)
+        } else {
+          console.log('Geocoded address:')
+          data.coords = {
+            lat : location[0].latitude,
+            lng : location[0].longitude
+          }
+          console.log(data.coords)
+          updateObject(model, data, type, id, res)
+        }
+      })
+    } else {
+      updateObject(model, data, type, id, res)
+    }
+  })
+
+  var updateObject = function(model, data, type, id, res) {
     model.findOneAndUpdate({_id: id}, data, {new: true, runValidators: true}, function(err, object) {
       if(!err) {
         console.log('Updated:')
@@ -183,7 +227,7 @@ module.exports = function(app) {
         console.log(err)
         res.render('admin/edit.pug', {
           errors: err,
-          type: {
+          loadedType: {
             s: tools.singularize(type),
             p: tools.pluralize(type)
           },
@@ -192,7 +236,7 @@ module.exports = function(app) {
         })
       }
     })
-  })
+  }
 
   app.get('/admin/:type/remove/:id', tools.isLoggedIn, function(req, res) {
     var type = req.params.type
@@ -295,6 +339,9 @@ module.exports = function(app) {
         break
       case 'style':
         var object = new Style(data)
+        break
+      case 'use':
+        var object = new Use(data)
         break
       default:
         return

@@ -7,58 +7,25 @@ var buildingSchema = mongoose.Schema({
 		type: String,
 		require: true
 	},
-	name: {
-		type: String,
-	},
+	coords: Mixed,
+	name: String,
 	slug: String,
-	description: {
-		type: String
-	},
-	researchBy: {
-		type: String
-	},
-	researchYear: {
-		type: String
-	},
-	dateConstructed: {
-		type: String
-	},
-	architect: {
-		type: String
-	},
-	client: {
-		type: String
-	},
-	currentTenant: {
-		type: String
-	},
-	era: {
-		type: String
-	},
-	neighborhood: {
-		type: Mixed
-	},
-	tour: {
-		type: Mixed
-	},
-	style: {
-		type: Mixed
-	},
-	originalUse: {
-		type: String
-	},
-	use: {
-		type: String
-	},
-	research: {
-		type: String
-	},
-	citations: {
-		type: String
-	},
-	images: {
-		type: Mixed
-	},
+	description: String,
+	researchBy: String,
+	researchYear: String,
+	dateConstructed: String,
+	architect: String,
+	client: String,
+	currentTenant: String,
+	era: String,
+	neighborhood: Mixed,
+	tour: Mixed,
+	style: Mixed,
+	use: Mixed,
+	originalUse: String,
+	research: String,
+	citations: String,
+	images: Mixed,
 	type: String
 }, { 
 	timestamps: true

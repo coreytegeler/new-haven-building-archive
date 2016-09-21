@@ -70,4 +70,13 @@ aside
 							for style in styles
 								li(class=style.slug)
 									a(href='/admin/style/edit/'+style.slug, class=(loadedSlug == style.slug ? 'selected' : ''))= style.name
+					li.uses
+						.title(data-slug='uses' class=(loadedType.p == 'uses' ? 'toggled' : '')) Use
+						ul.uses(class=(loadedType.p == 'uses' ? 'open' : ''))
+							li.add
+								a(href='/admin/use/new')= 'Add Use'
+							-var uses = models['use']
+							for use in uses
+								li(class=use.slug)
+									a(href='/admin/use/edit/'+use.slug, class=(loadedSlug == use.slug ? 'selected' : ''))= use.name
 					

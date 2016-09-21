@@ -210,13 +210,15 @@ window.initPublic = ->
 			'tour': getParam('tour', false),
 			'neighborhood': getParam('neighborhood', false),
 			'era': getParam('era', false),
-			'style': getParam('style', false)
+			'style': getParam('style', false),
+			'use': getParam('use', false)
 		}
 		filterQuery = {
 			'tour': [],
 			'neighborhood': [],
 			'era': [],
-			'style': []
+			'style': [],
+			'use': []
 		}
 
 		$.each urlQuery, (key, param) -> 
@@ -270,7 +272,7 @@ window.initPublic = ->
 
 	updateSingleSect = (content, id, type) ->
 		$('section.show').removeClass('show')
-		$singleSect.parents('.inner').scrollTop(0)
+		$singleSect.scrollTop(0)
 		$singleSect
 			.addClass('show')
 			.html(content)
@@ -284,89 +286,11 @@ window.initPublic = ->
 		openSide()
 
 	buildingMapSetup = (container) ->
-		address = $(container).find('.buildingWrap').data('address') + ', New Haven, CT 06510'
-		geocoder = new google.maps.Geocoder()
-		geocoder.geocode {'address': address}, (results, status) ->
-			if(status == 'OK')
-				coords = results[0].geometry.location
-				insertMap(container, coords)
-		return
-
-	infoMapSetup = () ->
-		geocoder = new google.maps.Geocoder()
-		$info = $('section#info');
-		$mapWrap = $info.find('.mapWrap')
-		$map = $mapWrap.find('.map')
-		geocoder.geocode {'address': 'New Haven, Connecticut'}, (results, status) ->
-			if(status == 'OK')
-				coords = results[0].geometry.location
-				mapObj = new google.maps.Map $map[0], {
-					scrollwheel: false,
-					center: coords,
-					zoom: 12
-				}
-				bounds = new google.maps.LatLngBounds()
-				# DONT DO IT THIS WAY, LOAD DATA DYNAMICALLY
-				$(allBuildings).each (i, building) ->
-					geocoder.geocode {'address': building.address + ', New Haven, CT 06510'}, (results, status) ->
-						if(status == 'OK')
-							coords = results[0].geometry.location
-							marker = new google.maps.Marker
-								map: mapObj,
-								position: coords,
-								id: building._id,
-								icon: {
-			            path: google.maps.SymbolPath.CIRCLE,
-			            fillColor: building.tour.color,
-			            fillOpacity: 1,
-			            # strokeColor: '#fff',
-			            strokeWeight: 0,
-			            scale: 8
-			          }
-							bounds.extend(coords)
-							marker.addListener 'click', clickMarker
-				google.maps.event.addListenerOnce mapObj, 'idle', () ->
-					mapObj.fitBounds(bounds)
-					mapObj.setCenter(bounds.getCenter())
-					$mapWrap.addClass('loaded')
-
-	tourMapSetup = () ->
-		geocoder = new google.maps.Geocoder()
-		$section = $('section#single');
-		$mapWrap = $section.find('.mapWrap')
-		$map = $mapWrap.find('.map')
-		color = $mapWrap.data('color')
-		mapObj = new google.maps.Map $map[0], {
-			scrollwheel: false,
-			zoom: 12
-		}
-		bounds = new google.maps.LatLngBounds()
-		$(buildingsInTour).each (i, building) ->
-			geocoder.geocode {'address': building.address + ', New Haven, CT 06510'}, (results, status) ->
-				console.log(results, status)
-				if(status == 'OK')
-					coords = results[0].geometry.location
-					marker = new google.maps.Marker
-						map: mapObj,
-						position: coords,
-						id: building._id,
-						icon: {
-	            path: google.maps.SymbolPath.CIRCLE,
-	            fillColor: tourColor,
-	            fillOpacity: 1,
-	            strokeWeight: 0,
-	            scale: 8
-	          }
-					bounds.extend(coords)
-					marker.addListener 'click', clickMarker
-			google.maps.event.addListenerOnce mapObj, 'idle', () ->
-				mapObj.fitBounds(bounds)
-				mapObj.setCenter(bounds.getCenter())
-				$mapWrap.addClass('loaded')
-
-	insertMap = (container, coords) ->
-		$(container).find('show').removeClass('show');
-		address = $(container).find('.address').text() + ', New Haven, CT 06510'
+		$buildingWrap = $(container).find('.buildingWrap')
+		color = $buildingWrap.data('tour').color
+		coords = $buildingWrap.data('coords')
+		console.log(coords)
+		$(container).find('show').removeClass('show')
 		$mapWrap = $(container).find('.mapWrap')
 		$map = $mapWrap.find('.map')
 		mapObj = new google.maps.Map $map[0], {
@@ -376,8 +300,77 @@ window.initPublic = ->
 		}
 		marker = new google.maps.Marker
 	    map: mapObj,
-	    position: coords
+	    position: coords,
+	    icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: color,
+        fillOpacity: 1,
+        strokeWeight: 0,
+        scale: 10
+      }
 		$mapWrap.addClass('loaded')
+		return
+
+	infoMapSetup = () ->
+		$info = $('section#info');
+		$mapWrap = $info.find('.mapWrap')
+		$map = $mapWrap.find('.map')
+		mapObj = new google.maps.Map $map[0], {
+			scrollwheel: false
+		}
+		bounds = new google.maps.LatLngBounds()
+		# DONT DO IT THIS WAY, LOAD DATA DYNAMICALLY
+		$(allBuildings).each (i, building) ->
+			coords = building.coords
+			marker = new google.maps.Marker
+				map: mapObj,
+				position: coords,
+				id: building._id,
+				icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: building.tour.color,
+          fillOpacity: 1,
+          # strokeColor: '#fff',
+          strokeWeight: 0,
+          scale: 10
+        }
+			bounds.extend(coords)
+			marker.addListener 'click', clickMarker
+		google.maps.event.addListenerOnce mapObj, 'idle', () ->
+			mapObj.fitBounds(bounds)
+			mapObj.setCenter(bounds.getCenter())
+			$mapWrap.addClass('loaded')
+
+	tourMapSetup = () ->
+		$section = $('section#single');
+		$mapWrap = $section.find('.mapWrap')
+		$map = $mapWrap.find('.map')
+		color = $mapWrap.data('color')
+
+		mapObj = new google.maps.Map $map[0], {
+			scrollwheel: false,
+			zoom: 12
+		}
+		google.maps.event.addListenerOnce mapObj, 'idle', () ->
+			bounds = new google.maps.LatLngBounds()
+			$(buildingsInTour).each (i, building) ->
+				coords = building.coords
+				marker = new google.maps.Marker
+					map: mapObj,
+					position: coords,
+					id: building._id,
+					icon: {
+	          path: google.maps.SymbolPath.CIRCLE,
+	          fillColor: tourColor,
+	          fillOpacity: 1,
+	          strokeWeight: 0,
+	          scale: 10
+	        }
+				bounds.extend(coords)
+				marker.addListener 'click', clickMarker
+			mapObj.fitBounds(bounds)
+			mapObj.setCenter(bounds.getCenter())
+			$mapWrap.addClass('loaded')
 
 	clickMarker = () ->
 		marker = this

@@ -1,5 +1,5 @@
 include  ./mixins
-.buildingWrap(data-tour=object.tour, data-address=object.address)
+.buildingWrap(data-tour=object.tour, data-coords=object.coords)
 	.group.header
 		h1.name
 			span= object.name
@@ -53,10 +53,14 @@ include  ./mixins
 				li.architect
 					span.label= 'Architect: '
 					span.value= object.architect
-			if(object.use)	
+			if(object.use.name)	
 				li.use
 					span.label= 'Use: '
-					span.value= object.use
+					span.value= object.use.name
+			if(object.originalUse)	
+				li.use
+					span.label= 'Original Use: '
+					span.value= object.originalUse
 			if(object.tour)	
 				li.tour
 					span.label= 'Tour: '
