@@ -14,19 +14,21 @@ include  ./mixins
 			.toggler(data-group='map')= 'Map'
 
 	.group.togglables
-		.sliderWrap.togglable(data-group='photos', class=(object.images ? 'show' : ''))
-			.slider
-				if(object.images)
-					.slideWrap
-						each image, i in object.images
-							.slide(data-index=i, data-id=image.id, class=(i == 0 ? 'show' : ''))
-								.imageWrap
-									.vert
-										.horz
-											img(src=image.path)
-								.caption= image.caption
-
-		.mapWrap.togglable(data-group='map', class=(!object.images ? 'show' : ''))
+		-var hasImages = false
+		if(object.images)
+			if(object.images.length)
+				-var hasImages = true
+				.sliderWrap.togglable(data-group='photos', class='show')
+					.slider
+						.slideWrap
+							each image, i in object.images
+								.slide(data-index=i, data-id=image.id, class=(i == 0 ? 'show' : ''))
+									.imageWrap
+										.vert
+											.horz
+												img(src=image.path)
+									.caption= image.caption
+		.mapWrap.togglable(data-group='map', class=(!hasImages ? 'show' : ''))
 			.map
 			.loader
 
@@ -61,11 +63,11 @@ include  ./mixins
 				li.use
 					span.label= 'Original Use: '
 					span.value= object.originalUse
-			if(object.tour)	
+			if(object.tour && object.tour.name)	
 				li.tour
 					span.label= 'Tour: '
 					span.value= object.tour.name
-			if(object.neighborhood)	
+			if(object.neighborhood && object.neighborhood.name)	
 				li.neighborhood
 					span.label= 'Neighborhood: '
 					span.value= object.neighborhood.name
@@ -95,7 +97,7 @@ include  ./mixins
 										.style
 											for style, i in building.style
 												| #{style.name+(i != building.style.length - 1 ? ', ' : '')}
-									else
+									else if(building.style && building.style.name)
 										.style= building.style.name
 									.era= building.era
 									.researchBy= 'Contributed by ' + building.researchBy
