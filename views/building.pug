@@ -70,12 +70,12 @@ include  ./mixins
 					span.label= 'Researched by: '
 					span.value= object.researchBy+(object.researchYear ? ', '+object.researchYear : '')
 	.group.paragraphs !{object.research}
-	if(tourBuildings)
+	if(object.tour && tourBuildings)
 		if(tourBuildings.length)
 			.group.tour
 				h4
 					span= 'Other Buildings on '
-					a.tour(href='/tour/'+object.tour.slug, data-slug=object.tour.slug, data-id=object.tour.id, data-type='tour')= object.tour.name+' Tour'
+					a.tour(href='/tour/'+object.tour.slug, data-slug=object.tour.slug, data-id=object.tour.id, data-type='tour')= object.tour.name + ' Tour'
 				ul.buildings
 					-var i = 0
 					for building in tourBuildings
