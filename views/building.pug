@@ -40,12 +40,6 @@ include  ./mixins
 					span.value= object.address
 			if(object.style)
 				li.style
-					span.label= 'Style: '
-					if(object.style.length)
-						span.style
-							for style, i in object.style
-								| #{style.name+(i != object.style.length - 1 ? ', ' : '')}
-					else
 						span.style= object.style.name
 			if(object.dateConstructed)	
 				li.dateConstructed
@@ -94,11 +88,6 @@ include  ./mixins
 									.name= building.name
 									.address= building.address
 									if(building.style)
-										if(building.style.length)
-											.style
-												for style, i in building.style
-													| #{style.name+(i != building.style.length - 1 ? ', ' : '')}
-										else if(building.style && building.style.name)
-											.style= building.style.name
+										.style= building.style.name
 									.era= building.era
 									.researchBy= 'Contributed by ' + building.researchBy
