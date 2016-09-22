@@ -93,11 +93,12 @@ include  ./mixins
 								.meta
 									.name= building.name
 									.address= building.address
-									if(building.style.length)
-										.style
-											for style, i in building.style
-												| #{style.name+(i != building.style.length - 1 ? ', ' : '')}
-									else if(building.style && building.style.name)
-										.style= building.style.name
+									if(building.style)
+										if(building.style.length)
+											.style
+												for style, i in building.style
+													| #{style.name+(i != building.style.length - 1 ? ', ' : '')}
+										else if(building.style && building.style.name)
+											.style= building.style.name
 									.era= building.era
 									.researchBy= 'Contributed by ' + building.researchBy
